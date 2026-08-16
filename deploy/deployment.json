@@ -1,0 +1,7 @@
+{
+  "target": [
+    "Cloudflare Pages",
+    "Vercel"
+  ],
+  "status": "mvp"
+}

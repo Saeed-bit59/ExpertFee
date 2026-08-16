@@ -1,0 +1,10 @@
+{
+  "flow": [
+    "SelectService",
+    "SelectField",
+    "AnswerQuestions",
+    "ApplyRules",
+    "CalculateFee",
+    "ShowResult"
+  ]
+}

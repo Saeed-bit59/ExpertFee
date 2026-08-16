@@ -1,0 +1,29 @@
+ExpertFee — Article 14 Shared UI patch
+
+1) Replace:
+   src/components/Article14CalculatorPanel.tsx
+
+2) Append the contents of:
+   ARTICLE14-CSS-PATCH.css
+   to the END of:
+   src/styles/globals.css
+
+3) Add:
+   tests/Article14SharedUI.test.ts
+
+IMPORTANT:
+- Do NOT add ExpertCountSelector.
+- Do NOT change Article14Calculator.ts.
+- Do NOT change the Article 14 tariff formula.
+- The existing Article 14 workflow is preserved.
+- Shared UI fixes the fonts of buttons/controls via --ef-font-family.
+
+Run:
+npx tsc --noEmit
+npx tsx tests/Article14SharedUI.test.ts
+npx tsx tests/SharedUIDesignSystem.test.ts
+npx tsx tests/SharedTypographyRegression.test.ts
+npx tsx tests/FinalEndToEndAcceptance-fixed.test.ts
+
+Then:
+npm run dev

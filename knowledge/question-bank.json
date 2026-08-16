@@ -1,0 +1,20 @@
+{
+  "common": [
+    {
+      "id": "C1",
+      "text": "رشته کارشناسی",
+      "type": "select"
+    },
+    {
+      "id": "C2",
+      "text": "انفرادی یا هیأتی",
+      "type": "select"
+    },
+    {
+      "id": "C3",
+      "text": "استان",
+      "type": "select"
+    }
+  ],
+  "article_specific": []
+}

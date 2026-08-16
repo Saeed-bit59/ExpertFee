@@ -1,0 +1,17 @@
+[
+  {
+    "id": "PANEL",
+    "title": "هیأتی",
+    "type": "factor"
+  },
+  {
+    "id": "DAMAGE",
+    "title": "خسارت",
+    "type": "factor"
+  },
+  {
+    "id": "CONTRACT",
+    "title": "قرارداد",
+    "type": "factor"
+  }
+]

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.workflows = exports.questions = exports.rules = exports.knowledge = void 0;
+var KnowledgeBase_1 = require("./KnowledgeBase");
+var RuleRepository_1 = require("./RuleRepository");
+var QuestionRepository_1 = require("./QuestionRepository");
+var WorkflowRepository_1 = require("./WorkflowRepository");
+exports.knowledge = new KnowledgeBase_1.KnowledgeBase();
+exports.rules = new RuleRepository_1.RuleRepository();
+exports.questions = new QuestionRepository_1.QuestionRepository();
+exports.workflows = new WorkflowRepository_1.WorkflowRepository();

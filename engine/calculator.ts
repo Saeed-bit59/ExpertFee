@@ -1,0 +1,1 @@
+export function calculate(input:any){return {fee:0,details:[]};}

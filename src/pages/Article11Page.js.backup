@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Article11Page;
+var Article11CalculatorPanel_1 = require("../components/Article11CalculatorPanel");
+function Article11Page() {
+    return (<main dir="rtl" className="min-h-screen bg-slate-50 px-4 py-10">
+
+      <Article11CalculatorPanel_1.default />
+
+    </main>);
+}

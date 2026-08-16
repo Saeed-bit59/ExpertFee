@@ -1,0 +1,350 @@
+[
+  {
+    "id": "rules-article-1",
+    "article": 1,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-2",
+    "article": 2,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-3",
+    "article": 3,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-4",
+    "article": 4,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-5",
+    "article": 5,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-6",
+    "article": 6,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-7",
+    "article": 7,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-8",
+    "article": 8,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-9",
+    "article": 9,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-10",
+    "article": 10,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-11",
+    "article": 11,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-12",
+    "article": 12,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-13",
+    "article": 13,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-14",
+    "article": 14,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-15",
+    "article": 15,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-16",
+    "article": 16,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-17",
+    "article": 17,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-18",
+    "article": 18,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-19",
+    "article": 19,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-20",
+    "article": 20,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-21",
+    "article": 21,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-22",
+    "article": 22,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-23",
+    "article": 23,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-24",
+    "article": 24,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-25",
+    "article": 25,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-26",
+    "article": 26,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-27",
+    "article": 27,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-28",
+    "article": 28,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-29",
+    "article": 29,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-30",
+    "article": 30,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-31",
+    "article": 31,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-32",
+    "article": 32,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-33",
+    "article": 33,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-34",
+    "article": 34,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-35",
+    "article": 35,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-36",
+    "article": 36,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-37",
+    "article": 37,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-38",
+    "article": 38,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-39",
+    "article": 39,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-40",
+    "article": 40,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-41",
+    "article": 41,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-42",
+    "article": 42,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-43",
+    "article": 43,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-44",
+    "article": 44,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-45",
+    "article": 45,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-46",
+    "article": 46,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-47",
+    "article": 47,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-48",
+    "article": 48,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-49",
+    "article": 49,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-50",
+    "article": 50,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-51",
+    "article": 51,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-52",
+    "article": 52,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-53",
+    "article": 53,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-54",
+    "article": 54,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-55",
+    "article": 55,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-56",
+    "article": 56,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-57",
+    "article": 57,
+    "status": "pending-review",
+    "rules": []
+  },
+  {
+    "id": "rules-article-58",
+    "article": 58,
+    "status": "pending-review",
+    "rules": []
+  }
+]

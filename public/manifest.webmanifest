@@ -1,0 +1,8 @@
+{
+  "name": "ExpertFee AI",
+  "short_name": "ExpertFee",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a"
+}

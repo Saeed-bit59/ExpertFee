@@ -1,0 +1,29 @@
+/*
+ * Article 14 numeric controls.
+ * Keep the existing Article 14 workflow while inheriting
+ * the same typography and control geometry as Shared UI.
+ */
+.article14-number-input {
+  width: 100% !important;
+  min-height: var(--ef-control-height) !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--ef-border-strong) !important;
+  border-radius: var(--ef-radius-md) !important;
+  background: var(--ef-surface) !important;
+  color: var(--ef-text-strong) !important;
+  font-family: var(--ef-font-family) !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 1.8 !important;
+  text-align: center !important;
+  letter-spacing: 0 !important;
+  font-variant-numeric: normal !important;
+  font-feature-settings: normal !important;
+}
+
+.article14-number-input:focus {
+  outline: none !important;
+  border-color: var(--ef-primary) !important;
+  box-shadow: 0 0 0 3px rgba(110, 167, 216, 0.14) !important;
+}

@@ -1,0 +1,674 @@
+@import "./fonts.css";
+@import "./theme.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+  background: var(--ef-background);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--ef-background);
+  color: var(--ef-text);
+  font-family: var(--ef-font-family);
+  font-size: var(--ef-font-md);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * ExpertFee UI namespace
+ * All important layout rules are scoped below .ef-page so older project CSS
+ * cannot stretch buttons, inputs or option rows across the viewport.
+ */
+.ef-page,
+.ef-page button,
+.ef-page input,
+.ef-page select,
+.ef-page textarea,
+.ef-page summary {
+  font-family: var(--ef-font-family) !important;
+}
+
+
+/*
+ * Protected Shared UI typography
+ * ------------------------------------------------------------
+ * Shared components must look identical wherever they are used
+ * (Article 11, HomePage quick calculation, rent, etc.).
+ *
+ * These selectors intentionally do not depend on .ef-page because
+ * some host pages have their own legacy typography. The Shared UI
+ * classes are the source of truth for ExpertFee controls.
+ */
+.ef-section-card,
+.ef-section-card button,
+.ef-section-card input,
+.ef-section-card select,
+.ef-section-card textarea,
+.ef-section-card summary,
+.ef-money-control,
+.ef-money-control input,
+.ef-money-unit,
+.ef-calculate-button,
+.ef-result-card,
+.ef-result-card *,
+.ef-counter,
+.ef-counter button,
+.ef-counter-value,
+.ef-choice,
+.ef-choice input,
+.ef-mission-box,
+.ef-mission-box *,
+.ef-advanced,
+.ef-advanced *,
+.ef-page-header,
+.ef-page-header * {
+  font-family: var(--ef-font-family) !important;
+  font-style: normal !important;
+}
+
+/* Shared calculate button typography — reference: Article 11 */
+.ef-calculate-button {
+  font-family: var(--ef-font-family) !important;
+  font-size: 17px !important;
+  line-height: 1.8 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  font-variant-numeric: normal !important;
+}
+
+/* Shared result typography — reference: Article 11 */
+.ef-result-title {
+  font-family: var(--ef-font-family) !important;
+  font-size: var(--ef-font-sm) !important;
+  line-height: 1.8 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+.ef-result-value {
+  font-family: var(--ef-font-family) !important;
+  font-size: var(--ef-font-result) !important;
+  line-height: 1.55 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  font-variant-numeric: normal !important;
+  font-feature-settings: normal !important;
+}
+
+/*
+ * MoneyInput uses LTR only for number direction.
+ * Font identity remains the same Persian ExpertFee font.
+ */
+.ef-money-input {
+  font-family: var(--ef-font-family) !important;
+  font-variant-numeric: normal !important;
+  font-feature-settings: normal !important;
+}
+
+.ef-money-unit {
+  font-family: var(--ef-font-family) !important;
+}
+
+/*
+ * HomePage is allowed to keep its own layout, but Shared UI placed
+ * inside it may not inherit legacy HomePage font declarations.
+ */
+.home-quick-calculation,
+.home-quick-calculation button,
+.home-quick-calculation input,
+.home-quick-calculation .ef-section-title,
+.home-quick-calculation .ef-section-description,
+.home-quick-calculation .ef-field-label,
+.home-quick-calculation .ef-money-unit,
+.home-quick-calculation .ef-calculate-button,
+.home-quick-calculation .ef-result-card,
+.home-quick-calculation .ef-result-card * {
+  font-family: var(--ef-font-family) !important;
+}
+
+.ef-page {
+  direction: rtl !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 24px 16px 48px !important;
+  color: var(--ef-text);
+}
+
+.ef-form-shell {
+  width: min(100%, var(--ef-form-width)) !important;
+  max-width: var(--ef-form-width) !important;
+  margin: 0 auto !important;
+}
+
+.ef-stack {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+.ef-section-card {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 20px !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: var(--ef-radius-lg) !important;
+  background: var(--ef-surface) !important;
+  box-shadow: var(--ef-shadow-sm) !important;
+}
+
+.ef-section-card--compact {
+  padding: 16px !important;
+}
+
+.ef-section-title {
+  margin: 0 0 5px !important;
+  color: var(--ef-text-strong) !important;
+  font-size: var(--ef-font-lg) !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+.ef-section-description {
+  margin: 0 0 14px !important;
+  color: var(--ef-text-muted) !important;
+  font-size: var(--ef-font-sm) !important;
+  text-align: center !important;
+}
+
+.ef-field-label {
+  display: block !important;
+  margin: 0 0 9px !important;
+  color: var(--ef-text-strong) !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+.ef-helper {
+  margin-top: 7px !important;
+  color: var(--ef-text-muted) !important;
+  font-size: var(--ef-font-sm) !important;
+  text-align: center !important;
+}
+
+.ef-money-control {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: var(--ef-control-height) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--ef-border-strong) !important;
+  border-radius: var(--ef-radius-md) !important;
+  background: var(--ef-surface) !important;
+}
+
+.ef-money-control:focus-within {
+  border-color: var(--ef-primary) !important;
+  box-shadow: 0 0 0 3px rgba(110, 167, 216, 0.14) !important;
+}
+
+.ef-money-control[data-error="true"] {
+  border-color: var(--ef-error) !important;
+}
+
+.ef-money-input {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: var(--ef-control-height) !important;
+  margin: 0 !important;
+  padding: 0 92px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: var(--ef-text-strong) !important;
+  direction: ltr !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.2px !important;
+  box-shadow: none !important;
+}
+
+.ef-money-input::placeholder {
+  color: #9aabba !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+}
+
+.ef-money-unit {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 82px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 10px !important;
+  border-left: 1px solid var(--ef-border) !important;
+  background: var(--ef-primary-soft) !important;
+  color: var(--ef-primary-dark) !important;
+  font-weight: 800 !important;
+  pointer-events: none !important;
+}
+
+.ef-calculate-button {
+  display: block !important;
+  width: 100% !important;
+  min-height: var(--ef-control-height) !important;
+  margin: 0 !important;
+  padding: 10px 18px !important;
+  border: 0 !important;
+  border-radius: var(--ef-radius-md) !important;
+  background: var(--ef-primary) !important;
+  color: #ffffff !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 7px 18px rgba(79, 143, 201, 0.20) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ef-calculate-button:hover:not(:disabled) {
+  background: var(--ef-primary-hover) !important;
+}
+
+.ef-calculate-button:disabled {
+  background: #b7c6d2 !important;
+  color: #ffffff !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.ef-result-card {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 18px !important;
+  border: 1px solid var(--ef-border-strong) !important;
+  border-radius: var(--ef-radius-lg) !important;
+  background: linear-gradient(180deg, var(--ef-primary-soft), #ffffff) !important;
+  text-align: center !important;
+}
+
+.ef-result-title {
+  color: var(--ef-text-muted) !important;
+  font-size: var(--ef-font-sm) !important;
+  text-align: center !important;
+}
+
+.ef-result-value {
+  display: block !important;
+  margin-top: 3px !important;
+  color: var(--ef-primary-dark) !important;
+  font-size: var(--ef-font-result) !important;
+  line-height: 1.55 !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+.ef-result-rows {
+  display: grid !important;
+  gap: 8px !important;
+  margin-top: 14px !important;
+  padding-top: 12px !important;
+  border-top: 1px solid var(--ef-border) !important;
+}
+
+.ef-result-row {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 12px !important;
+  align-items: center !important;
+  font-size: var(--ef-font-sm) !important;
+}
+
+.ef-control-title {
+  margin: 0 0 10px !important;
+  color: var(--ef-text-strong) !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+.ef-counter {
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) 64px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  min-height: var(--ef-control-height) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: var(--ef-radius-pill) !important;
+  background: var(--ef-surface) !important;
+}
+
+.ef-counter button {
+  display: grid !important;
+  place-items: center !important;
+  width: 64px !important;
+  min-width: 64px !important;
+  height: var(--ef-control-height) !important;
+  min-height: var(--ef-control-height) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--ef-primary-soft) !important;
+  color: var(--ef-primary-dark) !important;
+  font-size: 25px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+
+.ef-counter button:first-child {
+  border-left: 1px solid var(--ef-border) !important;
+}
+
+.ef-counter button:last-child {
+  border-right: 1px solid var(--ef-border) !important;
+}
+
+.ef-counter button:disabled {
+  color: #a8b5c0 !important;
+  cursor: not-allowed !important;
+}
+
+.ef-counter-value {
+  display: grid !important;
+  place-items: center !important;
+  min-width: 0 !important;
+  color: var(--ef-text-strong) !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+.ef-choice-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.ef-choice {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: var(--ef-radius-pill) !important;
+  background: var(--ef-surface) !important;
+  color: var(--ef-text) !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  line-height: 1.7 !important;
+}
+
+.ef-choice[data-active="true"] {
+  border-color: var(--ef-primary) !important;
+  background: var(--ef-primary-light) !important;
+  color: var(--ef-text-strong) !important;
+  font-weight: 800 !important;
+}
+
+.ef-choice input {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  accent-color: var(--ef-primary) !important;
+}
+
+.ef-mission-box {
+  width: 100% !important;
+  padding: 12px !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: var(--ef-radius-lg) !important;
+  background: var(--ef-surface) !important;
+}
+
+.ef-mission-details {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  border-top: 1px solid var(--ef-border) !important;
+}
+
+.ef-days-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 120px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 13px !important;
+}
+
+.ef-days-row span {
+  font-weight: 700 !important;
+  text-align: right !important;
+}
+
+.ef-days-input {
+  display: block !important;
+  width: 120px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  border: 1px solid var(--ef-border-strong) !important;
+  border-radius: var(--ef-radius-md) !important;
+  background: #ffffff !important;
+  text-align: center !important;
+}
+
+.ef-advanced {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: var(--ef-radius-lg) !important;
+  background: var(--ef-surface) !important;
+}
+
+.ef-advanced-summary {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  background: var(--ef-primary-soft) !important;
+  color: var(--ef-text-strong) !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  list-style-position: inside !important;
+}
+
+.ef-advanced-body {
+  display: block !important;
+  width: 100% !important;
+  padding: 16px !important;
+  border-top: 1px solid var(--ef-border) !important;
+}
+
+.ef-rule-list {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 9px !important;
+  width: 100% !important;
+}
+
+.ef-rule-list .ef-choice {
+  justify-content: flex-start !important;
+  border-radius: var(--ef-radius-md) !important;
+  text-align: right !important;
+}
+
+.ef-page-header {
+  width: 100% !important;
+  margin: 0 0 20px !important;
+  text-align: center !important;
+}
+
+.ef-page-eyebrow {
+  color: var(--ef-primary-dark) !important;
+  font-size: var(--ef-font-sm) !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+.ef-page-title {
+  margin: 2px 0 0 !important;
+  color: var(--ef-text-strong) !important;
+  font-size: var(--ef-font-xl) !important;
+  line-height: 1.6 !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+.ef-page-subtitle {
+  margin-top: 4px !important;
+  color: var(--ef-text-muted) !important;
+  font-size: var(--ef-font-sm) !important;
+  text-align: center !important;
+}
+
+.ef-alert {
+  width: 100% !important;
+  padding: 12px !important;
+  border: 1px solid var(--ef-error) !important;
+  border-radius: var(--ef-radius-md) !important;
+  color: var(--ef-error) !important;
+  text-align: center !important;
+}
+
+@media (max-width: 560px) {
+  :root {
+    --ef-font-result: 26px;
+  }
+
+  .ef-page {
+    padding: 18px 10px 36px !important;
+  }
+
+  .ef-section-card {
+    padding: 16px !important;
+  }
+
+  .ef-choice-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ef-money-input {
+    padding-left: 78px !important;
+    padding-right: 78px !important;
+    font-size: 16px !important;
+  }
+
+  .ef-money-unit {
+    width: 72px !important;
+  }
+
+  .ef-days-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ef-days-row span {
+    text-align: center !important;
+  }
+
+  .ef-days-input {
+    width: 100% !important;
+  }
+}
+
+/* Article 13 host-page navigation */
+.article13-back-button {
+  font-family: var(--ef-font-family) !important;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+}
+
+
+/* Shared host-page back navigation */
+.ef-back-button {
+  font-family: var(--ef-font-family) !important;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+}
+
+/* ============================================================
+ * Article 14 — centered numeric controls
+ * ============================================================ */
+
+.article14-number-field {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.article14-number-field .ef-field-label {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.article14-number-input,
+#article14-past-image-years,
+#article14-additional-parcels {
+  display: block !important;
+  width: 180px !important;
+  max-width: 100% !important;
+  min-height: var(--ef-control-height) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 8px 14px !important;
+  border: 1px solid var(--ef-border-strong) !important;
+  border-radius: var(--ef-radius-md) !important;
+  background: var(--ef-surface) !important;
+  color: var(--ef-text-strong) !important;
+  font-family: var(--ef-font-family) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  direction: ltr !important;
+  text-align: center !important;
+  box-shadow: none !important;
+}
+
+.article14-number-input:focus,
+#article14-past-image-years:focus,
+#article14-additional-parcels:focus {
+  outline: 0 !important;
+  border-color: var(--ef-primary) !important;
+  box-shadow: 0 0 0 3px rgba(110, 167, 216, 0.14) !important;
+}
+
+@media (max-width: 560px) {
+  .article14-number-input,
+  #article14-past-image-years,
+  #article14-additional-parcels {
+    width: min(180px, 100%) !important;
+  }
+}
+

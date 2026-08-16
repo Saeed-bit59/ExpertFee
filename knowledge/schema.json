@@ -1,0 +1,6 @@
+{
+  "articles": "articles.json",
+  "rules": "rules.json",
+  "questions": "questions.json",
+  "coefficients": "coefficients.json"
+}

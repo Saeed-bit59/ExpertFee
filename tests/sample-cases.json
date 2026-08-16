@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TC001",
+    "service": "valuation",
+    "amount": 1000000000,
+    "expectedFee": 0
+  },
+  {
+    "id": "TC002",
+    "service": "rent",
+    "monthlyRent": 50000000,
+    "expectedFee": 0
+  }
+]

@@ -1,0 +1,166 @@
+import {
+  useState
+} from "react";
+
+import Header
+  from "../components/Header";
+
+import Footer
+  from "../components/Footer";
+
+import HomePage
+  from "../pages/HomePage";
+
+import Article11Page
+  from "../pages/Article11Page";
+
+import Article13Page
+  from "../pages/Article13Page";
+
+import Article14Page
+  from "../pages/Article14Page";
+
+
+type AppPage =
+  | "HOME"
+  | "ARTICLE_11"
+  | "ARTICLE_13"
+  | "ARTICLE_14";
+
+
+export default function App() {
+
+  const [
+    currentPage,
+    setCurrentPage
+  ] = useState<AppPage>("HOME");
+
+
+  function goHome() {
+
+    setCurrentPage(
+      "HOME"
+    );
+
+  }
+
+
+  return (
+
+    <>
+
+      <Header />
+
+
+      {/* =====================================
+          Home
+          ===================================== */}
+
+      {currentPage === "HOME" && (
+
+        <HomePage
+
+          onOpenArticle11={() =>
+            setCurrentPage(
+              "ARTICLE_11"
+            )
+          }
+
+          onOpenArticle13={() =>
+            setCurrentPage(
+              "ARTICLE_13"
+            )
+          }
+
+          onOpenArticle14={() =>
+            setCurrentPage(
+              "ARTICLE_14"
+            )
+          }
+
+        />
+
+      )}
+
+
+      {/* =====================================
+          Article 11
+          ===================================== */}
+
+      {currentPage === "ARTICLE_11" && (
+
+        <div>
+
+          <div
+            dir="rtl"
+            style={{
+              maxWidth: 900,
+              margin:
+                "20px auto 0",
+              padding:
+                "0 24px"
+            }}
+          >
+
+            <button
+              type="button"
+              onClick={goHome}
+              style={{
+                padding:
+                  "8px 14px",
+                border:
+                  "1px solid #ccc",
+                borderRadius: 8,
+                background:
+                  "#fff",
+                cursor:
+                  "pointer",
+                fontFamily:
+                  "inherit"
+              }}
+            >
+              ← بازگشت به صفحه اصلی
+            </button>
+
+          </div>
+
+
+          <Article11Page />
+
+        </div>
+
+      )}
+
+
+      {/* =====================================
+          Article 13
+          ===================================== */}
+
+      {currentPage === "ARTICLE_13" && (
+
+        <Article13Page
+          onBack={goHome}
+        />
+
+      )}
+
+
+      {/* =====================================
+          Article 14
+          ===================================== */}
+
+      {currentPage === "ARTICLE_14" && (
+
+        <Article14Page
+          onBack={goHome}
+        />
+
+      )}
+
+
+      <Footer />
+
+    </>
+
+  );
+}

@@ -1,0 +1,6 @@
+import type { InstitutionSharePercent, ProcessingInstitution, ReferralSource } from "./ExpertCaseTypes";
+export interface ExpertCaseFinancialCalculation { grossFeeToman:number; institutionSharePercent:InstitutionSharePercent; institutionShareToman:number; netReceivableToman:number; }
+export function normalizeMoneyToman(value:number):number { if(!Number.isFinite(value)||value<0) throw new Error("grossFeeToman must be a finite non-negative number"); return Math.round(value); }
+export function getInstitutionSharePercent(source:ReferralSource):InstitutionSharePercent { return source==="JUDICIARY"?5:10; }
+export function resolveProcessingInstitution(source:ReferralSource, institution?:ProcessingInstitution):ProcessingInstitution { if(source==="CENTER") return "CENTER"; if(source==="BAR_ASSOCIATION") return "BAR_ASSOCIATION"; if(institution!=="CENTER"&&institution!=="BAR_ASSOCIATION") throw new Error("processingInstitution is required for JUDICIARY referrals"); return institution; }
+export function calculateExpertCaseFinancials(source:ReferralSource,grossFeeToman:number):ExpertCaseFinancialCalculation { const gross=normalizeMoneyToman(grossFeeToman); const p=getInstitutionSharePercent(source); const share=Math.round(gross*p/100); return {grossFeeToman:gross,institutionSharePercent:p,institutionShareToman:share,netReceivableToman:gross-share}; }

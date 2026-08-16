@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = HomePage;
+function HomePage() {
+    return (<div>
+
+            <h1>ExpertFee AI</h1>
+
+            <p>
+                سامانه هوشمند محاسبه دستمزد کارشناسان رسمی
+            </p>
+
+        </div>);
+}

@@ -1,0 +1,408 @@
+[
+  {
+    "article": 1,
+    "service_key": "article_1",
+    "workflow": "WF-001",
+    "question_set": "QS-001",
+    "rule_set": "RS-001"
+  },
+  {
+    "article": 2,
+    "service_key": "article_2",
+    "workflow": "WF-002",
+    "question_set": "QS-002",
+    "rule_set": "RS-002"
+  },
+  {
+    "article": 3,
+    "service_key": "article_3",
+    "workflow": "WF-003",
+    "question_set": "QS-003",
+    "rule_set": "RS-003"
+  },
+  {
+    "article": 4,
+    "service_key": "article_4",
+    "workflow": "WF-004",
+    "question_set": "QS-004",
+    "rule_set": "RS-004"
+  },
+  {
+    "article": 5,
+    "service_key": "article_5",
+    "workflow": "WF-005",
+    "question_set": "QS-005",
+    "rule_set": "RS-005"
+  },
+  {
+    "article": 6,
+    "service_key": "article_6",
+    "workflow": "WF-006",
+    "question_set": "QS-006",
+    "rule_set": "RS-006"
+  },
+  {
+    "article": 7,
+    "service_key": "article_7",
+    "workflow": "WF-007",
+    "question_set": "QS-007",
+    "rule_set": "RS-007"
+  },
+  {
+    "article": 8,
+    "service_key": "article_8",
+    "workflow": "WF-008",
+    "question_set": "QS-008",
+    "rule_set": "RS-008"
+  },
+  {
+    "article": 9,
+    "service_key": "article_9",
+    "workflow": "WF-009",
+    "question_set": "QS-009",
+    "rule_set": "RS-009"
+  },
+  {
+    "article": 10,
+    "service_key": "article_10",
+    "workflow": "WF-010",
+    "question_set": "QS-010",
+    "rule_set": "RS-010"
+  },
+  {
+    "article": 11,
+    "service_key": "article_11",
+    "workflow": "WF-011",
+    "question_set": "QS-011",
+    "rule_set": "RS-011"
+  },
+  {
+    "article": 12,
+    "service_key": "article_12",
+    "workflow": "WF-012",
+    "question_set": "QS-012",
+    "rule_set": "RS-012"
+  },
+  {
+    "article": 13,
+    "service_key": "article_13",
+    "workflow": "WF-013",
+    "question_set": "QS-013",
+    "rule_set": "RS-013"
+  },
+  {
+    "article": 14,
+    "service_key": "article_14",
+    "workflow": "WF-014",
+    "question_set": "QS-014",
+    "rule_set": "RS-014"
+  },
+  {
+    "article": 15,
+    "service_key": "article_15",
+    "workflow": "WF-015",
+    "question_set": "QS-015",
+    "rule_set": "RS-015"
+  },
+  {
+    "article": 16,
+    "service_key": "article_16",
+    "workflow": "WF-016",
+    "question_set": "QS-016",
+    "rule_set": "RS-016"
+  },
+  {
+    "article": 17,
+    "service_key": "article_17",
+    "workflow": "WF-017",
+    "question_set": "QS-017",
+    "rule_set": "RS-017"
+  },
+  {
+    "article": 18,
+    "service_key": "article_18",
+    "workflow": "WF-018",
+    "question_set": "QS-018",
+    "rule_set": "RS-018"
+  },
+  {
+    "article": 19,
+    "service_key": "article_19",
+    "workflow": "WF-019",
+    "question_set": "QS-019",
+    "rule_set": "RS-019"
+  },
+  {
+    "article": 20,
+    "service_key": "article_20",
+    "workflow": "WF-020",
+    "question_set": "QS-020",
+    "rule_set": "RS-020"
+  },
+  {
+    "article": 21,
+    "service_key": "article_21",
+    "workflow": "WF-021",
+    "question_set": "QS-021",
+    "rule_set": "RS-021"
+  },
+  {
+    "article": 22,
+    "service_key": "article_22",
+    "workflow": "WF-022",
+    "question_set": "QS-022",
+    "rule_set": "RS-022"
+  },
+  {
+    "article": 23,
+    "service_key": "article_23",
+    "workflow": "WF-023",
+    "question_set": "QS-023",
+    "rule_set": "RS-023"
+  },
+  {
+    "article": 24,
+    "service_key": "article_24",
+    "workflow": "WF-024",
+    "question_set": "QS-024",
+    "rule_set": "RS-024"
+  },
+  {
+    "article": 25,
+    "service_key": "article_25",
+    "workflow": "WF-025",
+    "question_set": "QS-025",
+    "rule_set": "RS-025"
+  },
+  {
+    "article": 26,
+    "service_key": "article_26",
+    "workflow": "WF-026",
+    "question_set": "QS-026",
+    "rule_set": "RS-026"
+  },
+  {
+    "article": 27,
+    "service_key": "article_27",
+    "workflow": "WF-027",
+    "question_set": "QS-027",
+    "rule_set": "RS-027"
+  },
+  {
+    "article": 28,
+    "service_key": "article_28",
+    "workflow": "WF-028",
+    "question_set": "QS-028",
+    "rule_set": "RS-028"
+  },
+  {
+    "article": 29,
+    "service_key": "article_29",
+    "workflow": "WF-029",
+    "question_set": "QS-029",
+    "rule_set": "RS-029"
+  },
+  {
+    "article": 30,
+    "service_key": "article_30",
+    "workflow": "WF-030",
+    "question_set": "QS-030",
+    "rule_set": "RS-030"
+  },
+  {
+    "article": 31,
+    "service_key": "article_31",
+    "workflow": "WF-031",
+    "question_set": "QS-031",
+    "rule_set": "RS-031"
+  },
+  {
+    "article": 32,
+    "service_key": "article_32",
+    "workflow": "WF-032",
+    "question_set": "QS-032",
+    "rule_set": "RS-032"
+  },
+  {
+    "article": 33,
+    "service_key": "article_33",
+    "workflow": "WF-033",
+    "question_set": "QS-033",
+    "rule_set": "RS-033"
+  },
+  {
+    "article": 34,
+    "service_key": "article_34",
+    "workflow": "WF-034",
+    "question_set": "QS-034",
+    "rule_set": "RS-034"
+  },
+  {
+    "article": 35,
+    "service_key": "article_35",
+    "workflow": "WF-035",
+    "question_set": "QS-035",
+    "rule_set": "RS-035"
+  },
+  {
+    "article": 36,
+    "service_key": "article_36",
+    "workflow": "WF-036",
+    "question_set": "QS-036",
+    "rule_set": "RS-036"
+  },
+  {
+    "article": 37,
+    "service_key": "article_37",
+    "workflow": "WF-037",
+    "question_set": "QS-037",
+    "rule_set": "RS-037"
+  },
+  {
+    "article": 38,
+    "service_key": "article_38",
+    "workflow": "WF-038",
+    "question_set": "QS-038",
+    "rule_set": "RS-038"
+  },
+  {
+    "article": 39,
+    "service_key": "article_39",
+    "workflow": "WF-039",
+    "question_set": "QS-039",
+    "rule_set": "RS-039"
+  },
+  {
+    "article": 40,
+    "service_key": "article_40",
+    "workflow": "WF-040",
+    "question_set": "QS-040",
+    "rule_set": "RS-040"
+  },
+  {
+    "article": 41,
+    "service_key": "article_41",
+    "workflow": "WF-041",
+    "question_set": "QS-041",
+    "rule_set": "RS-041"
+  },
+  {
+    "article": 42,
+    "service_key": "article_42",
+    "workflow": "WF-042",
+    "question_set": "QS-042",
+    "rule_set": "RS-042"
+  },
+  {
+    "article": 43,
+    "service_key": "article_43",
+    "workflow": "WF-043",
+    "question_set": "QS-043",
+    "rule_set": "RS-043"
+  },
+  {
+    "article": 44,
+    "service_key": "article_44",
+    "workflow": "WF-044",
+    "question_set": "QS-044",
+    "rule_set": "RS-044"
+  },
+  {
+    "article": 45,
+    "service_key": "article_45",
+    "workflow": "WF-045",
+    "question_set": "QS-045",
+    "rule_set": "RS-045"
+  },
+  {
+    "article": 46,
+    "service_key": "article_46",
+    "workflow": "WF-046",
+    "question_set": "QS-046",
+    "rule_set": "RS-046"
+  },
+  {
+    "article": 47,
+    "service_key": "article_47",
+    "workflow": "WF-047",
+    "question_set": "QS-047",
+    "rule_set": "RS-047"
+  },
+  {
+    "article": 48,
+    "service_key": "article_48",
+    "workflow": "WF-048",
+    "question_set": "QS-048",
+    "rule_set": "RS-048"
+  },
+  {
+    "article": 49,
+    "service_key": "article_49",
+    "workflow": "WF-049",
+    "question_set": "QS-049",
+    "rule_set": "RS-049"
+  },
+  {
+    "article": 50,
+    "service_key": "article_50",
+    "workflow": "WF-050",
+    "question_set": "QS-050",
+    "rule_set": "RS-050"
+  },
+  {
+    "article": 51,
+    "service_key": "article_51",
+    "workflow": "WF-051",
+    "question_set": "QS-051",
+    "rule_set": "RS-051"
+  },
+  {
+    "article": 52,
+    "service_key": "article_52",
+    "workflow": "WF-052",
+    "question_set": "QS-052",
+    "rule_set": "RS-052"
+  },
+  {
+    "article": 53,
+    "service_key": "article_53",
+    "workflow": "WF-053",
+    "question_set": "QS-053",
+    "rule_set": "RS-053"
+  },
+  {
+    "article": 54,
+    "service_key": "article_54",
+    "workflow": "WF-054",
+    "question_set": "QS-054",
+    "rule_set": "RS-054"
+  },
+  {
+    "article": 55,
+    "service_key": "article_55",
+    "workflow": "WF-055",
+    "question_set": "QS-055",
+    "rule_set": "RS-055"
+  },
+  {
+    "article": 56,
+    "service_key": "article_56",
+    "workflow": "WF-056",
+    "question_set": "QS-056",
+    "rule_set": "RS-056"
+  },
+  {
+    "article": 57,
+    "service_key": "article_57",
+    "workflow": "WF-057",
+    "question_set": "QS-057",
+    "rule_set": "RS-057"
+  },
+  {
+    "article": 58,
+    "service_key": "article_58",
+    "workflow": "WF-058",
+    "question_set": "QS-058",
+    "rule_set": "RS-058"
+  }
+]

@@ -1,0 +1,524 @@
+[
+  {
+    "id": "SVC-001",
+    "article": 1,
+    "title": "Service for Article 1",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-002",
+    "article": 2,
+    "title": "Service for Article 2",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-003",
+    "article": 3,
+    "title": "Service for Article 3",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-004",
+    "article": 4,
+    "title": "Service for Article 4",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-005",
+    "article": 5,
+    "title": "Service for Article 5",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-006",
+    "article": 6,
+    "title": "Service for Article 6",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-007",
+    "article": 7,
+    "title": "Service for Article 7",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-008",
+    "article": 8,
+    "title": "Service for Article 8",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-009",
+    "article": 9,
+    "title": "Service for Article 9",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-010",
+    "article": 10,
+    "title": "Service for Article 10",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-011",
+    "article": 11,
+    "title": "Service for Article 11",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-012",
+    "article": 12,
+    "title": "Service for Article 12",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-013",
+    "article": 13,
+    "title": "Service for Article 13",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-014",
+    "article": 14,
+    "title": "Service for Article 14",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-015",
+    "article": 15,
+    "title": "Service for Article 15",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-016",
+    "article": 16,
+    "title": "Service for Article 16",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-017",
+    "article": 17,
+    "title": "Service for Article 17",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-018",
+    "article": 18,
+    "title": "Service for Article 18",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-019",
+    "article": 19,
+    "title": "Service for Article 19",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-020",
+    "article": 20,
+    "title": "Service for Article 20",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-021",
+    "article": 21,
+    "title": "Service for Article 21",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-022",
+    "article": 22,
+    "title": "Service for Article 22",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-023",
+    "article": 23,
+    "title": "Service for Article 23",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-024",
+    "article": 24,
+    "title": "Service for Article 24",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-025",
+    "article": 25,
+    "title": "Service for Article 25",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-026",
+    "article": 26,
+    "title": "Service for Article 26",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-027",
+    "article": 27,
+    "title": "Service for Article 27",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-028",
+    "article": 28,
+    "title": "Service for Article 28",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-029",
+    "article": 29,
+    "title": "Service for Article 29",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-030",
+    "article": 30,
+    "title": "Service for Article 30",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-031",
+    "article": 31,
+    "title": "Service for Article 31",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-032",
+    "article": 32,
+    "title": "Service for Article 32",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-033",
+    "article": 33,
+    "title": "Service for Article 33",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-034",
+    "article": 34,
+    "title": "Service for Article 34",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-035",
+    "article": 35,
+    "title": "Service for Article 35",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-036",
+    "article": 36,
+    "title": "Service for Article 36",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-037",
+    "article": 37,
+    "title": "Service for Article 37",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-038",
+    "article": 38,
+    "title": "Service for Article 38",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-039",
+    "article": 39,
+    "title": "Service for Article 39",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-040",
+    "article": 40,
+    "title": "Service for Article 40",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-041",
+    "article": 41,
+    "title": "Service for Article 41",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-042",
+    "article": 42,
+    "title": "Service for Article 42",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-043",
+    "article": 43,
+    "title": "Service for Article 43",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-044",
+    "article": 44,
+    "title": "Service for Article 44",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-045",
+    "article": 45,
+    "title": "Service for Article 45",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-046",
+    "article": 46,
+    "title": "Service for Article 46",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-047",
+    "article": 47,
+    "title": "Service for Article 47",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-048",
+    "article": 48,
+    "title": "Service for Article 48",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-049",
+    "article": 49,
+    "title": "Service for Article 49",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-050",
+    "article": 50,
+    "title": "Service for Article 50",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-051",
+    "article": 51,
+    "title": "Service for Article 51",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-052",
+    "article": 52,
+    "title": "Service for Article 52",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-053",
+    "article": 53,
+    "title": "Service for Article 53",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-054",
+    "article": 54,
+    "title": "Service for Article 54",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-055",
+    "article": 55,
+    "title": "Service for Article 55",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-056",
+    "article": 56,
+    "title": "Service for Article 56",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-057",
+    "article": 57,
+    "title": "Service for Article 57",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  },
+  {
+    "id": "SVC-058",
+    "article": 58,
+    "title": "Service for Article 58",
+    "mode": [
+      "fast",
+      "professional"
+    ]
+  }
+]

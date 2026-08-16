@@ -1,0 +1,33 @@
+:root {
+  --ef-primary: #6ea7d8;
+  --ef-primary-hover: #5b98cc;
+  --ef-primary-dark: #376f9f;
+  --ef-primary-light: #edf6fd;
+  --ef-primary-soft: #f7fbff;
+  --ef-surface: #ffffff;
+  --ef-background: #f5f9fd;
+  --ef-text: #2d4054;
+  --ef-text-strong: #173b60;
+  --ef-text-muted: #6f8192;
+  --ef-border: #d8e5f0;
+  --ef-border-strong: #bcd2e4;
+  --ef-error: #b42318;
+
+  --ef-radius-sm: 12px;
+  --ef-radius-md: 16px;
+  --ef-radius-lg: 22px;
+  --ef-radius-pill: 999px;
+
+  --ef-shadow-sm: 0 5px 18px rgba(47, 102, 152, 0.06);
+  --ef-shadow-md: 0 12px 32px rgba(47, 102, 152, 0.10);
+
+  --ef-font-family: "Vazirmatn", "IRANSansX", "Segoe UI", Tahoma, Arial, sans-serif;
+  --ef-font-sm: 14px;
+  --ef-font-md: 16px;
+  --ef-font-lg: 18px;
+  --ef-font-xl: 24px;
+  --ef-font-result: 30px;
+
+  --ef-control-height: 54px;
+  --ef-form-width: 620px;
+}

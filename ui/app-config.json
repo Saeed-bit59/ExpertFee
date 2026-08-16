@@ -1,0 +1,10 @@
+{
+  "app": "ExpertFee AI",
+  "version": "0.7.0",
+  "modes": [
+    "fast",
+    "professional"
+  ],
+  "theme": "light",
+  "offline": true
+}

@@ -1,0 +1,10 @@
+{
+  "steps": [
+    "loadKnowledge",
+    "loadRules",
+    "collectAnswers",
+    "applyModifiers",
+    "calculate",
+    "renderResult"
+  ]
+}

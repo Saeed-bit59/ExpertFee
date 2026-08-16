@@ -1,0 +1,1 @@
+Sprint 02 - Knowledge Base skeleton generated.

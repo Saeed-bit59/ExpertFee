@@ -1,0 +1,30 @@
+{
+  "version": "1.6.0",
+  "start": "service",
+  "nodes": [
+    {
+      "id": "service",
+      "next": "field"
+    },
+    {
+      "id": "field",
+      "next": "expert_type"
+    },
+    {
+      "id": "expert_type",
+      "next": "article"
+    },
+    {
+      "id": "article",
+      "next": "questions"
+    },
+    {
+      "id": "questions",
+      "next": "calculate"
+    },
+    {
+      "id": "calculate",
+      "next": "result"
+    }
+  ]
+}

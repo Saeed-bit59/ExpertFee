@@ -1,0 +1,16 @@
+{
+  "mode": [
+    "fast",
+    "professional"
+  ],
+  "inputs": [
+    "service",
+    "field",
+    "expertType",
+    "amount"
+  ],
+  "output": [
+    "fee",
+    "trace"
+  ]
+}
