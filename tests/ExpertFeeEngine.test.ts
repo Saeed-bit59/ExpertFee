@@ -54,7 +54,7 @@ const group5FixedDirect = calculateVehicleFee({
 
 assertEqual(
   group5Fixed.expertFeeToman,
-  500_000,
+  2_000_000,
   "Group 5 fixed fee routing"
 );
 
@@ -252,7 +252,7 @@ assertEqual(
 
 assertEqual(
   group9Article51.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Group 9 Article 51 boundary preserved"
 );
 

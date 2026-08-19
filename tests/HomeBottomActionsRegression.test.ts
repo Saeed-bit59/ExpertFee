@@ -15,6 +15,7 @@ const page = fs.readFileSync(
   "src/pages/HomePage.tsx",
   "utf8",
 );
+const sharePage = fs.readFileSync("src/pages/SharePage.tsx", "utf8");
 
 /* Header must be branding-only. */
 assert(
@@ -82,12 +83,12 @@ assert(
 );
 
 assert(
-  page.includes("navigator.share"),
+  page.includes("onOpenShare?.()") && sharePage.includes("navigator.share"),
   "Share API integration missing",
 );
 
 assert(
-  page.includes("navigator.clipboard.writeText"),
+  sharePage.includes("navigator.clipboard.writeText"),
   "Share fallback copy integration missing",
 );
 

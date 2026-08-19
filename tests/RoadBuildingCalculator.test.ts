@@ -115,9 +115,9 @@ mustThrow(
 /*
  * ========================================
  * ماده 34
- * نرخ 2000
- * Min = 800,000
- * Max = 8,000,000
+ * نرخ 3000
+ * Min = 2,000,000
+ * Max = 10,000,000
  * ========================================
  */
 
@@ -125,7 +125,7 @@ assertEqual(
   calculateArticle34({
     areaSquareMeters: 100
   }).expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 34 minimum"
 );
 
@@ -134,7 +134,7 @@ assertEqual(
   calculateArticle34({
     areaSquareMeters: 1_000
   }).expertFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 34 normal calculation"
 );
 
@@ -143,7 +143,7 @@ assertEqual(
   calculateArticle34({
     areaSquareMeters: 10_000
   }).expertFeeToman,
-  8_000_000,
+  10_000_000,
   "Article 34 maximum"
 );
 
@@ -167,7 +167,7 @@ assertEqual(
   calculateArticle35({
     areaSquareMeters: 100
   }).expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 35 minimum"
 );
 
@@ -176,7 +176,7 @@ assertEqual(
   calculateArticle35({
     areaSquareMeters: 1_500
   }).expertFeeToman,
-  3_000_000,
+  4_500_000,
   "Article 35 normal calculation"
 );
 
@@ -185,7 +185,7 @@ assertEqual(
   calculateArticle35({
     areaSquareMeters: 10_000
   }).expertFeeToman,
-  8_000_000,
+  10_000_000,
   "Article 35 maximum"
 );
 
@@ -203,7 +203,7 @@ assertEqual(
     areaSquareMeters:
       100
   }).expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 36 architecture minimum"
 );
 
@@ -215,7 +215,7 @@ assertEqual(
     areaSquareMeters:
       1_000
   }).expertFeeToman,
-  1_600_000,
+  2_500_000,
   "Article 36 architecture normal"
 );
 
@@ -227,7 +227,7 @@ assertEqual(
     areaSquareMeters:
       20_000
   }).expertFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 36 architecture maximum"
 );
 
@@ -245,7 +245,7 @@ assertEqual(
     areaSquareMeters:
       1_000
   }).expertFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 36 structure normal"
 );
 
@@ -257,7 +257,7 @@ assertEqual(
     areaSquareMeters:
       20_000
   }).expertFeeToman,
-  16_000_000,
+  20_000_000,
   "Article 36 structure maximum"
 );
 
@@ -275,7 +275,7 @@ assertEqual(
     areaSquareMeters:
       1_000
   }).expertFeeToman,
-  1_600_000,
+  2_500_000,
   "Article 36 safety normal"
 );
 
@@ -287,7 +287,7 @@ assertEqual(
     areaSquareMeters:
       20_000
   }).expertFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 36 safety maximum"
 );
 
@@ -347,7 +347,7 @@ const article37OneSimilar =
 
 const expectedOneSimilar =
   Math.min(
-    118_000_000,
+    135_000_000,
 
     article37Expected
       .finalExpertFeeToman +
@@ -355,7 +355,7 @@ const expectedOneSimilar =
     Math.round(
       article37Expected
         .finalExpertFeeToman *
-      0.10
+      0.20
     )
   );
 
@@ -369,13 +369,13 @@ assertEqual(
 
 
 /*
- * سقف 118 میلیون
+ * سقف 135 میلیون
  */
 
 const article37Capped =
   calculateArticle37({
     evaluationValueToman:
-      1_000_000_000_000_000,
+      1_000_000_000_000,
 
     similarAdditionalUnits:
       10
@@ -385,7 +385,7 @@ const article37Capped =
 assertEqual(
   article37Capped
     .expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 37 final cap"
 );
 
@@ -413,19 +413,19 @@ mustThrow(
 const article38Cases:
   Array<[number, number]> = [
 
-    [1, 600_000],
-    [999, 600_000],
-    [1_000, 600_000],
+    [1, 2_000_000],
+    [999, 2_000_000],
+    [1_000, 2_000_000],
 
-    [1_001, 800_000],
-    [1_500, 800_000],
-    [2_000, 800_000],
+    [1_001, 2_300_000],
+    [1_500, 2_300_000],
+    [2_000, 2_300_000],
 
-    [2_001, 1_000_000],
-    [2_999, 1_000_000],
-    [3_000, 1_000_000],
+    [2_001, 2_600_000],
+    [2_999, 2_600_000],
+    [3_000, 2_600_000],
 
-    [3_001, 1_200_000]
+    [3_001, 2_900_000]
   ];
 
 
@@ -488,7 +488,7 @@ const article38Mission =
 assertEqual(
   article38Mission
     .expertFeeToman,
-  800_000,
+  2_300_000,
   "Mission must not alter expert fee"
 );
 
@@ -504,7 +504,7 @@ assertEqual(
 assertEqual(
   article38Mission
     .totalPayableToman,
-  800_000 +
+  2_300_000 +
     missionRate * 2,
   "Article 38 total payable"
 );

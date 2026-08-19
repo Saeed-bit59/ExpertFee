@@ -58,6 +58,11 @@ export interface Article11MultiFieldInput {
    * گروه‌های کارشناسی
    */
   fields: MultiFieldGroupInput[];
+
+  /*
+   * تبصره یک فقط باید از مسیر مستقل خودش فعال شود.
+   */
+  useArticle11Note1?: boolean;
 }
 
 
@@ -202,7 +207,7 @@ function validateField(
  * محاسبه یک رشته
  */
 function calculateFieldGroup(
-  field: MultiFieldGroupInput
+  field: MultiFieldGroupInput,
 ): MultiFieldGroupResult {
 
   const {
@@ -221,77 +226,13 @@ function calculateFieldGroup(
    * چندرشته‌ای، سهم ارزیابی همان رشته است.
    */
 
-  if (
-    isArticle11Note1Applicable(
-      evaluationShareToman
-    )
-  ) {
-
-    const note1 =
-      calculateArticle11Note1({
-
-        evaluationValueToman:
-          evaluationShareToman,
-
-        applyFiftyPercentIncrease:
-          field
-            .applyFiftyPercentIncrease ??
-          false,
-
-        expertCount
-      });
-
-
-    return {
-
-      fieldName,
-
-      evaluationShareToman,
-
+  if (isArticle11Note1Applicable(evaluationShareToman)) {
+    const referral = calculateArticle11Note1({
+      evaluationValueToman: evaluationShareToman,
       expertCount,
+    });
 
-      mode:
-        "NOTE_1",
-
-      feeBeforeAdjustmentToman:
-        note1.feeBeforeFiftyPercent,
-
-      reductionPerExpertToman:
-        0,
-
-      feeAfterAdjustmentToman:
-        note1.rawFeeAfterFiftyPercent,
-
-      feePerExpertToman:
-        note1.feePerExpert,
-
-      totalFieldFeeToman:
-        note1.totalPanelFee,
-
-      /*
-       * طبق Rule تثبیت‌شده پروژه،
-       * در تبصره یک کسر 30 درصد
-       * اعمال نمی‌شود.
-       */
-      thirtyPercentReductionApplied:
-        false,
-
-      fiftyPercentApplied:
-        note1.fiftyPercentApplied,
-
-      capped:
-        note1.cappedBeforeIncrease ||
-        note1.cappedAfterIncrease,
-
-      warning:
-        note1.warning,
-
-      calculationLabel:
-        note1.calculationLabel,
-
-      note:
-        "سهم این رشته مشمول تبصره یک ماده ۱۱ است و کسر ۳۰ درصد هیأت هم‌رشته در این مسیر اعمال نمی‌شود."
-    };
+    throw new Error(`${fieldName}: ${referral.warning}`);
   }
 
 
@@ -550,9 +491,7 @@ export function calculateArticle11MultiField(
   const results =
     fields.map(
       field =>
-        calculateFieldGroup(
-          field
-        )
+        calculateFieldGroup(field)
     );
 
 

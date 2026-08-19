@@ -1,44 +1,36 @@
 import {
-  useState
+  lazy,
+  Suspense,
+  useState,
 } from "react";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
-import HomePage
-  from "./pages/HomePage";
-
-import Article11Page
-  from "./pages/Article11Page";
-
-import Article13Page
-  from "./pages/Article13Page";
-
-import Article14Page
-  from "./pages/Article14Page";
-
-import WaterEngineeringPage
-  from "./pages/WaterEngineeringPage";
-
-import MetalsAndMiningPage
-  from "./pages/MetalsAndMiningPage";
-
-import MovablePropertyPage
-  from "./pages/MovablePropertyPage";
-
-import FinancialAffairsPage
-  from "./pages/FinancialAffairsPage";
-
-import VehiclePage
-  from "./pages/VehiclePage";
-
-import RoadBuildingPage from "./pages/RoadBuildingPage";
-import IndustryTechnologyPage from "./pages/IndustryTechnologyPage";
-import AgricultureNaturalResourcesPage from "./pages/AgricultureNaturalResourcesPage";
-import ExpertRecordsPage from "./pages/ExpertRecordsPage";
-import AboutPage from "./pages/AboutPage";
-import SettingsPage from "./pages/SettingsPage";
+import HomePage from "./pages/HomePage";
 import type { ExpertCaseDraft } from "./records/ExpertCaseDraft";
+import type { ShareResultInput } from "./share/ShareResult";
 
+const Article11Page = lazy(() => import("./pages/Article11Page"));
+const Article13Page = lazy(() => import("./pages/Article13Page"));
+const Article14Page = lazy(() => import("./pages/Article14Page"));
+const WaterEngineeringPage = lazy(() => import("./pages/WaterEngineeringPage"));
+const MetalsAndMiningPage = lazy(() => import("./pages/MetalsAndMiningPage"));
+const MovablePropertyPage = lazy(() => import("./pages/MovablePropertyPage"));
+const FinancialAffairsPage = lazy(() => import("./pages/FinancialAffairsPage"));
+const VehiclePage = lazy(() => import("./pages/VehiclePage"));
+const RoadBuildingPage = lazy(() => import("./pages/RoadBuildingPage"));
+const IndustryTechnologyPage = lazy(() => import("./pages/IndustryTechnologyPage"));
+const AgricultureNaturalResourcesPage = lazy(
+  () => import("./pages/AgricultureNaturalResourcesPage"),
+);
+const ExpertRecordsPage = lazy(() => import("./pages/ExpertRecordsPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const SharePage = lazy(() => import("./pages/SharePage"));
 
-type AppPage =
+export type AppPage =
   | "HOME"
   | "ARTICLE_11"
   | "ARTICLE_13"
@@ -53,451 +45,186 @@ type AppPage =
   | "AGRICULTURE_NATURAL_RESOURCES"
   | "EXPERT_RECORDS"
   | "ABOUT"
-  | "SETTINGS";
+  | "SETTINGS"
+  | "SHARE";
 
+export const APP_PAGE_PATHS: Record<AppPage, string> = {
+  HOME: "/",
+  ARTICLE_11: "/article-11",
+  ARTICLE_13: "/article-13",
+  ARTICLE_14: "/article-14",
+  WATER_ENGINEERING: "/water-engineering",
+  METALS_AND_MINING: "/metals-and-mining",
+  MOVABLE_PROPERTY: "/movable-property",
+  FINANCIAL_AFFAIRS: "/financial-affairs",
+  VEHICLES: "/vehicles",
+  ROAD_BUILDING: "/road-building",
+  INDUSTRY_TECHNOLOGY: "/industry-technology",
+  AGRICULTURE_NATURAL_RESOURCES: "/agriculture-natural-resources",
+  EXPERT_RECORDS: "/records",
+  ABOUT: "/about",
+  SETTINGS: "/settings",
+  SHARE: "/share",
+};
+
+const PAGE_BY_PATH = new Map(
+  Object.entries(APP_PAGE_PATHS).map(([page, path]) => [
+    path,
+    page as AppPage,
+  ]),
+);
+
+export function resolveAppPage(pathname: string): AppPage {
+  return PAGE_BY_PATH.get(pathname) ?? "HOME";
+}
 
 export default function App() {
-
-  const [
-    currentPage,
-    setCurrentPage
-  ] = useState<AppPage>("HOME");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPage = resolveAppPage(location.pathname);
 
   const [
     pendingExpertCaseDraft,
-    setPendingExpertCaseDraft
-  ] = useState<ExpertCaseDraft | null>(
-    null
-  );
+    setPendingExpertCaseDraft,
+  ] = useState<ExpertCaseDraft | null>(null);
+  const [shareDraft, setShareDraft] =
+    useState<ShareResultInput | null>(null);
 
+  function setCurrentPage(page: AppPage): void {
+    navigate(APP_PAGE_PATHS[page]);
+  }
 
   function goHome(): void {
     setCurrentPage("HOME");
   }
 
-
   function openArticle11(): void {
     setCurrentPage("ARTICLE_11");
   }
-
 
   function openAbout(): void {
     setCurrentPage("ABOUT");
   }
 
-
   function openSettings(): void {
     setCurrentPage("SETTINGS");
   }
 
-
-  function openRecordsWithDraft(
-    draft: ExpertCaseDraft
-  ): void {
-    setPendingExpertCaseDraft(
-      draft
-    );
-    setCurrentPage(
-      "EXPERT_RECORDS"
-    );
+  function openShare(draft?: ShareResultInput): void {
+    setShareDraft(draft ?? null);
+    setCurrentPage("SHARE");
   }
 
+  function openRecordsWithDraft(draft: ExpertCaseDraft): void {
+    setPendingExpertCaseDraft(draft);
+    setCurrentPage("EXPERT_RECORDS");
+  }
 
   return (
-
     <div
       dir="rtl"
       style={{
         minHeight: "100vh",
         background: "#f8fafc",
-        fontFamily: "inherit"
+        fontFamily: "inherit",
       }}
     >
-
-      {/* =====================================
-          Header
-          ===================================== */}
-
       {currentPage !== "HOME" && (
-      <header
-        style={{
-          background: "#ffffff",
-          borderBottom: "1px solid #e2e8f0",
-          padding: "20px"
-        }}
-      >
-
-        <div
-          style={{
-            maxWidth: 900,
-            margin: "0 auto"
-          }}
-        >
-
-          <h1
-            style={{
-              margin: 0
-            }}
-          >
-            ExpertFee
-          </h1>
-
-
-          <p
-            style={{
-              marginTop: 8,
-              marginBottom: 0,
-              opacity: 0.7
-            }}
-          >
-            محاسبه حق‌الزحمه کارشناسان رسمی دادگستری
-          </p>
-
-        </div>
-
-      </header>
-      )}
-
-
-      {/* =====================================
-          Home
-          ===================================== */}
-
-      {currentPage === "HOME" && (
-
-        <HomePage
-
-          onOpenArticle11={
-            openArticle11
-          }
-
-          onOpenArticle13={() => {
-            setCurrentPage(
-              "ARTICLE_13"
-            );
-          }}
-
-          onOpenArticle14={() => {
-            setCurrentPage(
-              "ARTICLE_14"
-            );
-          }}
-
-          onOpenWaterEngineering={() => {
-            setCurrentPage(
-              "WATER_ENGINEERING"
-            );
-          }}
-
-          onOpenMetalsAndMining={() => {
-            setCurrentPage(
-              "METALS_AND_MINING"
-            );
-          }}
-
-          onOpenMovableProperty={() => {
-            setCurrentPage(
-              "MOVABLE_PROPERTY"
-            );
-          }}
-
-          onOpenFinancialAffairs={() => {
-            setCurrentPage(
-              "FINANCIAL_AFFAIRS"
-            );
-          }}
-
-          onOpenVehicles={() => {
-            setCurrentPage(
-              "VEHICLES"
-            );
-          }}
-
-          onOpenRoadBuilding={() => setCurrentPage("ROAD_BUILDING")}
-          onOpenIndustryTechnology={() => setCurrentPage("INDUSTRY_TECHNOLOGY")}
-          onOpenAgricultureNaturalResources={() => setCurrentPage("AGRICULTURE_NATURAL_RESOURCES")}
-          onOpenHistory={() => {
-            setPendingExpertCaseDraft(null);
-            setCurrentPage("EXPERT_RECORDS");
-          }}
-
-        />
-
-      )}
-
-
-      {/* =====================================
-          Article 11
-          ===================================== */}
-
-      {currentPage === "ARTICLE_11" && (
-
-        <div>
-
-          <div
-            style={{
-              maxWidth: 900,
-              margin: "20px auto 0",
-              padding: "0 24px"
-            }}
-          >
-
-            <button
-              type="button"
-              onClick={goHome}
-              style={{
-                padding: "9px 16px",
-                border: "1px solid #cbd5e1",
-                borderRadius: 8,
-                background: "#ffffff",
-                cursor: "pointer",
-                fontFamily: "inherit"
-              }}
-            >
-              ← بازگشت به صفحه اصلی
-            </button>
-
+        <header className="ef-app-header">
+          <div className="ef-app-header__inner">
+            <div className="ef-app-brand">ExpertFee</div>
+            <p>محاسبه حق‌الزحمه کارشناسان رسمی دادگستری</p>
           </div>
-
-
-          <Article11Page
-            onSaveCalculation={
-              openRecordsWithDraft
-            }
-          />
-
-        </div>
-
+        </header>
       )}
 
-
-      {/* =====================================
-          Article 13
-          ===================================== */}
-
-      {currentPage === "ARTICLE_13" && (
-
-        <Article13Page
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {/* =====================================
-          Article 14
-          ===================================== */}
-
-      {currentPage === "ARTICLE_14" && (
-
-        <Article14Page
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {/* =====================================
-          Water Engineering
-          Articles 15 - 21
-          ===================================== */}
-
-      {currentPage ===
-        "WATER_ENGINEERING" && (
-
-        <WaterEngineeringPage
-          onBack={goHome}
-          onOpenArticle11={
-            openArticle11
-          }
-        />
-
-      )}
-
-
-      {/* =====================================
-          Metals and Mining
-          Article 22
-          ===================================== */}
-
-      {currentPage ===
-        "METALS_AND_MINING" && (
-
-        <MetalsAndMiningPage
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {/* =====================================
-          Movable Property
-          Article 23
-          ===================================== */}
-
-      {currentPage ===
-        "MOVABLE_PROPERTY" && (
-
-        <MovablePropertyPage
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {/* =====================================
-          Financial Affairs
-          Articles 25 - 29
-          ===================================== */}
-
-      {currentPage ===
-        "FINANCIAL_AFFAIRS" && (
-
-        <FinancialAffairsPage
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {/* =====================================
-          Vehicles
-          Articles 31 - 32
-          ===================================== */}
-
-      {currentPage ===
-        "VEHICLES" && (
-
-        <VehiclePage
-          onBack={goHome}
-        />
-
-      )}
-
-
-      {currentPage === "ROAD_BUILDING" && <RoadBuildingPage onBack={goHome} />}
-      {currentPage === "INDUSTRY_TECHNOLOGY" && <IndustryTechnologyPage onBack={goHome} />}
-      {currentPage === "AGRICULTURE_NATURAL_RESOURCES" && <AgricultureNaturalResourcesPage onBack={goHome} />}
-
-      {currentPage === "EXPERT_RECORDS" && (
-        <ExpertRecordsPage
-          onBack={goHome}
-          initialDraft={
-            pendingExpertCaseDraft
-          }
-          onDraftConsumed={() =>
-            setPendingExpertCaseDraft(
-              null
-            )
-          }
-        />
-      )}
-
-
-      {/* =====================================
-          About
-          ===================================== */}
-
-      {currentPage === "ABOUT" && (
-        <AboutPage onBack={goHome} />
-      )}
-
-
-      {/* =====================================
-          Settings
-          ===================================== */}
-
-      {currentPage === "SETTINGS" && (
-        <SettingsPage onBack={goHome} />
-      )}
-
-
-      {/* =====================================
-          Footer
-          ===================================== */}
-
-      <footer
-        style={{
-          marginTop: 40,
-          padding: "18px 20px",
-          borderTop: "1px solid #e2e8f0",
-          background: "#ffffff",
-          textAlign: "center",
-          fontSize: 13,
-          opacity: 0.9
-        }}
+      <Suspense
+        fallback={
+          <main className="ef-page" role="status" aria-live="polite">
+            <div className="ef-form-shell">در حال بارگذاری صفحه…</div>
+          </main>
+        }
       >
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 8,
-            flexWrap: "wrap"
-          }}
-        >
-
-          <button
-            type="button"
-            onClick={openAbout}
-            style={{
-              border: "none",
-              background: "transparent",
-              color: "#0d47a1",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: 13,
-              fontWeight: 700,
-              padding: "4px 8px"
+        {currentPage === "HOME" && (
+          <HomePage
+            onOpenArticle11={openArticle11}
+            onOpenArticle13={() => setCurrentPage("ARTICLE_13")}
+            onOpenArticle14={() => setCurrentPage("ARTICLE_14")}
+            onOpenWaterEngineering={() => setCurrentPage("WATER_ENGINEERING")}
+            onOpenMetalsAndMining={() => setCurrentPage("METALS_AND_MINING")}
+            onOpenMovableProperty={() => setCurrentPage("MOVABLE_PROPERTY")}
+            onOpenFinancialAffairs={() => setCurrentPage("FINANCIAL_AFFAIRS")}
+            onOpenVehicles={() => setCurrentPage("VEHICLES")}
+            onOpenRoadBuilding={() => setCurrentPage("ROAD_BUILDING")}
+            onOpenIndustryTechnology={() => setCurrentPage("INDUSTRY_TECHNOLOGY")}
+            onOpenAgricultureNaturalResources={() =>
+              setCurrentPage("AGRICULTURE_NATURAL_RESOURCES")
+            }
+            onOpenHistory={() => {
+              setPendingExpertCaseDraft(null);
+              setCurrentPage("EXPERT_RECORDS");
             }}
-          >
-            درباره نرم‌افزار
-          </button>
+            onOpenShare={openShare}
+            onOpenAbout={openAbout}
+            onOpenSettings={openSettings}
+          />
+        )}
 
-          <span
-            aria-hidden="true"
-            style={{
-              color: "#cbd5e1"
-            }}
-          >
-            |
-          </span>
+        {currentPage === "ARTICLE_11" && (
+          <div>
+            <div className="ef-route-back">
+              <button type="button" onClick={goHome}>
+                ← بازگشت به صفحه اصلی
+              </button>
+            </div>
+            <Article11Page
+              onSaveCalculation={openRecordsWithDraft}
+              onShareCalculation={openShare}
+            />
+          </div>
+        )}
 
-          <button
-            type="button"
-            onClick={openSettings}
-            data-testid="settings-navigation"
-            style={{
-              border: "none",
-              background: "transparent",
-              color: "#0d47a1",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: 13,
-              fontWeight: 700,
-              padding: "4px 8px"
-            }}
-          >
-            تنظیمات
-          </button>
+        {currentPage === "ARTICLE_13" && <Article13Page onBack={goHome} />}
+        {currentPage === "ARTICLE_14" && <Article14Page onBack={goHome} />}
+        {currentPage === "WATER_ENGINEERING" && (
+          <WaterEngineeringPage onBack={goHome} onOpenArticle11={openArticle11} />
+        )}
+        {currentPage === "METALS_AND_MINING" && (
+          <MetalsAndMiningPage onBack={goHome} />
+        )}
+        {currentPage === "MOVABLE_PROPERTY" && (
+          <MovablePropertyPage onBack={goHome} />
+        )}
+        {currentPage === "FINANCIAL_AFFAIRS" && (
+          <FinancialAffairsPage onBack={goHome} />
+        )}
+        {currentPage === "VEHICLES" && <VehiclePage onBack={goHome} />}
+        {currentPage === "ROAD_BUILDING" && (
+          <RoadBuildingPage onBack={goHome} />
+        )}
+        {currentPage === "INDUSTRY_TECHNOLOGY" && (
+          <IndustryTechnologyPage onBack={goHome} />
+        )}
+        {currentPage === "AGRICULTURE_NATURAL_RESOURCES" && (
+          <AgricultureNaturalResourcesPage onBack={goHome} />
+        )}
+        {currentPage === "EXPERT_RECORDS" && (
+          <ExpertRecordsPage
+            onBack={goHome}
+            initialDraft={pendingExpertCaseDraft}
+            onDraftConsumed={() => setPendingExpertCaseDraft(null)}
+          />
+        )}
+        {currentPage === "ABOUT" && <AboutPage onBack={goHome} />}
+        {currentPage === "SETTINGS" && <SettingsPage onBack={goHome} />}
+        {currentPage === "SHARE" && (
+          <SharePage onBack={goHome} shareInput={shareDraft ?? undefined} />
+        )}
+      </Suspense>
 
-        </div>
-
-
-        <div
-          style={{
-            marginTop: 6,
-            color: "#64748b",
-            fontSize: 12
-          }}
-        >
-          نسخه 1.0
-        </div>
-
+      <footer className="ef-app-footer">
+        <div>نسخه 1.0</div>
       </footer>
-
     </div>
-
   );
 }

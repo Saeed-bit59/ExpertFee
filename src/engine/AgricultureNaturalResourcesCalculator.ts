@@ -890,7 +890,7 @@ export function calculateArticle51(
  *
  * Important:
  * The 20% is added to the Article 11 fee,
- * then the general 118M expert-fee cap is
+ * then the general 135M expert-fee cap is
  * applied, and mission is added afterwards.
  * ========================================
  */
@@ -936,7 +936,7 @@ export function calculateArticle52(
    *
    * Article 11 base
    * + 20%
-   * -> 118M cap
+   * -> 135M cap
    * -> mission
    *
    * This matches the project-wide order.

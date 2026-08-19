@@ -20,7 +20,7 @@ const case1 =
 
 assertEqual(
   case1.finalFee,
-  6_000_000,
+  20_000_000,
   "250 million"
 );
 
@@ -29,7 +29,7 @@ const case2 =
 
 assertEqual(
   case2.finalFee,
-  9_375_000,
+  22_250_000,
   "1 billion"
 );
 
@@ -38,7 +38,7 @@ const case3 =
 
 assertEqual(
   case3.finalFee,
-  21_375_000,
+  38_250_000,
   "5 billion"
 );
 

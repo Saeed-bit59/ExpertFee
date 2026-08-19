@@ -292,7 +292,7 @@ const area1000 =
 
 assertEqual(
   area1000.expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 51 at 1000 sqm"
 );
 
@@ -329,7 +329,7 @@ assertEqual(
 
 assertEqual(
   area1001.expertFeeToman,
-  880_000,
+  2_200_000,
   "Article 51 at 1001 sqm"
 );
 
@@ -358,7 +358,7 @@ assertEqual(
 
 assertEqual(
   area2000.expertFeeToman,
-  880_000,
+  2_200_000,
   "Article 51 at 2000 sqm"
 );
 
@@ -387,7 +387,7 @@ assertEqual(
 
 assertEqual(
   area2001.expertFeeToman,
-  960_000,
+  2_400_000,
   "Article 51 at 2001 sqm"
 );
 
@@ -411,7 +411,7 @@ const area5000 =
 
 assertEqual(
   area5000.expertFeeToman,
-  1_120_000,
+  2_800_000,
   "Article 51 at 5000 sqm"
 );
 
@@ -447,7 +447,7 @@ assertEqual(
 
 assertEqual(
   area10000.expertFeeToman,
-  1_520_000,
+  3_800_000,
   "Article 51 at one hectare"
 );
 
@@ -476,7 +476,7 @@ assertEqual(
 
 assertEqual(
   area10001.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Article 51 at 10001 sqm"
 );
 
@@ -500,7 +500,7 @@ const area2Hectares =
 
 assertEqual(
   area2Hectares.expertFeeToman,
-  1_920_000,
+  4_800_000,
   "Article 51 at 2 hectares"
 );
 
@@ -518,7 +518,7 @@ const area3Hectares =
 
 assertEqual(
   area3Hectares.expertFeeToman,
-  2_320_000,
+  5_800_000,
   "Article 51 at 3 hectares"
 );
 
@@ -549,7 +549,7 @@ assertEqual(
 
 assertEqual(
   area11001.expertFeeToman,
-  1_600_000,
+  4_000_000,
   "Article 51 at 11001 sqm"
 );
 
@@ -568,7 +568,7 @@ const raw1001 =
 
 assertEqual(
   raw1001.calculatedFeeBeforeCapToman,
-  880_000,
+  2_200_000,
   "Raw Article 51 fee at 1001 sqm"
 );
 
@@ -581,7 +581,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_51_MAXIMUM_FEE_TOMAN,
-  118_000_000,
+  135_000_000,
   "Article 51 cap constant"
 );
 
@@ -612,8 +612,8 @@ assert(
 
 assertEqual(
   area300Hectares.expertFeeToman,
-  118_000_000,
-  "300 hectares capped at 118M"
+  135_000_000,
+  "300 hectares capped at 135M"
 );
 
 
@@ -641,8 +641,8 @@ const area350Hectares =
 
 assertEqual(
   area350Hectares.expertFeeToman,
-  118_000_000,
-  "Above 300 hectares remains at 118M"
+  135_000_000,
+  "Above 300 hectares remains at 135M"
 );
 
 
@@ -677,7 +677,7 @@ const article51Mission =
 
 assertEqual(
   article51Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 51 expert fee remains capped"
 );
 
@@ -691,7 +691,7 @@ assertEqual(
 
 assertEqual(
   article51Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     inProvinceRate * 2,
   "Article 51 mission is outside cap"
 );
@@ -787,7 +787,7 @@ const article52Cap =
       "AGRICULTURE_NATURAL_RESOURCES",
 
     evaluationValueToman:
-      1_000_000_000_000_000
+      1_000_000_000_000
   });
 
 
@@ -838,7 +838,7 @@ const article52Mission =
       "AGRICULTURE_NATURAL_RESOURCES",
 
     evaluationValueToman:
-      1_000_000_000_000_000,
+      1_000_000_000_000,
 
     missionType:
       "OUT_PROVINCE",
@@ -850,7 +850,7 @@ const article52Mission =
 
 assertEqual(
   article52Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 52 capped expert fee"
 );
 
@@ -864,7 +864,7 @@ assertEqual(
 
 assertEqual(
   article52Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     outProvinceRate * 3,
   "Article 52 mission outside cap"
 );
@@ -941,7 +941,7 @@ assertEqual(
 
 assertEqual(
   routed51.expertFeeToman,
-  880_000,
+  2_200_000,
   "Unified Article 51 calculation"
 );
 
@@ -1003,8 +1003,6 @@ const disciplines = [
   "WOOD_INDUSTRIES",
 
   "AGRICULTURE_NATURAL_RESOURCES",
-
-  "PLANT_PROTECTION",
 
   "ANIMAL_PRODUCTS",
 

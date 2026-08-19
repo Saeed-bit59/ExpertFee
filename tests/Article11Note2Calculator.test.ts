@@ -406,7 +406,7 @@ assert(
   cappedOwners.groups.every(
     group =>
       group.feeToman <=
-      118_000_000
+      135_000_000
   ),
   "Article 11 maximum fee enforced independently for each group"
 );

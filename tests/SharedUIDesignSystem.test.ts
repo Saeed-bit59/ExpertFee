@@ -222,14 +222,14 @@ has(
 
 has(
   moneyInput,
-  "toLocaleString",
+  "const grouped = digits.replace",
   "Money thousand separator method missing"
 );
 
 has(
   moneyInput,
-  '"en-US"',
-  "Money thousand separator locale missing"
+  "Number.isSafeInteger(numberValue * 10)",
+  "Money safe-integer guard missing"
 );
 
 has(

@@ -196,7 +196,7 @@ assertEqual(
       }
     })
   ),
-  800_000,
+  2_000_000,
   "Article 34 minimum"
 );
 
@@ -209,7 +209,7 @@ assertEqual(
       }
     })
   ),
-  2_000_000,
+  3_000_000,
   "Article 34 normal"
 );
 
@@ -222,7 +222,7 @@ assertEqual(
       }
     })
   ),
-  8_000_000,
+  10_000_000,
   "Article 34 maximum"
 );
 
@@ -242,7 +242,7 @@ assertEqual(
       }
     })
   ),
-  800_000,
+  2_000_000,
   "Article 35 minimum"
 );
 
@@ -255,7 +255,7 @@ assertEqual(
       }
     })
   ),
-  3_000_000,
+  4_500_000,
   "Article 35 normal"
 );
 
@@ -268,7 +268,7 @@ assertEqual(
       }
     })
   ),
-  8_000_000,
+  10_000_000,
   "Article 35 maximum"
 );
 
@@ -289,7 +289,7 @@ assertEqual(
       }
     })
   ),
-  1_600_000,
+  2_500_000,
   "Article 36 architecture"
 );
 
@@ -303,7 +303,7 @@ assertEqual(
       }
     })
   ),
-  2_000_000,
+  3_000_000,
   "Article 36 structure"
 );
 
@@ -318,7 +318,7 @@ assertEqual(
       }
     })
   ),
-  1_600_000,
+  2_500_000,
   "Article 36 structural safety"
 );
 
@@ -365,11 +365,11 @@ const article37Similar =
 
 const expectedSimilar =
   Math.min(
-    118_000_000,
+    135_000_000,
     expectedArticle37.finalExpertFeeToman +
       Math.round(
         expectedArticle37.finalExpertFeeToman *
-        0.10
+        0.20
       )
   );
 
@@ -385,13 +385,13 @@ assertEqual(
       article: 37,
       data: {
         evaluationValueToman:
-          1_000_000_000_000_000,
+          1_000_000_000_000,
         similarAdditionalUnits: 10
       }
     })
   ),
-  118_000_000,
-  "Article 37 final 118M cap"
+  135_000_000,
+  "Article 37 final 135M cap"
 );
 
 
@@ -403,11 +403,11 @@ assertEqual(
 
 const article38Cases:
   Array<[number, number]> = [
-    [1_000, 600_000],
-    [1_001, 800_000],
-    [1_500, 800_000],
-    [2_000, 800_000],
-    [2_001, 1_000_000]
+    [1_000, 2_000_000],
+    [1_001, 2_300_000],
+    [1_500, 2_300_000],
+    [2_000, 2_300_000],
+    [2_001, 2_600_000]
   ];
 
 for (
@@ -447,7 +447,7 @@ assertEqual(
       }
     })
   ),
-  800_000,
+  2_000_000,
   "Article 39 known boundary base"
 );
 
@@ -462,7 +462,7 @@ assertEqual(
       }
     })
   ),
-  2_000_000,
+  3_000_000,
   "Article 39 unknown boundary base"
 );
 
@@ -478,7 +478,7 @@ assertEqual(
       }
     })
   ),
-  1_100_000,
+  3_050_000,
   "Article 39 geographic points"
 );
 
@@ -498,7 +498,7 @@ assertEqual(
       }
     })
   ),
-  2_000_000,
+  3_000_000,
   "Article 40 base"
 );
 
@@ -511,15 +511,14 @@ assertEqual(
       }
     })
   ),
-  20_000_000,
+  25_000_000,
   "Article 40 maximum"
 );
 
 
 /*
  * ========================================
- * 10) Article 41 - progressive bands
- *     + outside boundary + cap
+ * 10) Article 41 - progressive bands and cap
  * ========================================
  */
 
@@ -532,7 +531,7 @@ assertEqual(
       }
     })
   ),
-  900_000,
+  2_400_000,
   "Article 41 first band"
 );
 
@@ -545,7 +544,7 @@ assertEqual(
       }
     })
   ),
-  9_000_000,
+  12_600_000,
   "Article 41 second threshold"
 );
 
@@ -553,28 +552,11 @@ assertEqual(
   getExpertFee(
     calculateRoadBuildingFee({
       article: 41,
-      data: {
-        areaSquareMeters: 2_000,
-        outsideBoundaryIncreasePercent: 20
-      }
+      data: { areaSquareMeters: 1_000_000 }
     })
   ),
-  1_080_000,
-  "Article 41 outside boundary +20%"
-);
-
-assertEqual(
-  getExpertFee(
-    calculateRoadBuildingFee({
-      article: 41,
-      data: {
-        areaSquareMeters: 1_000_000,
-        outsideBoundaryIncreasePercent: 20
-      }
-    })
-  ),
-  12_000_000,
-  "Article 41 cap after increase"
+  15_000_000,
+  "Article 41 maximum"
 );
 
 
@@ -614,7 +596,7 @@ if (
 
   assertEqual(
     article42.minimumFeeToman,
-    1_000_000,
+    2_000_000,
     "Article 42 minimum"
   );
 
@@ -642,7 +624,7 @@ assertEqual(
       }
     })
   ),
-  800_000,
+  2_000_000,
   "Article 43 one hectare"
 );
 
@@ -655,7 +637,7 @@ assertEqual(
       }
     })
   ),
-  960_000,
+  2_400_000,
   "Article 43 partial additional hectare"
 );
 
@@ -668,7 +650,7 @@ assertEqual(
       }
     })
   ),
-  4_000_000,
+  6_000_000,
   "Article 43 main cap"
 );
 
@@ -682,7 +664,7 @@ assertEqual(
       }
     })
   ),
-  5_000_000,
+  8_000_000,
   "Article 43 aerial map after main cap"
 );
 
@@ -704,7 +686,7 @@ assertEqual(
       }
     })
   ),
-  6_320_000,
+  8_980_000,
   "Article 44 subdivision"
 );
 
@@ -719,7 +701,7 @@ assertEqual(
       }
     })
   ),
-  4_520_000,
+  6_780_000,
   "Article 44 land use"
 );
 
@@ -734,7 +716,7 @@ assertEqual(
       }
     })
   ),
-  4_520_000,
+  6_780_000,
   "Article 44 building compliance"
 );
 
@@ -777,7 +759,7 @@ if (
 ) {
   assertEqual(
     missionResult.expertFeeToman,
-    2_000_000,
+    3_000_000,
     "Mission must not alter expert fee"
   );
 
@@ -789,7 +771,7 @@ if (
 
   assertEqual(
     missionResult.totalPayableToman,
-    2_000_000 +
+    3_000_000 +
       missionRate * 2,
     "Mission final payable"
   );
@@ -841,20 +823,6 @@ mustThrow(
     });
   },
   "Article 39 negative point count"
-);
-
-mustThrow(
-  () => {
-    calculateRoadBuildingFee({
-      article: 41,
-      data: {
-        areaSquareMeters: 2_000,
-        outsideBoundaryIncreasePercent:
-          21
-      }
-    });
-  },
-  "Article 41 increase above 20%"
 );
 
 mustThrow(

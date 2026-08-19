@@ -82,7 +82,7 @@ assertEqual(
     boundaryMode:
       "KNOWN_BOUNDARY"
   }).expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 39 known <=1000"
 );
 
@@ -94,7 +94,7 @@ assertEqual(
     boundaryMode:
       "KNOWN_BOUNDARY"
   }).expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 39 known at 1000"
 );
 
@@ -106,7 +106,7 @@ assertEqual(
     boundaryMode:
       "KNOWN_BOUNDARY"
   }).expertFeeToman,
-  880_000,
+  2_120_000,
   "Article 39 known middle band"
 );
 
@@ -124,7 +124,7 @@ assertEqual(
     boundaryMode:
       "KNOWN_BOUNDARY"
   }).expertFeeToman,
-  8_720_000,
+  13_880_000,
   "Article 39 known at 10 hectares"
 );
 
@@ -140,7 +140,7 @@ assertEqual(
     boundaryMode:
       "KNOWN_BOUNDARY"
   }).expertFeeToman,
-  16_000_000,
+  20_000_000,
   "Article 39 known maximum"
 );
 
@@ -158,7 +158,7 @@ assertEqual(
     boundaryMode:
       "UNKNOWN_BOUNDARY"
   }).expertFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 39 unknown base"
 );
 
@@ -170,7 +170,7 @@ assertEqual(
     boundaryMode:
       "UNKNOWN_BOUNDARY"
   }).expertFeeToman,
-  2_080_000,
+  3_120_000,
   "Article 39 unknown middle band"
 );
 
@@ -188,7 +188,7 @@ assertEqual(
     geographicPointCount:
       3
   }).expertFeeToman,
-  1_100_000,
+  3_050_000,
   "Article 39 geographic points"
 );
 
@@ -219,7 +219,7 @@ assertEqual(
     areaSquareMeters:
       1_000
   }).expertFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 40 base"
 );
 
@@ -229,7 +229,7 @@ assertEqual(
     areaSquareMeters:
       2_000
   }).expertFeeToman,
-  2_080_000,
+  3_120_000,
   "Article 40 must use unknown-boundary Article 39"
 );
 
@@ -239,7 +239,7 @@ assertEqual(
     areaSquareMeters:
       1_000_000
   }).expertFeeToman,
-  20_000_000,
+  25_000_000,
   "Article 40 maximum"
 );
 
@@ -255,7 +255,7 @@ assertEqual(
     areaSquareMeters:
       500
   }).expertFeeToman,
-  600_000,
+  2_000_000,
   "Article 41 minimum"
 );
 
@@ -265,7 +265,7 @@ assertEqual(
     areaSquareMeters:
       1_000
   }).expertFeeToman,
-  600_000,
+  2_000_000,
   "Article 41 at 1000"
 );
 
@@ -281,7 +281,7 @@ assertEqual(
     areaSquareMeters:
       2_000
   }).expertFeeToman,
-  900_000,
+  2_400_000,
   "Article 41 first band"
 );
 
@@ -297,7 +297,7 @@ assertEqual(
     areaSquareMeters:
       5_000
   }).expertFeeToman,
-  1_800_000,
+  3_600_000,
   "Article 41 first threshold"
 );
 
@@ -313,7 +313,7 @@ assertEqual(
     areaSquareMeters:
       6_000
   }).expertFeeToman,
-  1_960_000,
+  3_800_000,
   "Article 41 second band"
 );
 
@@ -331,7 +331,7 @@ assertEqual(
     areaSquareMeters:
       50_000
   }).expertFeeToman,
-  9_000_000,
+  12_600_000,
   "Article 41 second threshold"
 );
 
@@ -347,7 +347,7 @@ assertEqual(
     areaSquareMeters:
       60_000
   }).expertFeeToman,
-  9_800_000,
+  13_600_000,
   "Article 41 third band"
 );
 
@@ -361,56 +361,10 @@ assertEqual(
     areaSquareMeters:
       1_000_000
   }).expertFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 41 maximum"
 );
 
-
-/*
- * افزایش خارج محدوده 20%
- *
- * 2,000 m2 => 900,000
- * +20% => 1,080,000
- */
-
-assertEqual(
-  calculateArticle41({
-    areaSquareMeters:
-      2_000,
-    outsideBoundaryIncreasePercent:
-      20
-  }).expertFeeToman,
-  1_080_000,
-  "Article 41 outside-boundary increase"
-);
-
-
-/*
- * بعد از ضریب هم سقف رعایت شود
- */
-
-assertEqual(
-  calculateArticle41({
-    areaSquareMeters:
-      1_000_000,
-    outsideBoundaryIncreasePercent:
-      20
-  }).expertFeeToman,
-  12_000_000,
-  "Article 41 cap after increase"
-);
-
-
-mustThrow(
-  () =>
-    calculateArticle41({
-      areaSquareMeters:
-        2_000,
-      outsideBoundaryIncreasePercent:
-        21
-    }),
-  "Article 41 increase above 20 must throw"
-);
 
 
 /*
@@ -433,7 +387,7 @@ assertEqual(
 
 assertEqual(
   article42.minimumFeeToman,
-  1_000_000,
+  2_000_000,
   "Article 42 minimum"
 );
 
@@ -456,16 +410,16 @@ assertEqual(
 const article43Cases:
   Array<[number, number]> = [
 
-    [1, 800_000],
-    [9_999, 800_000],
-    [10_000, 800_000],
+    [1, 2_000_000],
+    [9_999, 2_000_000],
+    [10_000, 2_000_000],
 
-    [10_001, 960_000],
-    [15_000, 960_000],
-    [20_000, 960_000],
+    [10_001, 2_400_000],
+    [15_000, 2_400_000],
+    [20_000, 2_400_000],
 
-    [20_001, 1_120_000],
-    [30_000, 1_120_000]
+    [20_001, 2_800_000],
+    [30_000, 2_800_000]
   ];
 
 
@@ -491,7 +445,7 @@ for (
 
 
 /*
- * سقف 4 میلیون
+ * سقف 6 میلیون
  */
 
 assertEqual(
@@ -499,13 +453,13 @@ assertEqual(
     areaSquareMeters:
       1_000_000
   }).expertFeeToman,
-  4_000_000,
+  6_000_000,
   "Article 43 maximum"
 );
 
 
 /*
- * نقشه هوایی +1 میلیون
+ * نقشه هوایی +2 میلیون
  */
 
 assertEqual(
@@ -515,7 +469,7 @@ assertEqual(
     aerialMapPlacement:
       true
   }).expertFeeToman,
-  1_800_000,
+  4_000_000,
   "Article 43 aerial map addition"
 );
 
@@ -531,7 +485,7 @@ assertEqual(
     aerialMapPlacement:
       true
   }).expertFeeToman,
-  5_000_000,
+  8_000_000,
   "Article 43 aerial map after main cap"
 );
 
@@ -566,7 +520,7 @@ const withMission =
 
 assertEqual(
   withMission.expertFeeToman,
-  800_000,
+  2_000_000,
   "Mission must not alter survey expert fee"
 );
 
@@ -580,7 +534,7 @@ assertEqual(
 
 assertEqual(
   withMission.totalPayableToman,
-  800_000 +
+  2_000_000 +
     missionRate * 2,
   "Survey total payable"
 );

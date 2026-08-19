@@ -24,6 +24,7 @@ import {
 import type {
   MissionType
 } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 
 type Article22Mode =
@@ -90,7 +91,7 @@ function parseFormattedNumber(
   const normalized =
     normalizeDigits(value)
       .replace(/,/g, "")
-      .replace(/[^\d]/g, "");
+      .replace(/[^\d.]/g, "");
 
 
   if (normalized === "") {
@@ -758,70 +759,23 @@ export default function MetalsAndMiningPage({
         </h2>
 
 
-        <label
-          style={{
-            display:
-              "block",
-
-            fontWeight:
-              700,
-
-            marginBottom:
-              8
-          }}
-        >
-          ارزش مورد ارزیابی ـ تومان
-        </label>
-
-
-        <input
-          type="text"
-          inputMode="numeric"
-          autoComplete="off"
-          placeholder="مثال: 12,000,000,000"
-          value={
-            evaluationValueText
-          }
-          onChange={(event) => {
-
-            /*
-             * هنگام تایپ فقط عدد را
-             * Format می‌کنیم.
-             *
-             * محاسبه انجام نمی‌شود.
-             */
-
-            setEvaluationValueText(
-
-              formatInputNumber(
-                event.target.value
-              )
-
-            );
-
-          }}
+        <MoneyInput
+          id="metals-mining-evaluation-value"
+          label="ارزش مورد ارزیابی"
+          value={evaluationValueText}
+          onChange={(value) => setEvaluationValueText(value)}
           onBlur={() => {
-
             commitEvaluationValue();
-
           }}
           onKeyDown={(event) => {
-
             if (
               event.key === "Enter"
             ) {
-
               commitEvaluationValue();
-
               event.currentTarget
                 .blur();
-
             }
-
           }}
-          style={
-            inputStyle
-          }
         />
 
 

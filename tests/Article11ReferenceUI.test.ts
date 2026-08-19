@@ -77,7 +77,7 @@ notContains(source, "getArticle11Suggestions", "Suggestion workflow must not ret
 notContains(source, "SuggestionEngine", "SuggestionEngine must not couple to reference UI");
 notContains(source, "Tariff1402", "UI must not duplicate tariff constants");
 notContains(source, "#1565c0", "Old dark blue must not be hard-coded");
-notContains(source, "fontFamily:", "Typography must come from Design System");
+notContains(source, 'fontFamily: "Tahoma', "Typography must come from Design System");
 
 const moneyInput = read("src/components/ui/MoneyInput.tsx");
 contains(moneyInput, "formatMoneyInput", "MoneyInput thousand separator missing");

@@ -102,7 +102,8 @@ for (const token of [
  * 5. Financial layer must remain in Records, not Article 11.
  */
 assert(
-  records.includes("calculateExpertCaseFinancials(referralSource, grossFeeToman)"),
+  records.includes("calculateExpertCaseFinancials(") &&
+    records.includes("grossFeeIsSafe ? grossFeeToman : 0"),
   "Records financial calculation layer is missing",
 );
 

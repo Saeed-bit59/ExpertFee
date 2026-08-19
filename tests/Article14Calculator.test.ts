@@ -126,14 +126,14 @@ function testThrows(
   testNumber(
     "Base Fee",
     result.baseFeeToman,
-    600_000
+    2_000_000
   );
 
 
   testNumber(
     "Single Parcel Final Fee",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 
@@ -180,14 +180,14 @@ function testThrows(
   testNumber(
     "Past Images - 3 Years",
     result.pastImagesAdditionalFeeToman,
-    150_000
+    600_000
   );
 
 
   testNumber(
     "Past Images - Final Fee",
     result.finalFeeToman,
-    750_000
+    2_600_000
   );
 
 }
@@ -229,14 +229,14 @@ function testThrows(
   testNumber(
     "One Additional Parcel Fee",
     result.additionalParcelsFeeToman,
-    240_000
+    800_000
   );
 
 
   testNumber(
     "One Additional Parcel Final Fee",
     result.finalFeeToman,
-    840_000
+    2_800_000
   );
 
 
@@ -289,14 +289,14 @@ function testThrows(
   testNumber(
     "Combined - Past Images Fee",
     result.pastImagesAdditionalFeeToman,
-    150_000
+    600_000
   );
 
 
   testNumber(
     "Combined - Additional Parcels Fee",
     result.additionalParcelsFeeToman,
-    480_000
+    1_600_000
   );
 
 
@@ -310,7 +310,7 @@ function testThrows(
   testNumber(
     "Combined - Final Fee",
     result.finalFeeToman,
-    1_230_000
+    4_200_000
   );
 
 }
@@ -367,7 +367,7 @@ function testThrows(
   testNumber(
     "Disabled Additional Parcels Final Fee",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 }
@@ -386,14 +386,14 @@ function testThrows(
   testNumber(
     "Article 14 Base Constant",
     ARTICLE14_BASE_FEE_TOMAN,
-    600_000
+    2_000_000
   );
 
 
   testNumber(
     "Article 14 Past Year Constant",
     ARTICLE14_PAST_YEAR_FEE_TOMAN,
-    50_000
+    200_000
   );
 
 

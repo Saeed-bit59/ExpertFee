@@ -5,7 +5,8 @@ import type { RoadBuildingEngineArticle } from "../engine/RoadBuildingEngine";
 import type {
   Article36ServiceType,
   Article39BoundaryMode,
-  Article44ServiceType
+  Article44ServiceType,
+  GeographicPointMethod
 } from "../engine/RoadBuildingRules";
 import type { MissionType } from "../engine/MissionCalculator";
 
@@ -72,6 +73,8 @@ export default function RoadBuildingPage({
   const [extra, setExtra] = useState("0");
   const [choice, setChoice] =
     useState("ARCHITECTURE");
+  const [geographicPointMethod, setGeographicPointMethod] =
+    useState<GeographicPointMethod>("MULTI_FREQUENCY_GPS");
   const [flag, setFlag] = useState(false);
 
   const [missionType, setMission] =
@@ -192,6 +195,7 @@ export default function RoadBuildingPage({
                 boundaryMode:
                   choice as Article39BoundaryMode,
                 geographicPointCount: y,
+                geographicPointMethod,
                 ...mission
               }
             }
@@ -205,6 +209,7 @@ export default function RoadBuildingPage({
               data: {
                 areaSquareMeters: x,
                 geographicPointCount: y,
+                geographicPointMethod,
                 ...mission
               }
             }
@@ -217,7 +222,6 @@ export default function RoadBuildingPage({
               article: 41,
               data: {
                 areaSquareMeters: x,
-                outsideBoundaryIncreasePercent: y,
                 ...mission
               }
             }
@@ -267,6 +271,7 @@ export default function RoadBuildingPage({
     x,
     y,
     choice,
+    geographicPointMethod,
     flag,
     missionType,
     days
@@ -312,6 +317,7 @@ export default function RoadBuildingPage({
     setPrimary("");
     setExtra("0");
     setChoice("ARCHITECTURE");
+    setGeographicPointMethod("MULTI_FREQUENCY_GPS");
     setFlag(false);
     setExpertCount(1);
     setSubmitted(false);
@@ -443,6 +449,9 @@ export default function RoadBuildingPage({
                       <option value="STRUCTURAL_SAFETY_REPORT">
                         گزارش استحکام بنا
                       </option>
+                      <option value="OTHER_DISCIPLINE_STRUCTURAL_SAFETY_REPORT">
+                        گزارش استحکام بنا برای سایر رشته‌ها (۵۰٪)
+                      </option>
                     </select>
                   </div>
                 )}
@@ -510,7 +519,36 @@ export default function RoadBuildingPage({
                   </div>
                 )}
 
-                {[37, 39, 40, 41].includes(
+                {[39, 40].includes(article) && (
+                  <div className="ef-stack">
+                    <label
+                      className="ef-field-label"
+                      htmlFor="geographic-point-method"
+                    >
+                      روش تعیین مختصات جغرافیایی
+                    </label>
+                    <select
+                      id="geographic-point-method"
+                      className="ef-select"
+                      value={geographicPointMethod}
+                      onChange={(event) => {
+                        setGeographicPointMethod(
+                          event.target.value as GeographicPointMethod
+                        );
+                        setSubmitted(false);
+                      }}
+                    >
+                      <option value="MULTI_FREQUENCY_GPS">
+                        GPS چندفرکانسه — ۳۵۰٬۰۰۰ تومان برای هر نقطه
+                      </option>
+                      <option value="SINGLE_FREQUENCY_GPS">
+                        GPS دستی تک‌فرکانسه — ۲۰۰٬۰۰۰ تومان برای هر نقطه
+                      </option>
+                    </select>
+                  </div>
+                )}
+
+                {[37, 39, 40].includes(
                   article
                 ) && (
                   <div className="ef-stack">
@@ -520,9 +558,7 @@ export default function RoadBuildingPage({
                     >
                       {article === 37
                         ? "واحد مشابه مازاد"
-                        : article === 41
-                          ? "درصد افزایش خارج محدوده"
-                          : "تعداد نقاط جغرافیایی"}
+                        : "تعداد نقاط جغرافیایی (حداکثر ۵۰)"}
                     </label>
 
                     <input

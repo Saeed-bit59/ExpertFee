@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useState
 } from "react";
@@ -36,6 +37,8 @@ import MissionSelector, {
 import OptionGroup from "./ui/OptionGroup";
 import AdvancedOptions from "./ui/AdvancedOptions";
 import type { ExpertCaseDraft } from "../records/ExpertCaseDraft";
+import { saveLastShareableCalculation } from "../share/LastShareableCalculation";
+import type { ShareResultInput } from "../share/ShareResult";
 
 type IncreaseMode =
   | "NONE"
@@ -50,10 +53,14 @@ function formatToman(
 
 interface Article11CalculatorPanelProps {
   onSaveCalculation?: (draft: ExpertCaseDraft) => void;
+  onShareCalculation?: (input: ShareResultInput) => void;
+  useArticle11Note1?: boolean;
 }
 
 export default function Article11CalculatorPanel({
-  onSaveCalculation
+  onSaveCalculation,
+  onShareCalculation,
+  useArticle11Note1 = false
 }: Article11CalculatorPanelProps) {
   const [
     evaluationValue,
@@ -114,32 +121,40 @@ export default function Article11CalculatorPanel({
       [evaluationValue]
     );
 
-  const result = useMemo(() => {
+  const calculation = useMemo(() => {
     if (
       !submitted ||
       evaluationValueToman <= 0
     ) {
-      return null;
+      return { result: null, error: "" };
     }
 
     try {
-      return calculateArticle11Engine({
-        evaluationValueToman,
-        expertCount,
-        panelFieldMode,
-        increaseRuleCode:
-          increaseMode ===
-          "WITH_INCREASE"
-            ? increaseRuleCode
-            : null,
-        applyFiftyPercentIncrease:
-          increaseMode ===
-          "WITH_INCREASE"
-            ? applyFiftyPercentIncrease
-            : false
-      });
-    } catch {
-      return null;
+      return {
+        result: calculateArticle11Engine({
+          evaluationValueToman,
+          useArticle11Note1,
+          expertCount,
+          panelFieldMode,
+          increaseRuleCode:
+            increaseMode === "WITH_INCREASE"
+              ? increaseRuleCode
+              : null,
+          applyFiftyPercentIncrease:
+            increaseMode === "WITH_INCREASE"
+              ? applyFiftyPercentIncrease
+              : false,
+        }),
+        error: "",
+      };
+    } catch (error) {
+      return {
+        result: null,
+        error:
+          error instanceof Error
+            ? error.message
+            : "محاسبه انجام نشد.",
+      };
     }
   }, [
     submitted,
@@ -148,8 +163,12 @@ export default function Article11CalculatorPanel({
     panelFieldMode,
     increaseMode,
     increaseRuleCode,
-    applyFiftyPercentIncrease
+    applyFiftyPercentIncrease,
+    useArticle11Note1
   ]);
+
+  const result = calculation.result;
+  const calculationError = calculation.error;
 
   const mission = useMemo(() => {
     if (!result) {
@@ -267,6 +286,22 @@ export default function Article11CalculatorPanel({
         : result.totalFeeToman
       : 0;
 
+  useEffect(() => {
+    if (!result || finalCalculatedFeeToman <= 0) return;
+
+    saveLastShareableCalculation({
+      evaluationValueToman,
+      expertCount,
+      calculatedFeeToman: finalCalculatedFeeToman,
+      calculationTitle: useArticle11Note1
+        ? "ارزیابی بالاتر از ۵ همت تومان"
+        : "ارزیابی عمومی",
+      tariffReference: useArticle11Note1
+        ? "تبصره ۱ ماده ۱۱ تعرفه ۱۴۰۵"
+        : "ماده ۱۱ تعرفه ۱۴۰۵",
+    });
+  }, [result, finalCalculatedFeeToman, evaluationValueToman, expertCount, useArticle11Note1]);
+
   function handleSaveCalculation(): void {
     if (
       !result ||
@@ -370,9 +405,21 @@ export default function Article11CalculatorPanel({
     >
       <div className="ef-form-shell">
         <PageHeader
-          eyebrow="ماده ۱۱"
-          title="ارزیابی عمومی"
-          subtitle="محاسبه حق‌الزحمه کارشناسی بر اساس ماده ۱۱ تعرفه"
+          eyebrow={
+            useArticle11Note1
+              ? "تبصره ۱ ماده ۱۱"
+              : "ماده ۱۱"
+          }
+          title={
+            useArticle11Note1
+              ? "ارزیابی ۵ همت تومان یا بیشتر"
+              : "ارزیابی عمومی"
+          }
+          subtitle={
+            useArticle11Note1
+              ? "مبلغ این بازه توسط شورای عالی کارشناسان یا مرکز تعیین می‌شود"
+              : "محاسبه حق‌الزحمه کارشناسی بر اساس ماده ۱۱ تعرفه"
+          }
         />
 
         <div className="ef-stack">
@@ -403,8 +450,18 @@ export default function Article11CalculatorPanel({
                   setSubmitted(true)
                 }
               >
-                محاسبه دستمزد
+                {useArticle11Note1 ? "بررسی وضعیت تعرفه" : "محاسبه دستمزد"}
               </CalculateButton>
+
+              {submitted && calculationError && (
+                <div
+                  className="ef-alert ef-alert--info"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {calculationError}
+                </div>
+              )}
 
               {submitted &&
                 result && (
@@ -426,6 +483,24 @@ export default function Article11CalculatorPanel({
                     }
                   />
                 )}
+
+              {submitted && result && onShareCalculation && (
+                <button
+                  type="button"
+                  onClick={() => onShareCalculation({
+                    evaluationValueToman,
+                    expertCount,
+                    calculatedFeeToman: finalCalculatedFeeToman,
+                    calculationTitle: "ارزیابی عمومی",
+                    tariffReference: "ماده ۱۱ تعرفه ۱۴۰۵",
+                  })}
+                  className="ef-calculate-button"
+                  data-testid="article11-share-calculation"
+                  style={{ width: "100%", marginTop: 12, fontFamily: "inherit" }}
+                >
+                  اشتراک‌گذاری این نتیجه
+                </button>
+              )}
 
               {submitted &&
                 result &&

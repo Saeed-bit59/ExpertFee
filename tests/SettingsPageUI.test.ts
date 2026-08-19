@@ -91,8 +91,8 @@ for (const label of [
  * 5. Display/calculation controls.
  */
 for (const label of [
-  "واحد پول",
-  "نحوه نمایش اعداد",
+  "واحد پیش‌فرض پول",
+  "نمایش اعداد",
   "تعداد اعشار",
 ]) {
   assert(
@@ -119,8 +119,8 @@ for (const token of [
  */
 for (const label of [
   "بازه پیش‌فرض گزارش",
-  "نمایش پیش‌فرض پرونده‌های وصول‌شده",
-  "نمایش پیش‌فرض مطالبات وصول‌نشده",
+  "نمایش پرونده‌های وصول‌شده",
+  "نمایش مطالبات وصول‌نشده",
 ]) {
   assert(
     page.includes(label),
@@ -181,7 +181,7 @@ assert(
 );
 
 assert(
-  page.includes("تنظیمات به حالت پیش‌فرض بازگردانده شد"),
+  page.includes("تنظیمات پیش‌فرض بازیابی شد"),
   "Reset success feedback missing",
 );
 

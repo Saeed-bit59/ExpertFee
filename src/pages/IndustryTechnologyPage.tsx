@@ -283,6 +283,11 @@ export default function IndustryTechnologyPage({
           ?.additionalFeeToman ??
         0;
 
+  const cappedByArticle11Maximum =
+    panelResult?.cappedByArticle11Maximum ??
+    singleExpertResult?.cappedByArticle11Maximum ??
+    false;
+
   return (
     <main
       className="ef-page"
@@ -465,6 +470,16 @@ export default function IndustryTechnologyPage({
                                 formatToman(
                                   additionalFeeToman
                                 )
+                            }
+                          ]
+                        : []),
+                      ...(cappedByArticle11Maximum
+                        ? [
+                            {
+                              label:
+                                "سقف عمومی ماده ۱۱",
+                              value:
+                                "۱۳۵٬۰۰۰٬۰۰۰ تومان اعمال شد"
                             }
                           ]
                         : []),

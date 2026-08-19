@@ -1,88 +1,34 @@
-import { applyArticle11Adjustments } from
-  "../src/engine/Article11Adjustments";
+import { applyArticle11Adjustments } from "../src/engine/Article11Adjustments";
 
-function assertEqual(
-  actual: number,
-  expected: number,
-  name: string
-) {
-
-  if (actual !== expected) {
-    throw new Error(
-      `${name}: expected ${expected}, received ${actual}`
-    );
-  }
-
+function assert(condition: boolean, name: string): void {
+  if (!condition) throw new Error(`FAILED: ${name}`);
   console.log(`PASS: ${name}`);
 }
 
-const baseFee = 100_000_000;
+const full = applyArticle11Adjustments(100_000_000, ["CONTRACT_FULL"]);
+assert(full.adjustedFee === 200_000_000, "Full contract raw increase is 100 percent");
+assert(full.finalFee === 135_000_000, "Full contract respects 1405 cap");
 
-// تبصره 3 - کل قرارداد: +100%
-const contractFull =
-  applyArticle11Adjustments(
-    baseFee,
-    ["CONTRACT_FULL"]
-  );
+const partial = applyArticle11Adjustments(60_000_000, ["CONTRACT_PARTIAL"]);
+assert(partial.finalFee === 90_000_000, "Partial contract adds 50 percent");
 
-assertEqual(
-  contractFull.finalFee,
-  200_000_000,
-  "Contract full +100%"
-);
+const intangible = applyArticle11Adjustments(60_000_000, ["INTANGIBLE_ASSET"]);
+assert(intangible.finalFee === 90_000_000, "Intangible assets add 50 percent");
+assert(intangible.appliedAdjustments[0]?.sourceNote === 4, "Intangible assets use Note 4");
 
-// تبصره 3 - بخشی از قرارداد: +50%
-const contractPartial =
-  applyArticle11Adjustments(
-    baseFee,
-    ["CONTRACT_PARTIAL"]
-  );
+const panel = applyArticle11Adjustments(100_000_000, [
+  "MULTI_EXPERT_SAME_FIELD",
+]);
+assert(panel.finalFee === 70_000_000, "Article 56 same-field reduction is 30 percent");
 
-assertEqual(
-  contractPartial.finalFee,
-  150_000_000,
-  "Contract partial +50%"
-);
+for (const deprecated of ["DAMAGE", "USED_PARTS"] as const) {
+  let rejected = false;
+  try {
+    applyArticle11Adjustments(10_000_000, [deprecated]);
+  } catch {
+    rejected = true;
+  }
+  assert(rejected, `${deprecated} is rejected for tariff 1405`);
+}
 
-// تبصره 4 - خسارت: +50%
-const damage =
-  applyArticle11Adjustments(
-    baseFee,
-    ["DAMAGE"]
-  );
-
-assertEqual(
-  damage.finalFee,
-  150_000_000,
-  "Damage +50%"
-);
-
-// تبصره 6 - چند کارشناس هم‌رشته: -30%
-const multiExpert =
-  applyArticle11Adjustments(
-    baseFee,
-    ["MULTI_EXPERT_SAME_FIELD"]
-  );
-
-assertEqual(
-  multiExpert.finalFee,
-  70_000_000,
-  "Same-field experts -30%"
-);
-
-// تبصره 7 - دارایی نامشهود: +50%
-const intangible =
-  applyArticle11Adjustments(
-    baseFee,
-    ["INTANGIBLE_ASSET"]
-  );
-
-assertEqual(
-  intangible.finalFee,
-  150_000_000,
-  "Intangible asset +50%"
-);
-
-console.log(
-  "Article 11 adjustment tests completed."
-);
+console.log("Article 11 adjustment tests completed.");

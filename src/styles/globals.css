@@ -23,6 +23,82 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+button,
+input,
+select,
+textarea,
+summary,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(button, input, select, textarea, summary, a):focus-visible {
+  outline: 3px solid #2563eb !important;
+  outline-offset: 3px !important;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.ef-app-header {
+  border-bottom: 1px solid var(--ef-border);
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  color: #fff;
+}
+
+.ef-app-header__inner {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 18px max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left));
+  text-align: center;
+}
+
+.ef-app-brand {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.ef-app-header p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  opacity: .92;
+}
+
+.ef-route-back {
+  width: min(100%, var(--ef-form-width));
+  margin: 20px auto 0;
+  padding: 0 16px;
+}
+
+.ef-route-back button {
+  min-height: 44px;
+  border: 1px solid var(--ef-border-strong);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ef-primary-dark);
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ef-app-footer {
+  padding: 20px max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  color: var(--ef-text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
 /*
  * ExpertFee UI namespace
  * All important layout rules are scoped below .ef-page so older project CSS
@@ -252,17 +328,28 @@ body {
 .ef-money-unit {
   position: absolute !important;
   top: 0 !important;
-  right: 0 !important;
+  right: auto !important;
+  left: 0 !important;
   bottom: 0 !important;
   width: 82px !important;
   display: grid !important;
   place-items: center !important;
   padding: 0 10px !important;
-  border-left: 1px solid var(--ef-border) !important;
-  background: var(--ef-primary-soft) !important;
+  border-right: 1px solid var(--ef-border) !important;
+  border-left: 0 !important;
+  background: #fbfdff !important;
   color: var(--ef-primary-dark) !important;
   font-weight: 800 !important;
   pointer-events: none !important;
+}
+
+select.ef-money-unit {
+  pointer-events: auto !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  cursor: pointer !important;
+  font-family: var(--ef-font-family) !important;
+  text-align: center !important;
 }
 
 .ef-calculate-button {
@@ -563,6 +650,12 @@ body {
   text-align: center !important;
 }
 
+.ef-alert--info {
+  border-color: #b9d6fb !important;
+  background: #eef6ff !important;
+  color: #0d47a1 !important;
+}
+
 @media (max-width: 560px) {
   :root {
     --ef-font-result: 26px;
@@ -600,6 +693,17 @@ body {
 
   .ef-days-input {
     width: 100% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
 
@@ -671,4 +775,3 @@ body {
     width: min(180px, 100%) !important;
   }
 }
-

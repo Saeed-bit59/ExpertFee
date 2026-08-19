@@ -15,7 +15,8 @@ import {
 } from "./RoadBuildingRules";
 
 import type {
-  Article39BoundaryMode
+  Article39BoundaryMode,
+  GeographicPointMethod
 } from "./RoadBuildingRules";
 
 import type {
@@ -102,6 +103,28 @@ function assertNonNegativeInteger(
       `${fieldName} must be a non-negative integer.`
     );
   }
+}
+
+function assertGeographicPointCount(
+  count: number
+): void {
+  assertNonNegativeInteger(count, "geographicPointCount");
+
+  if (
+    count > ARTICLE_39.maximumPayableGeographicPointCount
+  ) {
+    throw new Error(
+      `geographicPointCount must not exceed ${ARTICLE_39.maximumPayableGeographicPointCount}.`
+    );
+  }
+}
+
+function getGeographicPointFeeToman(
+  method: GeographicPointMethod
+): number {
+  return method === "MULTI_FREQUENCY_GPS"
+    ? ARTICLE_39.multiFrequencyGpsFeeToman
+    : ARTICLE_39.singleFrequencyGpsFeeToman;
 }
 
 
@@ -281,10 +304,13 @@ export interface Article39Input
   /*
    * تعداد نقاط جغرافیایی اضافه
    *
-   * تعرفه برای هر نقطه:
-   * 100,000 تومان
+   * روش تعیین نقطه جغرافیایی.
+   * GPS چندفرکانسه: 350,000 تومان
+   * GPS دستی تک‌فرکانسه: 200,000 تومان
    */
   geographicPointCount?: number;
+
+  geographicPointMethod?: GeographicPointMethod;
 }
 
 
@@ -297,10 +323,11 @@ export function calculateArticle39(
     0;
 
 
-  assertNonNegativeInteger(
-    geographicPointCount,
-    "geographicPointCount"
-  );
+  assertGeographicPointCount(geographicPointCount);
+
+  const geographicPointMethod =
+    input.geographicPointMethod ??
+    "MULTI_FREQUENCY_GPS";
 
 
   const baseFee =
@@ -321,8 +348,7 @@ export function calculateArticle39(
 
   const geographicPointsFee =
     geographicPointCount *
-    ARTICLE_39
-      .geographicPointAdditionalFeeToman;
+    getGeographicPointFeeToman(geographicPointMethod);
 
 
   const expertFee =
@@ -361,6 +387,8 @@ export interface Article40Input
   areaSquareMeters: number;
 
   geographicPointCount?: number;
+
+  geographicPointMethod?: GeographicPointMethod;
 }
 
 
@@ -373,10 +401,11 @@ export function calculateArticle40(
     0;
 
 
-  assertNonNegativeInteger(
-    geographicPointCount,
-    "geographicPointCount"
-  );
+  assertGeographicPointCount(geographicPointCount);
+
+  const geographicPointMethod =
+    input.geographicPointMethod ??
+    "MULTI_FREQUENCY_GPS";
 
 
   const baseFee =
@@ -388,8 +417,7 @@ export function calculateArticle40(
 
   const geographicPointsFee =
     geographicPointCount *
-    ARTICLE_39
-      .geographicPointAdditionalFeeToman;
+    getGeographicPointFeeToman(geographicPointMethod);
 
 
   const expertFee =
@@ -428,8 +456,6 @@ export function calculateArticle40(
  *
  * سپس سقف ماده اعمال می‌شود.
  *
- * خارج از محدوده:
- * تا 20 درصد افزایش.
  */
 
 export interface Article41Input
@@ -437,11 +463,6 @@ export interface Article41Input
 
   areaSquareMeters: number;
 
-  /*
-   * درصد افزایش برای پلاک خارج از محدوده.
-   * بازه مجاز: 0 تا 20
-   */
-  outsideBoundaryIncreasePercent?: number;
 }
 
 
@@ -453,28 +474,6 @@ export function calculateArticle41(
     input.areaSquareMeters,
     "areaSquareMeters"
   );
-
-
-  const outsideIncrease =
-    input
-      .outsideBoundaryIncreasePercent ??
-    0;
-
-
-  if (
-    !Number.isFinite(
-      outsideIncrease
-    ) ||
-    outsideIncrease < 0 ||
-    outsideIncrease >
-      ARTICLE_41
-        .outsideBoundaryMaximumIncreasePercent
-  ) {
-
-    throw new Error(
-      "outsideBoundaryIncreasePercent must be between 0 and 20."
-    );
-  }
 
 
   let fee =
@@ -583,29 +582,6 @@ export function calculateArticle41(
     Math.min(
       ARTICLE_41.maximumFeeToman,
       Math.round(fee)
-    );
-
-
-  /*
-   * سپس افزایش خارج از محدوده.
-   *
-   * مطابق معماری تثبیت‌شده پروژه،
-   * پس از اعمال ضریب نیز سقف ماده
-   * رعایت می‌شود.
-   */
-
-  fee =
-    Math.min(
-      ARTICLE_41.maximumFeeToman,
-
-      Math.round(
-        fee *
-        (
-          1 +
-          outsideIncrease /
-          100
-        )
-      )
     );
 
 

@@ -23,6 +23,7 @@ import {
 import type {
   MissionType
 } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 
 interface FinancialAffairsPageProps {
@@ -36,7 +37,7 @@ type FinancialSelection =
 
 
 const MAX_FINAL_FEE_TOMAN =
-  118_000_000;
+  135_000_000;
 
 
 /* ============================================================
@@ -99,21 +100,21 @@ function parseAmount(
       );
 
 
-  const digitsOnly =
+  const numericValue =
     normalized.replace(
-      /[^\d]/g,
+      /[^\d.]/g,
       ""
     );
 
 
-  if (!digitsOnly) {
+  if (!numericValue) {
     return 0;
   }
 
 
   const result =
     Number(
-      digitsOnly
+      numericValue
     );
 
 
@@ -1288,28 +1289,12 @@ export default function FinancialAffairsPage({
           </h2>
 
 
-          <label
-            style={{
-              display: "block",
-              marginBottom: 8,
-              fontWeight: 700
-            }}
-          >
-            {getAmountLabel()} ـ تومان
-          </label>
-
-
-          <input
-            type="text"
-            inputMode="numeric"
+          <MoneyInput
+            id="financial-affairs-amount"
+            label={getAmountLabel()}
             value={amountText}
-            onChange={(event) =>
-              handleAmountChange(
-                event.target.value
-              )
-            }
+            onChange={handleAmountChange}
             placeholder="مثال: 1,000,000,000"
-            style={inputStyle}
           />
 
 

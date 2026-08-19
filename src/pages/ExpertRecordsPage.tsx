@@ -6,6 +6,7 @@ import {
   Download,
   RefreshCw,
   Search,
+  ShieldCheck,
   Trash2,
 } from "lucide-react";
 
@@ -56,7 +57,6 @@ const inputStyle: React.CSSProperties = {
   fontFamily: "inherit",
   fontSize: 14,
   color: "var(--ef-text, #16345f)",
-  outline: "none",
 };
 
 const readOnlyInputStyle: React.CSSProperties = {
@@ -173,10 +173,11 @@ export default function ExpertRecordsPage({
   }, [initialDraft, onDraftConsumed]);
 
   const grossFeeToman = useMemo(() => toNumber(grossFee), [grossFee]);
+  const grossFeeIsSafe = Number.isSafeInteger(grossFeeToman);
 
   const financials = useMemo(
-    () => calculateExpertCaseFinancials(referralSource, grossFeeToman),
-    [referralSource, grossFeeToman],
+    () => calculateExpertCaseFinancials(referralSource, grossFeeIsSafe ? grossFeeToman : 0),
+    [referralSource, grossFeeIsSafe, grossFeeToman],
   );
 
   const activeReport = useMemo(
@@ -251,6 +252,11 @@ export default function ExpertRecordsPage({
   async function handleSave(): Promise<void> {
     setError("");
     setMessage("");
+
+    if (!grossFeeIsSafe) {
+      setError("مبلغ دستمزد از محدوده امن محاسبه خارج است.");
+      return;
+    }
 
     if (grossFeeToman <= 0) {
       setError("مبلغ دستمزد کارشناسی باید بزرگ‌تر از صفر باشد.");
@@ -378,6 +384,29 @@ export default function ExpertRecordsPage({
     }
   }
 
+  async function handleClearAll(): Promise<void> {
+    if (
+      !window.confirm(
+        "همه سوابق ذخیره‌شده در این مرورگر حذف شوند؟ این عمل قابل بازگشت نیست.",
+      )
+    ) {
+      return;
+    }
+
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      await repository.clear();
+      setMessage("همه سوابق ذخیره‌شده در این مرورگر حذف شدند.");
+      await loadRecords();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "حذف همه سوابق انجام نشد.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <main
       dir="rtl"
@@ -414,6 +443,16 @@ export default function ExpertRecordsPage({
         <p style={{ margin: "7px 0 0", color: "#64748b" }}>
           ثبت پرونده، کنترل مطالبات و مدیریت دریافتی‌های کارشناسی
         </p>
+      </div>
+
+      <div className="records-privacy" role="note">
+        <ShieldCheck size={20} aria-hidden="true" />
+        <div>
+          <strong>حریم خصوصی سوابق</strong>
+          <span>
+            اطلاعات پرونده‌ها فقط در همین مرورگر ذخیره می‌شوند. در دستگاه مشترک، پس از پایان کار سوابق حساس را حذف کنید و از داده‌های مرورگر نسخه پشتیبان امن نگه دارید.
+          </span>
+        </div>
       </div>
 
       <div className="ef-form-shell">
@@ -487,6 +526,8 @@ export default function ExpertRecordsPage({
                   value={grossFee}
                   onChange={(e) => setGrossFee(formatInput(e.target.value))}
                   placeholder="20,000,000"
+                  aria-invalid={!grossFeeIsSafe}
+                  aria-describedby={!grossFeeIsSafe ? "records-gross-fee-error" : undefined}
                   readOnly={Boolean(activeDraft)}
                   style={{
                     ...(activeDraft ? readOnlyInputStyle : inputStyle),
@@ -495,6 +536,7 @@ export default function ExpertRecordsPage({
                     fontWeight: 900,
                   }}
                 />
+                {!grossFeeIsSafe && <span id="records-gross-fee-error" className="records-inline-error">مبلغ واردشده بیش از محدوده امن محاسبه است.</span>}
               </label>
 
               <label style={labelStyle}>
@@ -646,11 +688,11 @@ export default function ExpertRecordsPage({
               </div>
             </div>
 
-            {error && <div className="records-error">{error}</div>}
-            {message && <div className="records-success">{message}</div>}
+            {error && <div className="records-error" role="alert">{error}</div>}
+            {message && <div className="records-success" role="status">{message}</div>}
 
             <CalculateButton
-              disabled={busy || grossFeeToman <= 0}
+              disabled={busy || grossFeeToman <= 0 || !grossFeeIsSafe}
               onClick={handleSave}
             >
               {busy ? "در حال ثبت..." : "ذخیره سابقه کارشناسی"}
@@ -700,7 +742,7 @@ export default function ExpertRecordsPage({
       </section>
       <section style={{marginTop:22}}>
         <SectionCard><div className="ef-stack">
-          <div className="records-history-heading"><div><div className="ef-section-title">سوابق پرونده‌های گزارش جاری</div><div className="records-report-subtitle">این فهرست دقیقاً همان سوابقی است که در شاخص‌های مالی بالا و خروجی Excel لحاظ شده‌اند.</div></div><div className="records-history-count"><span>تعداد رکورد</span><strong>{records.length.toLocaleString("fa-IR")}</strong></div></div>
+          <div className="records-history-heading"><div><div className="ef-section-title">سوابق پرونده‌های گزارش جاری</div><div className="records-report-subtitle">این فهرست دقیقاً همان سوابقی است که در شاخص‌های مالی بالا و خروجی Excel لحاظ شده‌اند.</div></div><div className="records-history-tools"><div className="records-history-count"><span>تعداد رکورد</span><strong>{records.length.toLocaleString("fa-IR")}</strong></div><button type="button" onClick={handleClearAll} disabled={busy || summary.recordCount === 0} className="records-action danger"><Trash2 size={17}/> حذف همه سوابق</button></div></div>
           {records.length===0 ? <div className="records-empty">هنوز سابقه‌ای مطابق فیلتر انتخاب‌شده وجود ندارد.</div> : <div className="records-list">{records.map((record)=><article key={record.id} className="records-item">
             <div className="records-item-head"><div><strong>{record.calculationCategory}</strong><div className="records-muted">{sourceLabel(record.referralSource)}{record.tariffArticle ? ` • ماده ${record.tariffArticle}` : ""}</div></div><span className={record.paymentStatus==="RECEIVED"?"records-status received":"records-status pending"}>{record.paymentStatus==="RECEIVED"?"وصول‌شده":"در انتظار وصول"}</span></div>
             <div className="records-item-grid"><RecordValue label="دستمزد ثبت‌شده" value={`${money(record.grossFeeToman)} تومان`}/><RecordValue label={`سهم نهاد (${record.institutionSharePercent}٪)`} value={`${money(record.institutionShareToman)} تومان`}/><RecordValue label="خالص قابل دریافت" value={`${money(record.netReceivableToman)} تومان`}/><RecordValue label="مبلغ وصول‌شده" value={`${money(record.receivedAmountToman)} تومان`}/></div>
@@ -711,7 +753,11 @@ export default function ExpertRecordsPage({
         </div></SectionCard>
       </section>
       <style>{`
-        .records-report-heading,.records-history-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}.records-report-subtitle{margin-top:5px;color:#64748b;font-size:12px;line-height:1.8}.records-report-basis{min-width:220px;display:grid;gap:3px;padding:10px 14px;border:1px solid #b9d6fb;border-radius:13px;background:#eef6ff;text-align:center}.records-report-basis span{color:#64748b;font-size:11px}.records-report-basis strong{color:#0d47a1;font-size:13px}.records-filter-panel{padding:14px;border:1px solid var(--ef-border,#cfe0f5);border-radius:16px;background:#f8fbff}.records-filter-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}.records-summary-caption{display:grid;gap:2px;text-align:center;margin-top:4px}.records-summary-caption strong{color:#0d47a1;font-size:15px}.records-summary-caption span{color:#64748b;font-size:12px}.records-breakdown-caption{margin-top:4px;text-align:center;color:#475569;font-size:12px;font-weight:800}.records-history-count{min-width:110px;padding:8px 12px;border-radius:12px;background:#eef6ff;text-align:center}.records-history-count span{display:block;color:#64748b;font-size:11px}.records-history-count strong{display:block;color:#0d47a1;font-size:18px}
+        .records-report-heading,.records-history-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}.records-report-subtitle{margin-top:5px;color:#64748b;font-size:12px;line-height:1.8}.records-report-basis{min-width:220px;display:grid;gap:3px;padding:10px 14px;border:1px solid #b9d6fb;border-radius:13px;background:#eef6ff;text-align:center}.records-report-basis span{color:#64748b;font-size:11px}.records-report-basis strong{color:#0d47a1;font-size:13px}.records-filter-panel{padding:14px;border:1px solid var(--ef-border,#cfe0f5);border-radius:16px;background:#f8fbff}.records-filter-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}.records-summary-caption{display:grid;gap:2px;text-align:center;margin-top:4px}.records-summary-caption strong{color:#0d47a1;font-size:15px}.records-summary-caption span{color:#64748b;font-size:12px}.records-breakdown-caption{margin-top:4px;text-align:center;color:#475569;font-size:12px;font-weight:800}.records-history-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.records-history-count{min-width:110px;padding:8px 12px;border-radius:12px;background:#eef6ff;text-align:center}.records-history-count span{display:block;color:#64748b;font-size:11px}.records-history-count strong{display:block;color:#0d47a1;font-size:18px}
+
+        .records-privacy { display: flex; align-items: flex-start; gap: 10px; margin: -4px 0 18px; padding: 12px 14px; border: 1px solid #b9d6fb; border-radius: 14px; background: #eef6ff; color: #0d47a1; }
+        .records-privacy > div { display: grid; gap: 3px; min-width: 0; }
+        .records-privacy span { color: #476789; font-size: 12px; line-height: 1.9; }
 
         .records-grid { display: grid; gap: 14px; }
         .records-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -833,7 +879,8 @@ export default function ExpertRecordsPage({
         }
         .records-error { background: #fef2f2; color: #b91c1c; }
         .records-success { background: #ecfdf3; color: #166534; }
-        @media (max-width: 760px) { .records-report-heading,.records-history-heading{align-items:stretch;flex-direction:column}.records-report-basis,.records-history-count{min-width:0}
+        .records-inline-error { color: #b91c1c; font-size: 12px; font-weight: 700; }
+        @media (max-width: 760px) { .records-report-heading,.records-history-heading{align-items:stretch;flex-direction:column}.records-history-tools{align-items:stretch;flex-direction:column}.records-report-basis,.records-history-count{min-width:0}
           .records-grid-3, .records-summary-grid, .records-filter-grid,
           .records-calculation-details, .records-report-breakdown {
             grid-template-columns: 1fr;

@@ -122,6 +122,31 @@ assert(
   "50% panel total is incorrect"
 );
 
+for (const serviceType of [
+  "MACHINERY_EVALUATION_WITH_TECHNICAL_ASSESSMENT",
+  "SOFTWARE_EXPERTISE"
+] as const) {
+  const cappedPanel =
+    calculateIndustryTechnologyPanel({
+      evaluationValueToman:
+        1_000_000_000_000,
+      serviceType,
+      expertCount: 2,
+      panelFieldMode: "DIFFERENT_FIELDS"
+    });
+
+  assert(
+    cappedPanel.feePerExpertToman ===
+      135_000_000,
+    `${serviceType} must cap each expert at the Article 11 general maximum`
+  );
+
+  assert(
+    cappedPanel.cappedByArticle11Maximum,
+    `${serviceType} must report that the Article 11 maximum was applied`
+  );
+}
+
 console.log(
   "INDUSTRY PANEL REGRESSION: ALL TESTS PASSED"
 );

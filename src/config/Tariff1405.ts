@@ -106,7 +106,7 @@ export const TARIFF_1405 = {
 
   metadata: {
     year: 1405,
-    articleCount: 53,
+    articleCount: 59,
     amendmentCount: 0
   },
 
@@ -115,6 +115,44 @@ export const TARIFF_1405 = {
     fixedFeeRial: 20_000_000,
     generalMaximumRial: 1_350_000_000,
     bracketsRial: TARIFF_1405_ARTICLE11_BRACKETS
+  },
+
+  /*
+   * ماده 13 — تعیین اجاره‌بها
+   * تمام مقادیر این بخش به تومان هستند.
+   */
+  article13: {
+    fixedLimitToman: 10_000_000,
+    fixedFeeToman: 2_000_000,
+    secondLimitToman: 50_000_000,
+    thirdLimitToman: 100_000_000,
+    secondRate: 0.25,
+    thirdRate: 0.15,
+    fourthRate: 0.06,
+    maximumFeeToman: 90_000_000,
+    sourceTariffYear: 1405
+  },
+
+  /* ماده 14 — تفسیر عکس‌های هوایی و تصاویر ماهواره‌ای (تومان). */
+  article14: {
+    baseFeeToman: 2_000_000,
+    pastImageYearRate: 0.10,
+    additionalConnectedParcelRate: 0.40,
+    sourceTariffYear: 1405
+  },
+
+  article31: {
+    nonDamageServiceFeeToman: 2_000_000,
+    combinedNonDamageMaximumToman: 3_000_000,
+    perVehicleMaximumToman: 7_000_000,
+    sourceTariffYear: 1405
+  },
+
+  article32: {
+    inlandBoatCollisionFeeToman: 2_000_000,
+    seaCollisionUnder500GtFeeToman: 3_500_000,
+    seaCollision500GtOrMoreFeeToman: 7_000_000,
+    sourceTariffYear: 1405
   },
 
   article6: {

@@ -207,7 +207,7 @@ for (
       expertCount: 1,
 
       increaseRuleCode:
-        "NOTE4_DAMAGE"
+        "NOTE4_INTANGIBLE_ASSETS"
     });
 
 
@@ -278,7 +278,7 @@ for (
         "SAME_FIELD",
 
       increaseRuleCode:
-        "NOTE4_DAMAGE"
+        "NOTE4_INTANGIBLE_ASSETS"
     });
 
 
@@ -354,7 +354,7 @@ for (
         "SAME_FIELD",
 
       increaseRuleCode:
-        "NOTE4_DAMAGE"
+        "NOTE4_INTANGIBLE_ASSETS"
     });
 
 

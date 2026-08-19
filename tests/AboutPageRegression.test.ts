@@ -15,21 +15,14 @@ const page = read("src/pages/AboutPage.tsx");
 const tariff = read("public/tarife.md");
 
 for (const token of [
-  'const APP_NAME = "ExpertFee";',
-  'const APP_VERSION = "0.1.0";',
   'const TARIFF_URL = "/tarife.md";',
-  'const LOGO_URL = "/expertfee-logo.jpg";',
-  "مرکز کارشناسان رسمی دادگستری استان بوشهر",
-  "saeedradmanesh@gmail.com",
-  "سعید رادمنش",
-  "09177321284",
-  "سامانه هوشمند محاسبه و مدیریت حق‌الزحمه کارشناسان رسمی",
-  "حقوق مالکیت نرم‌افزار",
-  "بررسی به‌روزرسانی",
-  "مشاهده متن کامل تعرفه",
-  "جستجو در متن تعرفه",
+  'const ARCHIVE_TARIFF_LABEL = "تعرفه مصوب ۱۳۹۸ و اصلاحیه ۱۴۰۲";',
+  "وب‌اپلیکیشن واکنش‌گرا و قابل نصب",
+  "ذخیره‌سازی",
+  "متن آرشیوی تعرفه",
+  "نباید به‌عنوان متن کامل تعرفه ۱۴۰۵ استفاده شود",
+  "مشاهده متن آرشیوی تعرفه",
   'data-testid="expertfee-about-page"',
-  'data-testid="expertfee-logo"',
   'data-testid="tariff-search"',
   'data-testid="full-tariff-text"',
 ]) {
@@ -40,6 +33,14 @@ assert(
   !page.includes("ExpertFee-AI"),
   "AboutPage must not display the old '-AI' brand",
 );
+
+for (const personalValue of [
+  "saeedradmanesh@gmail.com",
+  "09177321284",
+  "سعید رادمنش",
+]) {
+  assert(!page.includes(personalValue), `personal data leaked: ${personalValue}`);
+}
 
 assert(
   !page.includes('درباره نرم افزار در هدر'),

@@ -15,7 +15,14 @@ import {
 } from "lucide-react";
 
 import { calculateCommonFee } from "../engine/CommonFeeEngine";
-import { buildShareResult } from "../share/ShareResultBuilder";
+import { calculateArticle11Note1 } from "../engine/Article11Note1Calculator";
+import {
+  formatMoneyInput,
+  oppositeCurrencyWords,
+  parseMoneyValue,
+} from "../components/ui/MoneyInput";
+import type { ShareResultInput } from "../share/ShareResult";
+import { saveLastShareableCalculation } from "../share/LastShareableCalculation";
 
 interface HomePageProps {
   onOpenArticle11: () => void;
@@ -30,6 +37,7 @@ interface HomePageProps {
   onOpenIndustryTechnology: () => void;
   onOpenAgricultureNaturalResources: () => void;
   onOpenHistory?: () => void;
+  onOpenShare?: (input?: ShareResultInput) => void;
   onOpenSettings?: () => void;
   onOpenAbout?: () => void;
 }
@@ -55,25 +63,17 @@ const COLORS = {
   error: "#b91c1c",
 };
 
-function toEnglishDigits(value: string): string {
-  const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-  const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+type CurrencyUnit = "TOMAN" | "RIAL";
 
-  return value
-    .replace(/[۰-۹]/g, (digit) => String(persianDigits.indexOf(digit)))
-    .replace(/[٠-٩]/g, (digit) => String(arabicDigits.indexOf(digit)));
+function currencyDisplayValue(valueToman: string, unit: CurrencyUnit): string {
+  const amount = parseMoneyValue(valueToman);
+  if (!valueToman || !Number.isFinite(amount)) return "";
+  return formatMoneyInput(String(unit === "RIAL" ? amount * 10 : amount));
 }
 
-function parseToman(value: string): number {
-  const normalized = toEnglishDigits(value)
-    .replace(/[,\s٬،]/g, "")
-    .trim();
-
-  if (normalized === "" || !/^\d+$/.test(normalized)) {
-    return Number.NaN;
-  }
-
-  return Number(normalized);
+function tomanValueFromInput(value: string, unit: CurrencyUnit): string {
+  const amount = parseMoneyValue(value);
+  return formatMoneyInput(String(unit === "RIAL" ? amount / 10 : amount));
 }
 
 function formatToman(value: number): string {
@@ -151,22 +151,38 @@ export default function HomePage({
   onOpenArticle11,
   onOpenArticle13,
   onOpenArticle14,
+  onOpenWaterEngineering,
+  onOpenMetalsAndMining,
+  onOpenMovableProperty,
+  onOpenFinancialAffairs,
   onOpenVehicles,
   onOpenRoadBuilding,
   onOpenIndustryTechnology,
   onOpenAgricultureNaturalResources,
   onOpenHistory,
+  onOpenShare,
   onOpenSettings,
   onOpenAbout,
 }: HomePageProps) {
   const [quickValue, setQuickValue] = useState("");
   const [quickFee, setQuickFee] = useState<number | null>(null);
   const [quickError, setQuickError] = useState("");
+  const [quickUnit, setQuickUnit] = useState<CurrencyUnit>("TOMAN");
+  const [note1Value, setNote1Value] = useState("");
+  const [note1Referral, setNote1Referral] = useState("");
+  const [note1Error, setNote1Error] = useState("");
+  const [note1Unit, setNote1Unit] = useState<CurrencyUnit>("TOMAN");
 
   function handleQuickCalculate(): void {
-    const value = parseToman(quickValue);
+    const value = parseMoneyValue(quickValue);
 
-    if (!Number.isFinite(value) || value <= 0) {
+    if (quickValue.trim() && value === 0) {
+      setQuickFee(null);
+      setQuickError("مبلغ واردشده معتبر نیست یا از محدوده امن محاسبه خارج است.");
+      return;
+    }
+
+    if (value <= 0) {
       setQuickFee(null);
       setQuickError(
         "لطفاً ارزش مورد کارشناسی را به‌صورت عددی و بزرگ‌تر از صفر وارد کنید.",
@@ -182,6 +198,13 @@ export default function HomePage({
 
       setQuickFee(result.finalExpertFeeToman);
       setQuickError("");
+      saveLastShareableCalculation({
+        evaluationValueToman: value,
+        expertCount: 1,
+        calculatedFeeToman: result.finalExpertFeeToman,
+        calculationTitle: "محاسبه سریع حق‌الزحمه کارشناسی",
+        tariffReference: "ماده ۱۱ تعرفه ۱۴۰۵",
+      });
     } catch (error) {
       setQuickFee(null);
       setQuickError(
@@ -190,35 +213,31 @@ export default function HomePage({
     }
   }
 
-  async function handleShare(): Promise<void> {
-    if (quickFee === null) {
-      window.alert("ابتدا یک محاسبه انجام دهید تا نتیجه قابل اشتراک‌گذاری ایجاد شود.");
+  function handleNote1Calculate(): void {
+    const value = parseMoneyValue(note1Value);
+
+    if (note1Value.trim() && value === 0) {
+      setNote1Referral("");
+      setNote1Error("مبلغ واردشده معتبر نیست یا از محدوده امن محاسبه خارج است.");
       return;
     }
 
-    const evaluation = parseToman(quickValue);
-
-    const shareResult = buildShareResult({
-      evaluationValueToman: evaluation,
-      expertCount: 1,
-      calculatedFeeToman: quickFee,
-    });
-
-    const text = shareResult.text;
+    if (value < 5_000_000_000_000) {
+      setNote1Referral("");
+      setNote1Error("تبصره ۱ ماده ۱۱ برای ارزش ۵ همت تومان یا بیشتر اعمال می‌شود.");
+      return;
+    }
 
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: shareResult.title,
-          text,
-        });
-        return;
-      }
+      const result = calculateArticle11Note1({
+        evaluationValueToman: value,
+      });
 
-      await navigator.clipboard.writeText(text);
-      window.alert("متن نتیجه در کلیپ‌بورد کپی شد.");
-    } catch {
-      // User cancellation or unavailable sharing should not break the page.
+      setNote1Referral(result.warning);
+      setNote1Error("");
+    } catch (error) {
+      setNote1Referral("");
+      setNote1Error(error instanceof Error ? error.message : "محاسبه انجام نشد.");
     }
   }
 
@@ -253,8 +272,9 @@ export default function HomePage({
           }}
         >
           <div>
-            <div
+            <h1
               style={{
+                margin: 0,
                 fontSize: 38,
                 lineHeight: 1.1,
                 fontWeight: 900,
@@ -262,7 +282,7 @@ export default function HomePage({
               }}
             >
               ExpertFee
-            </div>
+            </h1>
 
             <div
               style={{
@@ -282,9 +302,13 @@ export default function HomePage({
           maxWidth: 980,
           margin: "0 auto",
           padding: "42px 24px 0",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <section
+          data-testid="home-quick-calculation"
+          className="home-quick-calculation"
           style={{
             border: `1px solid ${COLORS.border}`,
             borderRadius: 22,
@@ -345,9 +369,9 @@ export default function HomePage({
               <input
                 id="quick-evaluation-value"
                 inputMode="numeric"
-                value={quickValue}
+                value={currencyDisplayValue(quickValue, quickUnit)}
                 onChange={(event) => {
-                  setQuickValue(event.target.value);
+                  setQuickValue(tomanValueFromInput(event.target.value, quickUnit));
                   setQuickFee(null);
                   setQuickError("");
                 }}
@@ -360,29 +384,39 @@ export default function HomePage({
                 style={{
                   minWidth: 0,
                   border: 0,
-                  outline: "none",
                   padding: "16px 18px",
                   fontFamily: "inherit",
                   fontSize: 17,
-                  textAlign: "right",
+                  textAlign: "center",
                   color: COLORS.textStrong,
                   background: COLORS.white,
                 }}
               />
 
-              <div
+              <select
+                value={quickUnit}
+                onChange={(event) => setQuickUnit(event.target.value as CurrencyUnit)}
+                aria-label="واحد مبلغ ارزیابی سریع"
                 style={{
                   borderRight: `1px solid ${COLORS.border}`,
-                  display: "grid",
-                  placeItems: "center",
                   color: COLORS.primaryDark,
                   fontWeight: 800,
                   background: "#fbfdff",
+                  border: 0,
+                  textAlign: "center",
+                  fontFamily: "inherit",
                 }}
               >
-                تومان
-              </div>
+                <option value="TOMAN">تومان</option>
+                <option value="RIAL">ریال</option>
+              </select>
             </div>
+
+            {parseMoneyValue(quickValue) > 0 && (
+              <div style={{ marginTop: 8, color: COLORS.muted, fontSize: 13, textAlign: "center", lineHeight: 1.9 }}>
+                به حروف ({quickUnit === "TOMAN" ? "ریال" : "تومان"}): {oppositeCurrencyWords(parseMoneyValue(quickValue), quickUnit)}
+              </div>
+            )}
 
             <button
               type="button"
@@ -468,6 +502,20 @@ export default function HomePage({
                   }}
                 >
                   ورود به محاسبه کامل ماده ۱۱
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenShare?.({
+                    evaluationValueToman: parseMoneyValue(quickValue),
+                    expertCount: 1,
+                    calculatedFeeToman: quickFee,
+                    calculationTitle: "محاسبه سریع حق‌الزحمه کارشناسی",
+                    tariffReference: "ماده ۱۱ تعرفه ۱۴۰۵",
+                  })}
+                  style={{ marginTop: 10, border: 0, background: "transparent", color: COLORS.primary, fontFamily: "inherit", fontWeight: 800, cursor: "pointer" }}
+                >
+                  اشتراک‌گذاری این نتیجه
                 </button>
               </div>
             )}
@@ -561,7 +609,7 @@ export default function HomePage({
             </div>
 
             <div style={{ fontSize: 20, fontWeight: 900 }}>
-              ارزیابی عمومی
+            ارزیابی عمومی
             </div>
 
             <div
@@ -589,6 +637,34 @@ export default function HomePage({
               meta="ماده ۱۳"
               icon={<Home size={31} />}
               onClick={onOpenArticle13}
+            />
+
+            <ServiceCard
+              title="مهندسی آب"
+              meta="مواد ۱۵ تا ۲۱"
+              icon={<ShieldCheck size={31} />}
+              onClick={onOpenWaterEngineering}
+            />
+
+            <ServiceCard
+              title="فلزات و معادن"
+              meta="ماده ۲۲"
+              icon={<Factory size={31} />}
+              onClick={onOpenMetalsAndMining}
+            />
+
+            <ServiceCard
+              title="اموال منقول"
+              meta="ماده ۲۳"
+              icon={<Save size={31} />}
+              onClick={onOpenMovableProperty}
+            />
+
+            <ServiceCard
+              title="امور مالی"
+              meta="مواد ۲۵ تا ۲۹"
+              icon={<Calculator size={31} />}
+              onClick={onOpenFinancialAffairs}
             />
 
             <ServiceCard
@@ -630,6 +706,7 @@ export default function HomePage({
 
         <section
           style={{
+            order: 2,
             marginTop: 24,
             border: `1px solid ${COLORS.border}`,
             borderRadius: 17,
@@ -683,6 +760,7 @@ export default function HomePage({
         <section
           data-testid="home-history-action-area"
           style={{
+            order: 3,
             display: "flex",
             justifyContent: "center",
             marginTop: 22,
@@ -726,6 +804,7 @@ export default function HomePage({
         <section
           data-testid="home-bottom-new-actions"
           style={{
+            order: 4,
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
             gap: 14,
@@ -735,7 +814,7 @@ export default function HomePage({
           <button
             type="button"
             data-testid="home-share-action"
-            onClick={handleShare}
+            onClick={() => onOpenShare?.()}
             style={{
               minHeight: 92,
               border: `1px solid ${COLORS.border}`,
@@ -821,6 +900,112 @@ export default function HomePage({
               </small>
             </span>
           </button>
+        </section>
+
+        <section
+          data-testid="home-article11-note1-calculator"
+          style={{
+            order: 1,
+            marginTop: 34,
+            marginBottom: 28,
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: 20,
+            background: `linear-gradient(135deg, ${COLORS.primaryVeryLight}, #ffffff)`,
+            boxShadow: "0 8px 22px rgba(13, 71, 161, 0.06)",
+            padding: "24px clamp(18px, 4vw, 38px)",
+          }}
+        >
+          <div style={{ textAlign: "center", marginBottom: 18 }}>
+            <div style={{ color: COLORS.primaryDark, fontSize: 21, fontWeight: 900 }}>
+              ارزیابی ۵ همت تومان یا بیشتر
+            </div>
+          </div>
+
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <label
+              htmlFor="article11-note1-value"
+              style={{ display: "block", marginBottom: 8, color: COLORS.textStrong, fontWeight: 800 }}
+            >
+              ارزش مورد کارشناسی
+            </label>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 110px", border: `1px solid ${COLORS.border}`, borderRadius: 14, overflow: "hidden", background: COLORS.white }}>
+              <input
+                id="article11-note1-value"
+                data-testid="article11-note1-value"
+                inputMode="numeric"
+                value={currencyDisplayValue(note1Value, note1Unit)}
+                onChange={(event) => {
+                  setNote1Value(tomanValueFromInput(event.target.value, note1Unit));
+                  setNote1Referral("");
+                  setNote1Error("");
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") handleNote1Calculate();
+                }}
+                placeholder="مثال: ۵,۰۰۰,۰۰۰,۰۰۰,۰۰۱"
+                style={{ boxSizing: "border-box", width: "100%", border: 0, padding: "16px 18px", fontFamily: "inherit", fontSize: 17, textAlign: "center", color: COLORS.textStrong, background: COLORS.white }}
+              />
+
+              <select
+                value={note1Unit}
+                onChange={(event) => setNote1Unit(event.target.value as CurrencyUnit)}
+                aria-label="واحد مبلغ تبصره یک ماده ۱۱"
+                style={{ border: 0, borderRight: `1px solid ${COLORS.border}`, padding: "6px 12px", background: "#fbfdff", color: COLORS.primaryDark, fontFamily: "inherit", fontWeight: 800, textAlign: "center" }}
+              >
+                <option value="TOMAN">تومان</option>
+                <option value="RIAL">ریال</option>
+              </select>
+            </div>
+
+            {parseMoneyValue(note1Value) > 0 && (
+              <div style={{ marginTop: 8, color: COLORS.muted, fontSize: 13, textAlign: "center", lineHeight: 1.9 }}>
+                به حروف ({note1Unit === "TOMAN" ? "ریال" : "تومان"}): {oppositeCurrencyWords(parseMoneyValue(note1Value), note1Unit)}
+              </div>
+            )}
+
+            <button
+              type="button"
+              data-testid="article11-note1-calculate"
+              onClick={handleNote1Calculate}
+              style={{
+                width: "100%",
+                marginTop: 14,
+                border: 0,
+                borderRadius: 13,
+                padding: "15px 18px",
+                background: "linear-gradient(90deg, #1565c0, #0d5bd7)",
+                color: COLORS.white,
+                fontFamily: "inherit",
+                fontSize: 17,
+                fontWeight: 900,
+                cursor: "pointer",
+              }}
+            >
+              بررسی شمول تبصره ۱ ماده ۱۱
+            </button>
+
+            {note1Error && (
+              <div role="alert" style={{ marginTop: 14, border: "1px solid #fecaca", borderRadius: 12, background: "#fff7f7", color: COLORS.error, padding: "12px 14px", textAlign: "center", fontSize: 14, lineHeight: 1.8 }}>
+                {note1Error}
+              </div>
+            )}
+
+            {note1Referral && (
+              <div
+                data-testid="article11-note1-referral"
+                role="status"
+                aria-live="polite"
+                style={{ marginTop: 16, border: `1px solid ${COLORS.border}`, borderRadius: 16, background: COLORS.white, padding: "18px 16px", textAlign: "center", color: COLORS.primaryDark, lineHeight: 2 }}
+              >
+                <strong>نیازمند تصمیم شورای عالی کارشناسان یا مرکز</strong>
+                <div style={{ marginTop: 7 }}>{note1Referral}</div>
+                <div style={{ marginTop: 7, color: COLORS.muted, fontSize: 12 }}>
+                  سقف مندرج در تبصره برای هر کارشناس ۳۰۰ میلیون تومان است؛ این سقف به معنی مبلغ قطعی نیست.
+                </div>
+              </div>
+            )}
+          </div>
         </section>
       </main>
 

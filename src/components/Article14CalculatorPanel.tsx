@@ -150,7 +150,7 @@ export default function Article14CalculatorPanel() {
       <PageHeader
         eyebrow="ماده ۱۴"
         title="تفسیر عکس‌های هوایی و ماهواره‌ای"
-        subtitle="محاسبه حق‌الزحمه موضوع ماده ۱۴ تعرفه"
+        subtitle="محاسبه حق‌الزحمه موضوع ماده ۱۴ تعرفه ۱۴۰۵"
       />
 
       <div className="ef-form-shell">

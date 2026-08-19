@@ -1,271 +1,66 @@
 import {
+  NOTE1_STATUTORY_MAXIMUM_FEE_TOMAN,
+  NOTE1_THRESHOLD_TOMAN,
   calculateArticle11Note1,
-  isArticle11Note1Applicable
+  isArticle11Note1Applicable,
 } from "../src/engine/Article11Note1Calculator";
 
-function assert(
-  condition: boolean,
-  name: string
-) {
-
-  if (!condition) {
-    throw new Error(
-      `FAILED: ${name}`
-    );
-  }
-
-  console.log(
-    `PASS: ${name}`
-  );
+function assert(condition: boolean, name: string): void {
+  if (!condition) throw new Error(`FAILED: ${name}`);
+  console.log(`PASS: ${name}`);
 }
 
-function near(
-  actual: number,
-  expected: number,
-  tolerance: number,
-  name: string
-) {
+assert(
+  !isArticle11Note1Applicable(NOTE1_THRESHOLD_TOMAN - 1),
+  "Value below 5 HEMMAT is outside Note 1",
+);
+assert(
+  isArticle11Note1Applicable(NOTE1_THRESHOLD_TOMAN),
+  "Exactly 5 HEMMAT enters Note 1",
+);
+assert(
+  isArticle11Note1Applicable(NOTE1_THRESHOLD_TOMAN + 1),
+  "Value above 5 HEMMAT enters Note 1",
+);
 
-  assert(
-    Math.abs(
-      actual - expected
-    ) <= tolerance,
-    name
-  );
+const referral = calculateArticle11Note1({
+  evaluationValueToman: NOTE1_THRESHOLD_TOMAN,
+  expertCount: 3,
+  applyFiftyPercentIncrease: true,
+});
+
+assert(referral.requiresCouncilDecision, "Council decision is required");
+assert(
+  referral.statutoryMaximumFeePerExpertToman ===
+    NOTE1_STATUTORY_MAXIMUM_FEE_TOMAN,
+  "Statutory maximum is 300 million toman",
+);
+assert(referral.expertCount === 3, "Expert count is preserved");
+assert(referral.warning.includes("مبلغ قطعی محاسبه نمی‌کند"), "No automatic fee warning");
+assert(
+  !("feePerExpert" in referral),
+  "No unsupported calculated fee is returned",
+);
+
+let belowThresholdRejected = false;
+try {
+  calculateArticle11Note1({
+    evaluationValueToman: NOTE1_THRESHOLD_TOMAN - 1,
+  });
+} catch {
+  belowThresholdRejected = true;
 }
+assert(belowThresholdRejected, "Below-threshold referral is rejected");
 
-/*
- * TEST 1
- * Boundary
- */
-
-assert(
-  !isArticle11Note1Applicable(
-    5_000_000_000_000
-  ),
-  "Exactly 5 HEMMAT is not Note 1 special formula"
-);
-
-assert(
-  isArticle11Note1Applicable(
-    5_000_000_000_001
-  ),
-  "Above 5 HEMMAT activates Note 1"
-);
-
-/*
- * TEST 2
- * Excel reference value
- *
- * x =
- * 40,131,293,000,000 Toman
- */
-
-const excelReference =
+let invalidExpertCountRejected = false;
+try {
   calculateArticle11Note1({
-    evaluationValueToman:
-      40_131_293_000_000,
-
-    applyFiftyPercentIncrease:
-      false,
-
-    expertCount: 1
+    evaluationValueToman: NOTE1_THRESHOLD_TOMAN,
+    expertCount: 0,
   });
+} catch {
+  invalidExpertCountRejected = true;
+}
+assert(invalidExpertCountRejected, "Invalid expert count is rejected");
 
-near(
-  excelReference.feePerExpert,
-  470_453_358,
-  2,
-  "Excel reference calculation"
-);
-
-/*
- * TEST 3
- * 50% option OFF
- */
-
-assert(
-  excelReference
-    .fiftyPercentIncreaseAmount === 0,
-  "50 percent OFF"
-);
-
-assert(
-  excelReference.feePerExpert ===
-    excelReference
-      .feeBeforeFiftyPercent,
-  "Fee unchanged when 50 percent is OFF"
-);
-
-/*
- * TEST 4
- * 50% option ON
- */
-
-const with50 =
-  calculateArticle11Note1({
-    evaluationValueToman:
-      40_131_293_000_000,
-
-    applyFiftyPercentIncrease:
-      true,
-
-    expertCount: 1
-  });
-
-near(
-  with50.rawFeeAfterFiftyPercent,
-  705_680_037,
-  2,
-  "50 percent calculation"
-);
-
-near(
-  with50.feePerExpert,
-  705_680_037,
-  2,
-  "Final fee after 50 percent"
-);
-
-/*
- * TEST 5
- * 800 million cap AFTER +50%
- */
-
-const capAfter50 =
-  calculateArticle11Note1({
-    evaluationValueToman:
-      100_000_000_000_000,
-
-    applyFiftyPercentIncrease:
-      true,
-
-    expertCount: 1
-  });
-
-assert(
-  capAfter50.feePerExpert ===
-    800_000_000,
-  "800 million cap after 50 percent"
-);
-
-assert(
-  capAfter50.cappedAfterIncrease,
-  "Cap flag after 50 percent"
-);
-
-/*
- * TEST 6
- * Formula itself exceeds cap
- */
-
-const highValue =
-  calculateArticle11Note1({
-    evaluationValueToman:
-      243_000_000_000_000,
-
-    applyFiftyPercentIncrease:
-      false,
-
-    expertCount: 1
-  });
-
-assert(
-  highValue.feePerExpert ===
-    800_000_000,
-  "Formula capped at 800 million"
-);
-
-assert(
-  highValue.cappedBeforeIncrease,
-  "Base formula cap detected"
-);
-
-/*
- * TEST 7
- * Three same-field experts
- *
- * NO 30% REDUCTION
- */
-
-const threeExperts =
-  calculateArticle11Note1({
-    evaluationValueToman:
-      40_131_293_000_000,
-
-    applyFiftyPercentIncrease:
-      false,
-
-    expertCount: 3
-  });
-
-near(
-  threeExperts.feePerExpert,
-  470_453_358,
-  2,
-  "Full fee for each same-field expert"
-);
-
-near(
-  threeExperts.totalPanelFee,
-  1_411_360_074,
-  6,
-  "Three-expert panel total"
-);
-
-assert(
-  threeExperts
-    .sameFieldThirtyPercentReductionApplied
-    === false,
-  "30 percent panel reduction disabled"
-);
-
-/*
- * TEST 8
- * Three experts + 50%
- */
-
-const threeExpertsWith50 =
-  calculateArticle11Note1({
-    evaluationValueToman:
-      40_131_293_000_000,
-
-    applyFiftyPercentIncrease:
-      true,
-
-    expertCount: 3
-  });
-
-near(
-  threeExpertsWith50.feePerExpert,
-  705_680_037,
-  2,
-  "Each expert receives full +50% fee"
-);
-
-near(
-  threeExpertsWith50.totalPanelFee,
-  2_117_040_111,
-  10,
-  "Panel total with 50 percent"
-);
-
-/*
- * TEST 9
- * Required UI messages
- */
-
-assert(
-  threeExperts.warning.length > 0,
-  "Note 1 warning available"
-);
-
-assert(
-  threeExperts.calculationLabel ===
-    "محاسبه دستمزد براساس تبصره یک ماده ۱۱",
-  "Calculation label available"
-);
-
-console.log(
-  "Article 11 Note 1 tests completed."
-);
+console.log("Article 11 Note 1 council-referral tests completed.");

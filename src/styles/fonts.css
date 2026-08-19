@@ -1,3 +1,5 @@
-@font-face{font-family:"Vazirmatn";src:url("../assets/fonts/Vazirmatn-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Vazirmatn";src:url("../assets/fonts/Vazirmatn-Medium.woff2") format("woff2");font-weight:500 600;font-display:swap}
-@font-face{font-family:"Vazirmatn";src:url("../assets/fonts/Vazirmatn-Bold.woff2") format("woff2");font-weight:700 900;font-display:swap}
+/*
+ * No font binary is bundled in this repository. The theme requests a locally
+ * installed Vazirmatn font first and falls back to platform Persian-capable
+ * fonts without causing broken asset requests in production.
+ */

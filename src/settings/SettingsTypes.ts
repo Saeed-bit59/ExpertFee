@@ -25,10 +25,10 @@ export const DEFAULT_EXPERT_FEE_SETTINGS: ExpertFeeSettings = {
   schemaVersion: 1,
   expertName: "",
   expertCode: "",
-  province: "بوشهر",
-  professionalCenter: "مرکز کارشناسان رسمی دادگستری استان بوشهر",
-  email: "saeedradmanesh@gmail.com",
-  phone: "09177321284",
+  province: "",
+  professionalCenter: "",
+  email: "",
+  phone: "",
   currencyUnit: "TOMAN",
   numberLocale: "FA",
   decimalPlaces: 0,
@@ -36,9 +36,9 @@ export const DEFAULT_EXPERT_FEE_SETTINGS: ExpertFeeSettings = {
   defaultShowReceivedOnly: false,
   defaultShowPendingOnly: false,
   tariffSourceTitle: "تعرفه حق‌الزحمه کارشناسان رسمی دادگستری",
-  tariffVersion: "مصوبه پایه + اصلاحیه سال ۱۴۰۲",
+  tariffVersion: "تعرفه مصوب سال ۱۴۰۵",
   tariffDescription:
-    "مرجع محاسبات مطابق داده تعرفه موجود در نرم‌افزار است؛ این بخش صرفاً برای شناسایی نسخه مورد استفاده است.",
+    "قابلیت‌های پیاده‌سازی‌شده نرم‌افزار براساس تنظیمات تعرفه ۱۴۰۵ محاسبه می‌شوند.",
   updatedAt: "",
 };
 

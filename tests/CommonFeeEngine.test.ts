@@ -253,7 +253,7 @@ const capped =
       "ARTICLE_11",
 
     evaluationValueToman:
-      1_000_000_000_000_000,
+      1_000_000_000_000,
 
     increasePercent:
       50
@@ -340,7 +340,7 @@ const cappedWithMission =
       "ARTICLE_11",
 
     evaluationValueToman:
-      1_000_000_000_000_000,
+      1_000_000_000_000,
 
     increasePercent:
       50,

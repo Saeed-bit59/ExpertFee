@@ -199,7 +199,7 @@ assert(
 
 assert(
   article11Reference.finalExpertFeeToman <=
-    118_000_000,
+    135_000_000,
   "Article 11 fee must respect general maximum"
 );
 
@@ -215,13 +215,13 @@ const article13Minimum =
   calculateArticle13({
 
     monthlyRentToman:
-      1_500_000
+      10_000_000
   });
 
 
 assertEqual(
   article13Minimum.finalFeeToman,
-  600_000,
+  2_000_000,
   "Article 13 first threshold"
 );
 
@@ -230,13 +230,13 @@ const article13SecondTier =
   calculateArticle13({
 
     monthlyRentToman:
-      5_000_000
+      50_000_000
   });
 
 
 assertEqual(
   article13SecondTier.finalFeeToman,
-  1_300_000,
+  12_000_000,
   "Article 13 second threshold"
 );
 
@@ -251,7 +251,7 @@ const article13Maximum =
 
 assertEqual(
   article13Maximum.finalFeeToman,
-  60_000_000,
+  90_000_000,
   "Article 13 maximum"
 );
 
@@ -286,7 +286,7 @@ const article14Base =
 
 assertEqual(
   article14Base.finalFeeToman,
-  600_000,
+  2_000_000,
   "Article 14 base fee"
 );
 
@@ -306,15 +306,15 @@ const article14Combined =
 
 
 /*
- * 600,000 base
- * + 2 * 50,000 past-image years
- * + 2 * (40% * 600,000) connected parcels
- * = 1,180,000
+ * 2,000,000 base
+ * + 2 * 200,000 past-image years
+ * + 2 * (40% * 2,000,000) connected parcels
+ * = 4,000,000
  */
 
 assertEqual(
   article14Combined.finalFeeToman,
-  1_180_000,
+  4_000_000,
   "Article 14 combined user scenario"
 );
 
@@ -342,7 +342,7 @@ const vehicleFixed =
 
 assertEqual(
   vehicleFixed.expertFeeToman,
-  500_000,
+  2_000_000,
   "Group 5 fixed-fee user path"
 );
 
@@ -365,8 +365,8 @@ const vehicleEvaluation =
 
 assertEqual(
   vehicleEvaluation.expertFeeToman,
-  article11Reference.finalExpertFeeToman,
-  "Group 5 Article 11 user path"
+  Math.min(article11Reference.finalExpertFeeToman, 7_000_000),
+  "Group 5 Article 31 per-vehicle maximum"
 );
 
 
@@ -446,7 +446,7 @@ if (
 
   assertEqual(
     roadArticle34Minimum.expertFeeToman,
-    800_000,
+    2_000_000,
     "Group 6 Article 34 minimum"
   );
 }
@@ -478,7 +478,7 @@ if (
 
   assertEqual(
     roadArticle34Normal.expertFeeToman,
-    2_000_000,
+    3_000_000,
     "Group 6 Article 34 normal"
   );
 
@@ -516,7 +516,7 @@ if (
 
   assertEqual(
     roadArticle34Maximum.expertFeeToman,
-    8_000_000,
+    10_000_000,
     "Group 6 Article 34 maximum"
   );
 
@@ -817,7 +817,7 @@ const agriculture51At1000 =
 
 assertEqual(
   agriculture51At1000.expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 51 at 1000 sqm"
 );
 
@@ -897,7 +897,7 @@ const agriculture51At10001 =
 
 assertEqual(
   agriculture51At10001.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Article 51 at 10001 sqm"
 );
 

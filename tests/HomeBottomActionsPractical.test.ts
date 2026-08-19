@@ -7,6 +7,7 @@ function assert(condition: unknown, message: string): asserts condition {
 }
 
 const page = fs.readFileSync("src/pages/HomePage.tsx", "utf8");
+const sharePage = fs.readFileSync("src/pages/SharePage.tsx", "utf8");
 
 /*
  * 1. Each final action must have exactly one button test-id.
@@ -39,14 +40,15 @@ for (const label of ["اشتراک‌گذاری", "درباره نرم‌افز�
 /*
  * 3. Share practical contract.
  */
-assert(page.includes("async function handleShare"), "Share handler missing");
-assert(page.includes("navigator.share"), "Web Share API missing");
-assert(page.includes("navigator.clipboard.writeText"), "Clipboard fallback missing");
-assert(page.includes("مبلغ مورد ارزیابی:"), "Evaluation amount missing from share text");
-assert(page.includes("تعداد کارشناسان:"), "Expert count missing from share text");
-assert(page.includes("دستمزد محاسبه‌شده:"), "Calculated fee missing from share text");
-assert(page.includes("تولیدشده توسط:"), "Share attribution missing");
-assert(page.includes('"ExpertFee"'), "ExpertFee branding missing from share text");
+assert(page.includes("onOpenShare?.({"), "Structured result handoff missing");
+assert(page.includes("evaluationValueToman:"), "Evaluation amount handoff missing");
+assert(page.includes("calculatedFeeToman: quickFee"), "Calculated fee handoff missing");
+assert(sharePage.includes("navigator.share"), "Web Share API missing");
+assert(sharePage.includes("navigator.clipboard.writeText"), "Clipboard fallback missing");
+assert(sharePage.includes("مبلغ مورد ارزیابی:"), "Evaluation amount missing from share text");
+assert(sharePage.includes("تعداد کارشناسان:"), "Expert count missing from share text");
+assert(sharePage.includes("دستمزد محاسبه‌شده:"), "Calculated fee missing from share text");
+assert(sharePage.includes("ExpertFee"), "ExpertFee branding missing from share text");
 assert(!page.includes("ExpertFee-AI"), "Forbidden ExpertFee-AI branding remains");
 
 /*
@@ -54,6 +56,7 @@ assert(!page.includes("ExpertFee-AI"), "Forbidden ExpertFee-AI branding remains"
  */
 assert(page.includes("onOpenAbout?.()"), "About callback missing");
 assert(page.includes("onOpenSettings?.()"), "Settings callback missing");
+assert(page.includes("onOpenShare?.()"), "Share callback missing");
 assert(!page.includes('showComingSoon("درباره نرم‌افزار")'), "Obsolete About action remains");
 assert(!page.includes('showComingSoon("تنظیمات")'), "Obsolete Settings action remains");
 

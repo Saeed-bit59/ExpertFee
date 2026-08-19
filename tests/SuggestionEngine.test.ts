@@ -150,10 +150,7 @@ assert(
  * خسارت
  * ========================================
  *
- * انتظار:
- * تبصره 4
- * NOTE4_DAMAGE
- * افزایش 50 درصد
+ * خسارت در متن معتبر فعلی پروژه افزایش خودکار ندارد.
  */
 
 const damage =
@@ -164,27 +161,8 @@ const damage =
 
 
 assert(
-  damage.length === 1,
-  "SCENARIO 4 | Damage -> one suggestion"
-);
-
-
-assert(
-  damage[0]?.code ===
-    "NOTE4_DAMAGE",
-  "SCENARIO 4 | Correct rule"
-);
-
-
-assert(
-  damage[0]?.noteNumber === 4,
-  "SCENARIO 4 | Note 4"
-);
-
-
-assert(
-  damage[0]?.increaseRate === 0.5,
-  "SCENARIO 4 | Increase 50%"
+  damage.length === 0,
+  "SCENARIO 4 | Damage -> no unsupported suggestion"
 );
 
 
@@ -194,10 +172,7 @@ assert(
  * اقلام خاص
  * ========================================
  *
- * انتظار:
- * تبصره 5
- * NOTE5_SPECIAL_ITEMS
- * افزایش 50 درصد
+ * انتظار: پیشنهاد تبصره ۵، با تأیید کاربر.
  */
 
 const specialItems =
@@ -208,27 +183,10 @@ const specialItems =
 
 
 assert(
-  specialItems.length === 1,
-  "SCENARIO 5 | Special items -> one suggestion"
-);
-
-
-assert(
-  specialItems[0]?.code ===
-    "NOTE5_SPECIAL_ITEMS",
-  "SCENARIO 5 | Correct rule"
-);
-
-
-assert(
-  specialItems[0]?.noteNumber === 5,
-  "SCENARIO 5 | Note 5"
-);
-
-
-assert(
-  specialItems[0]?.increaseRate === 0.5,
-  "SCENARIO 5 | Increase 50%"
+  specialItems.length === 1 &&
+    specialItems[0]?.code === "NOTE5_SPECIAL_ITEMS" &&
+    specialItems[0]?.increaseRate === 0.5,
+  "SCENARIO 5 | Special items -> Note 5 suggestion"
 );
 
 
@@ -239,8 +197,8 @@ assert(
  * ========================================
  *
  * انتظار:
- * تبصره 7
- * NOTE7_INTANGIBLE_ASSETS
+ * تبصره 4
+ * NOTE4_INTANGIBLE_ASSETS
  * افزایش 50 درصد
  */
 
@@ -259,14 +217,14 @@ assert(
 
 assert(
   intangibleAssets[0]?.code ===
-    "NOTE7_INTANGIBLE_ASSETS",
+    "NOTE4_INTANGIBLE_ASSETS",
   "SCENARIO 6 | Correct rule"
 );
 
 
 assert(
-  intangibleAssets[0]?.noteNumber === 7,
-  "SCENARIO 6 | Note 7"
+  intangibleAssets[0]?.noteNumber === 4,
+  "SCENARIO 6 | Note 4"
 );
 
 
@@ -353,7 +311,7 @@ for (
 
 const directLookup =
   getArticle11SuggestionByCode(
-    "NOTE4_DAMAGE"
+    "NOTE4_INTANGIBLE_ASSETS"
   );
 
 
@@ -365,7 +323,7 @@ assert(
 
 assert(
   directLookup?.code ===
-    "NOTE4_DAMAGE",
+    "NOTE4_INTANGIBLE_ASSETS",
   "LOOKUP | Correct rule returned"
 );
 

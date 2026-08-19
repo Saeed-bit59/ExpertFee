@@ -1,3 +1,14 @@
 node_modules/
 dist/
 .env
+
+# Local research reports, generated models and temporary quality-assurance output
+.qa_energy_workbook/
+deliverables/
+output/
+outputs/
+tmp/
+build_energy_model.mjs
+build_full_energy_report.py
+qa_full_report.py
+render_pdf_qa.py

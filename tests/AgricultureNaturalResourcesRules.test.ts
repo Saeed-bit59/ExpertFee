@@ -105,8 +105,8 @@ assertEqual(
 
 assertEqual(
   AGRICULTURE_NATURAL_RESOURCES_DISCIPLINES.length,
-  7,
-  "Seven disciplines"
+  6,
+  "Six disciplines"
 );
 
 
@@ -139,14 +139,6 @@ assert(
     "AGRICULTURE_NATURAL_RESOURCES"
   ),
   "Agriculture and natural resources exists"
-);
-
-
-assert(
-  AGRICULTURE_NATURAL_RESOURCES_DISCIPLINES.includes(
-    "PLANT_PROTECTION"
-  ),
-  "Plant protection exists"
 );
 
 
@@ -426,7 +418,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_51_BASE_FEE_TOMAN,
-  800_000,
+  2_000_000,
   "Article 51 base fee"
 );
 
@@ -461,14 +453,14 @@ assertEqual(
 
 assertEqual(
   ARTICLE_51_FIRST_BLOCK_FEE_TOMAN,
-  80_000,
+  200_000,
   "10 percent of base fee = 80,000"
 );
 
 
 assertEqual(
   ARTICLE_51_ONE_HECTARE_FEE_TOMAN,
-  1_520_000,
+  3_800_000,
   "Article 51 one hectare fee"
 );
 
@@ -482,14 +474,14 @@ assertEqual(
 
 assertEqual(
   ARTICLE_51_ABOVE_HECTARE_BLOCK_FEE_TOMAN,
-  40_000,
+  100_000,
   "5 percent of base fee = 40,000"
 );
 
 
 assertEqual(
   ARTICLE_51_MAXIMUM_FEE_TOMAN,
-  118_000_000,
+  135_000_000,
   "Article 51 maximum fee"
 );
 
@@ -841,7 +833,7 @@ assertEqual(
 assertEqual(
   AGRICULTURE_NATURAL_RESOURCES_RULES_METADATA
     .disciplines.length,
-  7,
+  6,
   "Metadata discipline count"
 );
 

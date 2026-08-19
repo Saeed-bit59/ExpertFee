@@ -531,218 +531,40 @@ assert(
 
 
 /*
- * ==========================================
- * TEST 7
- * تبصره یک در یک رشته از هیأت چندرشته‌ای
- *
- * کل = 7 همت
- *
- * برق = 6 همت
- * مکانیک = 1 همت
- *
- * فقط سهم برق مشمول تبصره یک است.
- * ==========================================
+ * TEST 7: هر سهم دقیقاً ۵ همت یا بیشتر باید به تصمیم شورا ارجاع شود.
  */
-
-const note1Mixed =
-  calculateArticle11MultiField({
-
-    totalEvaluationValueToman:
-      7_000_000_000_000,
-
-    fields: [
-
-      {
-        fieldName:
-          "برق",
-
-        evaluationShareToman:
-          6_000_000_000_000,
-
-        expertCount:
-          2
-      },
-
-      {
-        fieldName:
-          "مکانیک",
-
-        evaluationShareToman:
-          1_000_000_000_000,
-
-        expertCount:
-          1
-      }
-    ]
-  });
-
-
-const note1Electrical =
-  note1Mixed.fields.find(
-    field =>
-      field.fieldName === "برق"
+for (const evaluationShareToman of [
+  5_000_000_000_000,
+  6_000_000_000_000,
+]) {
+  let referralRequired = false;
+  try {
+    calculateArticle11MultiField({
+      totalEvaluationValueToman:
+        evaluationShareToman + 1_000_000_000_000,
+      fields: [
+        {
+          fieldName: "برق",
+          evaluationShareToman,
+          expertCount: 2,
+        },
+        {
+          fieldName: "مکانیک",
+          evaluationShareToman: 1_000_000_000_000,
+          expertCount: 1,
+        },
+      ],
+    });
+  } catch (error) {
+    referralRequired =
+      error instanceof Error &&
+      error.message.includes("مبلغ قطعی محاسبه نمی‌کند");
+  }
+  assert(
+    referralRequired,
+    `Field share ${evaluationShareToman} requires council decision`,
   );
-
-
-const standardMechanical =
-  note1Mixed.fields.find(
-    field =>
-      field.fieldName === "مکانیک"
-  );
-
-
-assert(
-  note1Electrical?.mode ===
-    "NOTE_1",
-  "Field share above 5 HEMMAT uses Note 1"
-);
-
-
-assert(
-  standardMechanical?.mode ===
-    "STANDARD",
-  "Field share below 5 HEMMAT uses standard calculation"
-);
-
-
-/*
- * طبق Rule تثبیت‌شده:
- * در تبصره یک، کسر 30 درصد
- * برای دو کارشناس برق اعمال نمی‌شود.
- */
-
-assert(
-  note1Electrical
-    ?.thirtyPercentReductionApplied
-    === false,
-  "Note 1 field does not receive 30 percent reduction"
-);
-
-
-/*
- * ==========================================
- * TEST 8
- * افزایش 50 درصدی تبصره یک
- * فقط برای همان رشته
- * ==========================================
- */
-
-const note1With50 =
-  calculateArticle11MultiField({
-
-    totalEvaluationValueToman:
-      7_000_000_000_000,
-
-    fields: [
-
-      {
-        fieldName:
-          "برق",
-
-        evaluationShareToman:
-          6_000_000_000_000,
-
-        expertCount:
-          1,
-
-        applyFiftyPercentIncrease:
-          true
-      },
-
-      {
-        fieldName:
-          "مکانیک",
-
-        evaluationShareToman:
-          1_000_000_000_000,
-
-        expertCount:
-          1
-      }
-    ]
-  });
-
-
-const electricalWith50 =
-  note1With50.fields.find(
-    field =>
-      field.fieldName === "برق"
-  );
-
-
-assert(
-  electricalWith50
-    ?.fiftyPercentApplied ===
-    true,
-  "50 percent increase applied to Note 1 field"
-);
-
-
-assert(
-  electricalWith50!
-    .feePerExpertToman >=
-  electricalWith50!
-    .feeBeforeAdjustmentToman,
-  "Note 1 fee after 50 percent is not lower than base fee"
-);
-
-
-/*
- * ==========================================
- * TEST 9
- * دقیقاً 5 همت
- *
- * مطابق Rule قبلی:
- * دقیقاً 5 همت هنوز STANDARD است.
- * ==========================================
- */
-
-const exactlyFive =
-  calculateArticle11MultiField({
-
-    totalEvaluationValueToman:
-      6_000_000_000_000,
-
-    fields: [
-
-      {
-        fieldName:
-          "برق",
-
-        evaluationShareToman:
-          5_000_000_000_000,
-
-        expertCount:
-          1
-      },
-
-      {
-        fieldName:
-          "مکانیک",
-
-        evaluationShareToman:
-          1_000_000_000_000,
-
-        expertCount:
-          1
-      }
-    ]
-  });
-
-
-const exactlyFiveElectrical =
-  exactlyFive.fields.find(
-    field =>
-      field.fieldName === "برق"
-  );
-
-
-assert(
-  exactlyFiveElectrical?.mode ===
-    "STANDARD",
-  "Exactly 5 HEMMAT field share remains standard"
-);
-
+}
 
 console.log(
   "Article 11 Multi-Field Engine tests completed."

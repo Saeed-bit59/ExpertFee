@@ -38,11 +38,16 @@ export interface Article11EngineInput {
   evaluationValueToman: number;
 
   /*
-   * افزایش 50 درصدی مربوط به تبصره 1
-   *
-   * فقط در مسیر NOTE_1 استفاده می‌شود.
+   * فقط برای سازگاری ورودی‌های قدیمی نگه داشته شده است.
+   * تبصره ۱ تعرفه ۱۴۰۵ ضریب خودکار ندارد.
    */
   applyFiftyPercentIncrease?: boolean;
+
+  /*
+   * این گزینه برای سازگاری UI قدیمی نگه داشته شده است. Engine در هر حال
+   * ارزش ۵ همت یا بیشتر را به تصمیم شورا هدایت می‌کند.
+   */
+  useArticle11Note1?: boolean;
 
   /*
    * تعداد کارشناسان
@@ -57,7 +62,7 @@ export interface Article11EngineInput {
   /*
    * ضریب افزایشی انتخاب‌شده توسط کاربر
    *
-   * تبصره‌های 3، 4، 5 و 7
+   * تبصره‌های معتبر ۳ و ۴ تعرفه ۱۴۰۵
    *
    * فقط یک Rule قابل انتخاب است.
    */
@@ -269,110 +274,20 @@ export function calculateArticle11Engine(
           );
 
 
-  /*
-   * ========================================
-   * مسیر ویژه تبصره 1 ماده 11
-   * ========================================
-   *
-   * این مسیر فعلاً مستقل نگه داشته می‌شود.
-   *
-   * ضرایب تبصره‌های 3، 4، 5 و 7
-   * در این مرحله به NOTE_1 متصل نمی‌شوند.
-   */
-
-  if (
-    isArticle11Note1Applicable(
-      evaluationValueToman
-    )
-  ) {
-
-    const result =
-      calculateArticle11Note1({
-
-        evaluationValueToman,
-
-        applyFiftyPercentIncrease:
-          input
-            .applyFiftyPercentIncrease ??
-          false,
-
-        expertCount
-      });
-
-
-    return {
-
-      mode:
-        "NOTE_1",
-
+  /* ارزش ۵ همت یا بیشتر طبق تبصره ۱ فرمول خودکار ندارد. */
+  if (isArticle11Note1Applicable(evaluationValueToman)) {
+    const referral = calculateArticle11Note1({
       evaluationValueToman,
+      expertCount,
+    });
 
-      feeBeforeAdjustmentToman:
-        result.feeBeforeFiftyPercent,
+    throw new Error(referral.warning);
+  }
 
-      feeAfterAdjustmentToman:
-        result.rawFeeAfterFiftyPercent,
-
-      feePerExpertToman:
-        result.feePerExpert,
-
-      expertCount:
-        result.expertCount,
-
-      totalFeeToman:
-        result.totalPanelFee,
-
-      fiftyPercentApplied:
-        result.fiftyPercentApplied,
-
-      capped:
-        result.cappedBeforeIncrease ||
-        result.cappedAfterIncrease,
-
-      warning:
-        result.warning,
-
-      calculationLabel:
-        result.calculationLabel,
-
-      sameFieldThirtyPercentReductionApplied:
-        false,
-
-      sameFieldReductionPerExpertToman:
-        0,
-
-      panelFieldMode,
-
-      panelRuleNote:
-        expertCount > 1
-
-          ? "در محاسبات تبصره یک ماده 11، قواعد این مسیر به صورت مستقل اعمال می‌شود."
-
-          : null,
-
-      /*
-       * ضرایب افزایشی عمومی در NOTE_1
-       * فعلاً اعمال نمی‌شوند.
-       */
-
-      increaseRuleApplied:
-        false,
-
-      increaseRuleCode:
-        null,
-
-      increaseRuleNoteNumber:
-        null,
-
-      increaseRuleTitle:
-        null,
-
-      increaseRate:
-        0,
-
-      increaseAmountToman:
-        0
-    };
+  if (input.useArticle11Note1 === true) {
+    throw new Error(
+      "تبصره ۱ ماده ۱۱ برای ارزش ۵ همت تومان یا بیشتر اعمال می‌شود.",
+    );
   }
 
 
@@ -559,7 +474,7 @@ export function calculateArticle11Engine(
    * ========================================
    *
    * Article11IncreaseRules خودش
-   * سقف 118 میلیون تومان را کنترل می‌کند.
+   * سقف ۱۳۵ میلیون تومان را کنترل می‌کند.
    */
 
   const finalFeePerExpert =

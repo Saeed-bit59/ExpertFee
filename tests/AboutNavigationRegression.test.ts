@@ -25,7 +25,7 @@ assert(about, "src/pages/AboutPage.tsx is missing");
  * We intentionally do not require the Persian label to be duplicated in App.tsx.
  */
 for (const token of [
-  'import AboutPage from "./pages/AboutPage";',
+  'const AboutPage = lazy(() => import("./pages/AboutPage"));',
   '"ABOUT"',
   'currentPage === "ABOUT"',
   "<AboutPage",
@@ -45,17 +45,10 @@ assert(
 );
 
 for (const token of [
-  'const APP_NAME = "ExpertFee";',
-  'const APP_VERSION = "0.1.0";',
   "ExpertFee",
-  "سامانه هوشمند محاسبه و مدیریت حق‌الزحمه کارشناسان رسمی",
-  "مرکز کارشناسان رسمی دادگستری استان بوشهر",
-  "سعید رادمنش",
-  "saeedradmanesh@gmail.com",
-  "09177321284",
-  "مشاهده متن کامل تعرفه",
-  "جستجو در متن تعرفه",
-  "بررسی به‌روزرسانی",
+  "وب‌اپلیکیشن واکنش‌گرا و قابل نصب",
+  "متن آرشیوی تعرفه",
+  "مشاهده متن آرشیوی تعرفه",
   'data-testid="expertfee-about-page"',
 ]) {
   assert(about.includes(token), `AboutPage contract missing: ${token}`);
