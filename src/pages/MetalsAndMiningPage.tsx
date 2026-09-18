@@ -24,6 +24,7 @@ import {
 import type {
   MissionType
 } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 
 type Article22Mode =
@@ -90,7 +91,7 @@ function parseFormattedNumber(
   const normalized =
     normalizeDigits(value)
       .replace(/,/g, "")
-      .replace(/[^\d]/g, "");
+      .replace(/[^\d.]/g, "");
 
 
   if (normalized === "") {
@@ -508,6 +509,7 @@ export default function MetalsAndMiningPage({
   return (
 
     <main
+      className="ef-legacy-page ef-specialist-page"
       dir="rtl"
       style={{
         maxWidth: 900,
@@ -524,6 +526,7 @@ export default function MetalsAndMiningPage({
       {/* Back */}
 
       <button
+        className="ef-back-button ef-legacy-back-button"
         type="button"
         onClick={onBack}
         style={{
@@ -556,6 +559,7 @@ export default function MetalsAndMiningPage({
       {/* Header */}
 
       <div
+        className="ef-interior-header"
         style={{
           marginBottom:
             28
@@ -758,70 +762,23 @@ export default function MetalsAndMiningPage({
         </h2>
 
 
-        <label
-          style={{
-            display:
-              "block",
-
-            fontWeight:
-              700,
-
-            marginBottom:
-              8
-          }}
-        >
-          ارزش مورد ارزیابی ـ تومان
-        </label>
-
-
-        <input
-          type="text"
-          inputMode="numeric"
-          autoComplete="off"
-          placeholder="مثال: 12,000,000,000"
-          value={
-            evaluationValueText
-          }
-          onChange={(event) => {
-
-            /*
-             * هنگام تایپ فقط عدد را
-             * Format می‌کنیم.
-             *
-             * محاسبه انجام نمی‌شود.
-             */
-
-            setEvaluationValueText(
-
-              formatInputNumber(
-                event.target.value
-              )
-
-            );
-
-          }}
+        <MoneyInput
+          id="metals-mining-evaluation-value"
+          label="ارزش مورد ارزیابی"
+          value={evaluationValueText}
+          onChange={(value) => setEvaluationValueText(value)}
           onBlur={() => {
-
             commitEvaluationValue();
-
           }}
           onKeyDown={(event) => {
-
             if (
               event.key === "Enter"
             ) {
-
               commitEvaluationValue();
-
               event.currentTarget
                 .blur();
-
             }
-
           }}
-          style={
-            inputStyle
-          }
         />
 
 
@@ -916,7 +873,7 @@ export default function MetalsAndMiningPage({
           >
             در معادن زیرزمینی ۳۵٪ به تعرفه
             مربوط اضافه می‌شود. سقف نهایی
-            ۱۱۸,۰۰۰,۰۰۰ تومان رعایت می‌شود.
+            ۱۳۵,۰۰۰,۰۰۰ تومان رعایت می‌شود.
           </div>
 
         </section>

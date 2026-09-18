@@ -1,6 +1,11 @@
 import {
+  useEffect,
   useState
 } from "react";
+import {
+  useLocation,
+  useNavigate
+} from "react-router-dom";
 
 import HomePage
   from "./pages/HomePage";
@@ -35,7 +40,9 @@ import AgricultureNaturalResourcesPage from "./pages/AgricultureNaturalResources
 import ExpertRecordsPage from "./pages/ExpertRecordsPage";
 import AboutPage from "./pages/AboutPage";
 import SettingsPage from "./pages/SettingsPage";
+import SharePage from "./pages/SharePage";
 import type { ExpertCaseDraft } from "./records/ExpertCaseDraft";
+import type { ShareResultInput } from "./share/ShareResult";
 
 
 type AppPage =
@@ -53,15 +60,55 @@ type AppPage =
   | "AGRICULTURE_NATURAL_RESOURCES"
   | "EXPERT_RECORDS"
   | "ABOUT"
-  | "SETTINGS";
+  | "SETTINGS"
+  | "SHARE";
+
+const PAGE_PATHS: Record<AppPage, string> = {
+  HOME: "/",
+  ARTICLE_11: "/article-11",
+  ARTICLE_13: "/article-13",
+  ARTICLE_14: "/article-14",
+  WATER_ENGINEERING: "/water-engineering",
+  METALS_AND_MINING: "/metals-and-mining",
+  MOVABLE_PROPERTY: "/movable-property",
+  FINANCIAL_AFFAIRS: "/financial-affairs",
+  VEHICLES: "/vehicles",
+  ROAD_BUILDING: "/road-building",
+  INDUSTRY_TECHNOLOGY: "/industry-technology",
+  AGRICULTURE_NATURAL_RESOURCES: "/agriculture-natural-resources",
+  EXPERT_RECORDS: "/records",
+  ABOUT: "/about",
+  SETTINGS: "/settings",
+  SHARE: "/share"
+};
+
+const PATH_PAGES = Object.fromEntries(
+  Object.entries(PAGE_PATHS).map(([page, path]) => [path, page])
+) as Record<string, AppPage>;
 
 
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPage = PATH_PAGES[location.pathname] ?? "HOME";
 
-  const [
-    currentPage,
-    setCurrentPage
-  ] = useState<AppPage>("HOME");
+  function setCurrentPage(page: AppPage): void {
+    navigate(PAGE_PATHS[page]);
+  }
+
+  useEffect(() => {
+    if (!PATH_PAGES[location.pathname]) {
+      navigate(PAGE_PATHS.HOME, { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+  }, [location.pathname]);
 
   const [
     pendingExpertCaseDraft,
@@ -69,6 +116,8 @@ export default function App() {
   ] = useState<ExpertCaseDraft | null>(
     null
   );
+
+  const [shareDraft, setShareDraft] = useState<ShareResultInput | null>(null);
 
 
   function goHome(): void {
@@ -80,7 +129,6 @@ export default function App() {
     setCurrentPage("ARTICLE_11");
   }
 
-
   function openAbout(): void {
     setCurrentPage("ABOUT");
   }
@@ -88,6 +136,11 @@ export default function App() {
 
   function openSettings(): void {
     setCurrentPage("SETTINGS");
+  }
+
+  function openShare(draft?: ShareResultInput): void {
+    setShareDraft(draft ?? null);
+    setCurrentPage("SHARE");
   }
 
 
@@ -105,56 +158,18 @@ export default function App() {
 
   return (
 
-    <div
-      dir="rtl"
-      style={{
-        minHeight: "100vh",
-        background: "#f8fafc",
-        fontFamily: "inherit"
-      }}
-    >
+    <div dir="rtl" className="ef-app-shell">
 
       {/* =====================================
           Header
           ===================================== */}
 
       {currentPage !== "HOME" && (
-      <header
-        style={{
-          background: "#ffffff",
-          borderBottom: "1px solid #e2e8f0",
-          padding: "20px"
-        }}
-      >
-
-        <div
-          style={{
-            maxWidth: 900,
-            margin: "0 auto"
-          }}
-        >
-
-          <h1
-            style={{
-              margin: 0
-            }}
-          >
-            ExpertFee
-          </h1>
-
-
-          <p
-            style={{
-              marginTop: 8,
-              marginBottom: 0,
-              opacity: 0.7
-            }}
-          >
-            محاسبه حق‌الزحمه کارشناسان رسمی دادگستری
-          </p>
-
+      <header className="ef-app-header">
+        <div className="ef-app-header-inner">
+          <div className="ef-app-brand"><strong>ExpertFee</strong><span>محاسبه حق‌الزحمه کارشناسان رسمی</span></div>
+          <div className="ef-app-tariff-badge"><span>تعرفه</span><strong>۱۴۰۵</strong></div>
         </div>
-
       </header>
       )}
 
@@ -220,6 +235,9 @@ export default function App() {
             setPendingExpertCaseDraft(null);
             setCurrentPage("EXPERT_RECORDS");
           }}
+          onOpenShare={openShare}
+          onOpenAbout={openAbout}
+          onOpenSettings={openSettings}
 
         />
 
@@ -234,25 +252,12 @@ export default function App() {
 
         <div>
 
-          <div
-            style={{
-              maxWidth: 900,
-              margin: "20px auto 0",
-              padding: "0 24px"
-            }}
-          >
+          <div className="ef-page-backbar">
 
             <button
               type="button"
               onClick={goHome}
-              style={{
-                padding: "9px 16px",
-                border: "1px solid #cbd5e1",
-                borderRadius: 8,
-                background: "#ffffff",
-                cursor: "pointer",
-                fontFamily: "inherit"
-              }}
+              className="ef-page-back-button ef-keyboard-focus"
             >
               ← بازگشت به صفحه اصلی
             </button>
@@ -264,12 +269,12 @@ export default function App() {
             onSaveCalculation={
               openRecordsWithDraft
             }
+            onShareCalculation={openShare}
           />
 
         </div>
 
       )}
-
 
       {/* =====================================
           Article 13
@@ -411,90 +416,17 @@ export default function App() {
         <SettingsPage onBack={goHome} />
       )}
 
+      {currentPage === "SHARE" && (
+        <SharePage onBack={goHome} shareInput={shareDraft ?? undefined} />
+      )}
+
 
       {/* =====================================
           Footer
           ===================================== */}
 
-      <footer
-        style={{
-          marginTop: 40,
-          padding: "18px 20px",
-          borderTop: "1px solid #e2e8f0",
-          background: "#ffffff",
-          textAlign: "center",
-          fontSize: 13,
-          opacity: 0.9
-        }}
-      >
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 8,
-            flexWrap: "wrap"
-          }}
-        >
-
-          <button
-            type="button"
-            onClick={openAbout}
-            style={{
-              border: "none",
-              background: "transparent",
-              color: "#0d47a1",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: 13,
-              fontWeight: 700,
-              padding: "4px 8px"
-            }}
-          >
-            درباره نرم‌افزار
-          </button>
-
-          <span
-            aria-hidden="true"
-            style={{
-              color: "#cbd5e1"
-            }}
-          >
-            |
-          </span>
-
-          <button
-            type="button"
-            onClick={openSettings}
-            data-testid="settings-navigation"
-            style={{
-              border: "none",
-              background: "transparent",
-              color: "#0d47a1",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: 13,
-              fontWeight: 700,
-              padding: "4px 8px"
-            }}
-          >
-            تنظیمات
-          </button>
-
-        </div>
-
-
-        <div
-          style={{
-            marginTop: 6,
-            color: "#64748b",
-            fontSize: 12
-          }}
-        >
-          نسخه 1.0
-        </div>
-
+      <footer className="ef-app-footer">
+        <span>ExpertFee</span><span>نسخه ۱٫۰ · تعرفه ۱۴۰۵</span>
       </footer>
 
     </div>

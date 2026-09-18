@@ -7,6 +7,10 @@ import type {
 } from "./CommonFeeEngine";
 
 import {
+  ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+} from "../config/Tariff1405";
+
+import {
   ARTICLE_44
 } from "./RoadBuildingRules";
 
@@ -321,6 +325,9 @@ export function calculateArticle44(
 
       fixedFeeToman:
         calculatedFeeToman,
+
+      maximumFeeToman:
+        ARTICLE_11_GENERAL_MAXIMUM_TOMAN,
 
       missionType:
         input.missionType,

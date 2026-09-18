@@ -45,6 +45,12 @@ export interface Article11EngineInput {
   applyFiftyPercentIncrease?: boolean;
 
   /*
+   * تبصره 1 فقط در مسیر مستقل و با انتخاب صریح کاربر اجرا می‌شود.
+   * مسیر عادی ماده 11، حتی بالاتر از 5 همت، سقف عمومی 135 میلیون تومان دارد.
+   */
+  useArticle11Note1?: boolean;
+
+  /*
    * تعداد کارشناسان
    */
   expertCount?: number;
@@ -57,7 +63,7 @@ export interface Article11EngineInput {
   /*
    * ضریب افزایشی انتخاب‌شده توسط کاربر
    *
-   * تبصره‌های 3، 4، 5 و 7
+   * تبصره‌های ۳ و ۴ تعرفه ۱۴۰۵
    *
    * فقط یک Rule قابل انتخاب است.
    */
@@ -138,7 +144,7 @@ export interface Article11EngineResult {
     string;
 
   /*
-   * تبصره 6
+   * ماده ۵۶
    */
   sameFieldThirtyPercentReductionApplied:
     boolean;
@@ -154,7 +160,7 @@ export interface Article11EngineResult {
 
   /*
    * ========================================
-   * ضرایب افزایشی تبصره‌های 3، 4، 5 و 7
+   * ضرایب افزایشی تبصره‌های ۳ و ۴
    * ========================================
    */
 
@@ -276,15 +282,17 @@ export function calculateArticle11Engine(
    *
    * این مسیر فعلاً مستقل نگه داشته می‌شود.
    *
-   * ضرایب تبصره‌های 3، 4، 5 و 7
+   * ضرایب تبصره‌های ۳ و ۴
    * در این مرحله به NOTE_1 متصل نمی‌شوند.
    */
 
-  if (
-    isArticle11Note1Applicable(
-      evaluationValueToman
-    )
-  ) {
+  if (input.useArticle11Note1 === true) {
+
+    if (!isArticle11Note1Applicable(evaluationValueToman)) {
+      throw new Error(
+        "تبصره یک ماده ۱۱ فقط برای ارزش‌های بیش از ۵ همت تومان قابل استفاده است."
+      );
+    }
 
     const result =
       calculateArticle11Note1({
@@ -400,7 +408,7 @@ export function calculateArticle11Engine(
    * نه finalFee.
    *
    * چون ابتدا باید قواعد مربوط به
-   * تبصره 6 و ضرایب افزایشی بررسی شوند
+   * ماده ۵۶ و ضرایب افزایشی بررسی شوند
    * و سپس سقف نهایی کنترل شود.
    */
 
@@ -416,7 +424,7 @@ export function calculateArticle11Engine(
 
   /*
    * ========================================
-   * تبصره 6
+   * ماده ۵۶
    * قواعد هیأت
    * ========================================
    */
@@ -497,7 +505,7 @@ export function calculateArticle11Engine(
         panel
           .thirtyPercentReductionApplied
 
-          ? "محاسبه دستمزد براساس ماده 11 با اعمال تبصره 6"
+          ? "محاسبه دستمزد براساس ماده ۱۱ با اعمال ماده ۵۶"
 
           : "محاسبه دستمزد براساس ماده 11",
 
@@ -559,7 +567,7 @@ export function calculateArticle11Engine(
    * ========================================
    *
    * Article11IncreaseRules خودش
-   * سقف 118 میلیون تومان را کنترل می‌کند.
+   * سقف ۱۳۵ میلیون تومان را کنترل می‌کند.
    */
 
   const finalFeePerExpert =

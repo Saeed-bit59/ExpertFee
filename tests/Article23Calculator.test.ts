@@ -130,7 +130,7 @@ function testThrows(
   testNumber(
     "Movable - Minimum",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 }
@@ -172,7 +172,7 @@ function testThrows(
     calculateArticle23({
 
       article11FeeToman:
-        118_000_000,
+        135_000_000,
 
       mode:
         "MOVABLE_PROPERTY"
@@ -183,7 +183,7 @@ function testThrows(
   testNumber(
     "Movable - Maximum",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 }
@@ -210,14 +210,14 @@ function testThrows(
   testNumber(
     "Movable - Maximum Protection",
     result.finalFeeToman,
-    118_000_000
+    130_000_000
   );
 
 
   testBoolean(
     "Movable - Maximum Flag",
     result.maximumApplied,
-    true
+    false
   );
 
 }
@@ -342,14 +342,14 @@ function testThrows(
   testNumber(
     "Household - Maximum Applied",
     result.finalFeeToman,
-    118_000_000
+    120_000_000
   );
 
 
   testBoolean(
     "Household - Maximum Flag",
     result.maximumApplied,
-    true
+    false
   );
 
 }
@@ -372,7 +372,7 @@ function testThrows(
     calculateArticle23({
 
       article11FeeToman:
-        118_000_000,
+        135_000_000,
 
       mode:
         "HOUSEHOLD_OFFICE"
@@ -383,21 +383,21 @@ function testThrows(
   testNumber(
     "Household - Maximum Article11 Increase",
     result.increaseFeeToman,
-    23_600_000
+    27_000_000
   );
 
 
   testNumber(
     "Household - Raw Total At Article11 Maximum",
     result.feeBeforeLimitsToman,
-    141_600_000
+    162_000_000
   );
 
 
   testNumber(
     "Household - Protected Maximum",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 

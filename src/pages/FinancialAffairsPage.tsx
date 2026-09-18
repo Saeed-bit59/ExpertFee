@@ -10,6 +10,7 @@ import {
 import {
   calculateFinancialAffairs
 } from "../engine/financial/FinancialCalculator";
+import { FINANCIAL_MAXIMUM_FEE_TOMAN } from "../engine/financial/FinancialRules";
 
 import type {
   AccountingMode,
@@ -23,6 +24,7 @@ import {
 import type {
   MissionType
 } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 
 interface FinancialAffairsPageProps {
@@ -36,7 +38,7 @@ type FinancialSelection =
 
 
 const MAX_FINAL_FEE_TOMAN =
-  118_000_000;
+  FINANCIAL_MAXIMUM_FEE_TOMAN;
 
 
 /* ============================================================
@@ -99,21 +101,21 @@ function parseAmount(
       );
 
 
-  const digitsOnly =
+  const numericValue =
     normalized.replace(
-      /[^\d]/g,
+      /[^\d.]/g,
       ""
     );
 
 
-  if (!digitsOnly) {
+  if (!numericValue) {
     return 0;
   }
 
 
   const result =
     Number(
-      digitsOnly
+      numericValue
     );
 
 
@@ -739,6 +741,7 @@ export default function FinancialAffairsPage({
   return (
 
     <main
+      className="ef-legacy-page ef-specialist-page"
       dir="rtl"
       style={{
         maxWidth: 900,
@@ -754,6 +757,7 @@ export default function FinancialAffairsPage({
           ====================================================== */}
 
       <button
+        className="ef-back-button ef-legacy-back-button"
         type="button"
         onClick={onBack}
         style={{
@@ -774,6 +778,7 @@ export default function FinancialAffairsPage({
           ====================================================== */}
 
       <div
+        className="ef-interior-header"
         style={{
           marginTop: 24,
           marginBottom: 24
@@ -1288,28 +1293,12 @@ export default function FinancialAffairsPage({
           </h2>
 
 
-          <label
-            style={{
-              display: "block",
-              marginBottom: 8,
-              fontWeight: 700
-            }}
-          >
-            {getAmountLabel()} ـ تومان
-          </label>
-
-
-          <input
-            type="text"
-            inputMode="numeric"
+          <MoneyInput
+            id="financial-affairs-amount"
+            label={getAmountLabel()}
             value={amountText}
-            onChange={(event) =>
-              handleAmountChange(
-                event.target.value
-              )
-            }
+            onChange={handleAmountChange}
             placeholder="مثال: 1,000,000,000"
-            style={inputStyle}
           />
 
 
@@ -1368,7 +1357,7 @@ export default function FinancialAffairsPage({
             هزینه مأموریت پس از
             محاسبه حق‌الزحمه کارشناسی
             اضافه می‌شود و مشمول سقف
-            ۱۱۸ میلیون تومان نیست.
+            ۱۳۵ میلیون تومان نیست.
           </div>
 
 
@@ -1710,7 +1699,7 @@ export default function FinancialAffairsPage({
               حاصل محاسبه از سقف
               تعرفه عبور کرده است؛
               سقف نهایی
-              ۱۱۸,۰۰۰,۰۰۰ تومان
+              ۱۳۵,۰۰۰,۰۰۰ تومان
               برای حق‌الزحمه کارشناسی
               اعمال شد.
             </div>

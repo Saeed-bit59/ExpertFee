@@ -88,7 +88,7 @@ const note4 =
       10_000_000_000,
 
     increaseRuleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -106,7 +106,7 @@ assert(
 
 assert(
   note4.increaseRuleCode ===
-    "NOTE4_DAMAGE",
+    "NOTE4_INTANGIBLE_ASSETS",
   "Note 4 rule code returned"
 );
 
@@ -184,7 +184,7 @@ const capped =
       880_000_000_000,
 
     increaseRuleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -196,8 +196,8 @@ assert(
 
 assert(
   capped.feePerExpertToman ===
-    118_000_000,
-  "Final fee capped at 118 million"
+    135_000_000,
+  "Final fee capped at 135 million"
 );
 
 
@@ -222,7 +222,7 @@ const capped100 =
 
 assert(
   capped100.feePerExpertToman ===
-    118_000_000,
+    135_000_000,
   "100 percent increase cannot exceed maximum"
 );
 
@@ -253,7 +253,7 @@ const panel =
       "SAME_FIELD",
 
     increaseRuleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -298,7 +298,7 @@ const differentFields =
       "DIFFERENT_FIELDS",
 
     increaseRuleCode:
-      "NOTE5_SPECIAL_ITEMS"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -329,8 +329,10 @@ const note1 =
     evaluationValueToman:
       5_000_000_000_001,
 
+    useArticle11Note1: true,
+
     increaseRuleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -388,11 +390,11 @@ const ruleCodes = [
 
   "NOTE3_CONTRACT_PARTIAL",
 
-  "NOTE4_DAMAGE",
+  "NOTE4_INTANGIBLE_ASSETS",
 
-  "NOTE5_SPECIAL_ITEMS",
+  "NOTE4_INTANGIBLE_ASSETS",
 
-  "NOTE7_INTANGIBLE_ASSETS"
+  "NOTE4_INTANGIBLE_ASSETS"
 
 ] as const;
 
@@ -414,9 +416,9 @@ for (
 
   assert(
     result.feePerExpertToman <=
-      118_000_000,
+      135_000_000,
 
-    `${ruleCode} never exceeds 118 million`
+    `${ruleCode} never exceeds 135 million`
   );
 }
 

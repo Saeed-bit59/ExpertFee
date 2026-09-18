@@ -35,8 +35,6 @@ export const AGRICULTURE_NATURAL_RESOURCES_DISCIPLINES = [
 
   "AGRICULTURE_NATURAL_RESOURCES",
 
-  "PLANT_PROTECTION",
-
   "ANIMAL_PRODUCTS",
 
   "NATURAL_ENVIRONMENT"
@@ -242,12 +240,12 @@ export const ARTICLE_49_RULE:
  * Base fee:
  *
  * Up to 1,000 m²
- * = 8,000,000 Rial
- * = 800,000 Toman
+ * = 20,000,000 Rial
+ * = 2,000,000 Toman
  */
 
 export const ARTICLE_51_BASE_FEE_TOMAN =
-  800_000;
+  2_000_000;
 
 
 /*
@@ -291,8 +289,8 @@ export const ARTICLE_51_BLOCK_SIZE_SQM =
  * ========================================
  * Increase from 1,000 m² to 1 hectare
  *
- * 10% of 800,000
- * = 80,000 Toman
+ * 10% of 2,000,000
+ * = 200,000 Toman
  *
  * per additional started 1,000 m² block
  * ========================================
@@ -303,31 +301,31 @@ export const ARTICLE_51_FIRST_BLOCK_PERCENT =
 
 
 export const ARTICLE_51_FIRST_BLOCK_FEE_TOMAN =
-  80_000;
+  200_000;
 
 
 /*
  * ========================================
  * Fee exactly at one hectare
  *
- * 800,000
+ * 2,000,000
  * +
- * 9 × 80,000
+ * 9 × 200,000
  *
- * = 1,520,000 Toman
+ * = 3,800,000 Toman
  * ========================================
  */
 
 export const ARTICLE_51_ONE_HECTARE_FEE_TOMAN =
-  1_520_000;
+  3_800_000;
 
 
 /*
  * ========================================
  * Increase above one hectare
  *
- * 5% of 800,000
- * = 40,000 Toman
+ * 5% of 2,000,000
+ * = 100,000 Toman
  *
  * per additional started 1,000 m² block
  * ========================================
@@ -338,7 +336,7 @@ export const ARTICLE_51_ABOVE_HECTARE_PERCENT =
 
 
 export const ARTICLE_51_ABOVE_HECTARE_BLOCK_FEE_TOMAN =
-  40_000;
+  100_000;
 
 
 /*

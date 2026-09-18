@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { calculateExpertFee } from "../engine/ExpertFeeEngine";
 import type { VehicleService } from "../engine/VehicleCalculator";
+import type { LandNonDamageService } from "../engine/VehicleCalculator";
 import type { MissionType } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 type VehicleArea = "LAND" | "MARINE";
 
@@ -41,6 +43,9 @@ export default function VehiclePage({
   const [evaluationValue, setEvaluationValue] =
     useState("");
 
+  const [landNonDamageServices, setLandNonDamageServices] =
+    useState<LandNonDamageService[]>([]);
+
   const [missionType, setMissionType] =
     useState<MissionType>("NONE");
 
@@ -60,8 +65,18 @@ export default function VehiclePage({
 
   const needsValue =
     service === "LAND_VALUATION" ||
+    service === "LAND_DAMAGE" ||
     service === "TRANSPORT_CLAIM" ||
-    service === "MARINE_VALUATION";
+    service === "MARINE_VALUATION" ||
+    service === "AIR_RAIL_VALUATION_OR_DAMAGE";
+
+  const needsLandServiceSelection =
+    service === "LAND_NON_DAMAGE_COMBINED";
+
+  const showsLandAncillaryServices =
+    needsLandServiceSelection ||
+    service === "LAND_VALUATION" ||
+    service === "LAND_DAMAGE";
 
   const evaluationValueToman = useMemo(
     () => parseNumber(evaluationValue),
@@ -80,6 +95,13 @@ export default function VehiclePage({
       return null;
     }
 
+    if (
+      needsLandServiceSelection &&
+      landNonDamageServices.length < 2
+    ) {
+      return null;
+    }
+
     try {
       return calculateExpertFee({
         group: 5,
@@ -93,7 +115,11 @@ export default function VehiclePage({
           missionDays:
             missionType === "NONE"
               ? 0
-              : missionDays
+              : missionDays,
+          landNonDamageServices:
+            showsLandAncillaryServices
+              ? landNonDamageServices
+              : undefined
         }
       });
     } catch {
@@ -105,7 +131,10 @@ export default function VehiclePage({
     needsValue,
     evaluationValueToman,
     missionType,
-    missionDays
+    missionDays,
+    needsLandServiceSelection,
+    showsLandAncillaryServices,
+    landNonDamageServices
   ]);
 
   function changeArea(
@@ -120,6 +149,7 @@ export default function VehiclePage({
     );
 
     setEvaluationValue("");
+    setLandNonDamageServices([]);
     setSubmitted(false);
   }
 
@@ -128,6 +158,7 @@ export default function VehiclePage({
   ): void {
     setService(nextService);
     setEvaluationValue("");
+    setLandNonDamageServices([]);
     setSubmitted(false);
   }
 
@@ -187,68 +218,31 @@ export default function VehiclePage({
     const label =
       service === "TRANSPORT_CLAIM"
         ? "مبلغ خواسته"
+        : service === "LAND_DAMAGE"
+          ? "مبلغ خسارت وسیله نقلیه زمینی"
+          : service === "AIR_RAIL_VALUATION_OR_DAMAGE"
+            ? "مبلغ ارزیابی یا خسارت وسیله نقلیه هوایی یا ریلی"
         : area === "LAND"
           ? "مبلغ ارزیابی وسیله نقلیه زمینی"
           : "مبلغ ارزیابی وسیله نقلیه دریایی";
 
     return (
       <section style={card}>
-        <label
-          style={{
-            display: "block",
-            fontWeight: 800,
-            marginBottom: 9,
-            color: "#16345f"
+        <MoneyInput
+          id="vehicle-evaluation-value"
+          label={label}
+          value={evaluationValue}
+          onChange={(value) => {
+            setEvaluationValue(value);
+            setSubmitted(false);
           }}
-        >
-          {label}
-        </label>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && evaluationValueToman > 0) {
+              setSubmitted(true);
+            }
           }}
-        >
-          <input
-            type="text"
-            inputMode="numeric"
-            value={evaluationValue}
-            onChange={(event) => {
-              setEvaluationValue(
-                formatInputNumber(
-                  event.target.value
-                )
-              );
-              setSubmitted(false);
-            }}
-            onKeyDown={(event) => {
-              if (
-                event.key === "Enter" &&
-                evaluationValueToman > 0
-              ) {
-                setSubmitted(true);
-              }
-            }}
-            placeholder="مثال: 2,500,000,000"
-            style={{
-              flex: 1,
-              minWidth: 0,
-              border: "1px solid #cbd5e1",
-              borderRadius: 10,
-              padding: "13px 14px",
-              fontSize: 16,
-              fontFamily: "inherit",
-              direction: "ltr",
-              textAlign: "left"
-            }}
-          />
-
-          <span style={{ fontWeight: 700 }}>
-            تومان
-          </span>
-        </div>
+          placeholder="مثال: 2,500,000,000"
+        />
 
         <div
           style={{
@@ -258,6 +252,8 @@ export default function VehiclePage({
           }}
         >
           دستمزد این خدمت مطابق ماده ۱۱ محاسبه می‌شود.
+          {(service === "LAND_VALUATION" || service === "LAND_DAMAGE") &&
+            " خدمات تکمیلی همین خودرو، در صورت انتخاب، به مبلغ افزوده و سپس سقف ماده ۳۱ اعمال می‌شود."}
         </div>
 
         <button
@@ -326,6 +322,34 @@ export default function VehiclePage({
               تومان
             </strong>
 
+            <div
+              style={{
+                marginTop: 8,
+                color: "#475569",
+                fontSize: 13
+              }}
+            >
+              {result.calculationBasis}
+            </div>
+
+            {result.perVehicleMaximumToman !== null && (
+              <div
+                style={{
+                  marginTop: 8,
+                  color: "#475569",
+                  fontSize: 13
+                }}
+              >
+                ماده ۱۱: {formatNumber(result.article11FeeToman)} تومان
+                {result.ancillaryServicesFeeToman > 0 && (
+                  <>
+                    {" | "}خدمات تکمیلی: {formatNumber(result.ancillaryServicesFeeToman)} تومان
+                  </>
+                )}
+                {" | "}سقف هر خودرو: {formatNumber(result.perVehicleMaximumToman)} تومان
+              </div>
+            )}
+
             {result.missionFeeToman > 0 && (
               <div>
                 مبلغ نهایی با مأموریت:{" "}
@@ -345,6 +369,7 @@ export default function VehiclePage({
 
   return (
     <main
+      className="ef-legacy-page ef-specialist-page"
       dir="rtl"
       style={{
         maxWidth: 900,
@@ -356,6 +381,7 @@ export default function VehiclePage({
       }}
     >
       <button
+        className="ef-back-button ef-legacy-back-button"
         type="button"
         onClick={onBack}
         style={{
@@ -370,24 +396,26 @@ export default function VehiclePage({
         ← بازگشت به صفحه اصلی
       </button>
 
-      <h1
-        style={{
-          marginBottom: 4,
-          color: "#0d47a1",
-          textAlign: "center"
-        }}
-      >
-        وسائط نقلیه
-      </h1>
+      <div className="ef-interior-header">
+        <h1
+          style={{
+            marginBottom: 4,
+            color: "#0d47a1",
+            textAlign: "center"
+          }}
+        >
+          وسائط نقلیه
+        </h1>
 
-      <div
-        style={{
-          color: "#64748b",
-          marginBottom: 22,
-          textAlign: "center"
-        }}
-      >
-        محاسبه دستمزد مواد ۳۱ و ۳۲ تعرفه
+        <div
+          style={{
+            color: "#64748b",
+            textAlign: "center"
+          }}
+        >
+          محاسبه دستمزد مواد ۳۱ و ۳۲ تعرفه
+          ۱۴۰۵
+        </div>
       </div>
 
       {/* 1. حوزه کارشناسی */}
@@ -496,6 +524,62 @@ export default function VehiclePage({
               اظهارنظر فنی تعیین تناژ و مدل
             </label>
 
+            <label style={radio}>
+              <input
+                type="radio"
+                checked={service === "LAND_DAMAGE"}
+                onChange={() => changeService("LAND_DAMAGE")}
+              />
+              تعیین خسارت وسیله نقلیه زمینی (مطابق ماده ۱۱)
+            </label>
+
+            <label style={radio}>
+              <input
+                type="radio"
+                checked={
+                  service === "LAND_NON_DAMAGE_COMBINED"
+                }
+                onChange={() =>
+                  changeService(
+                    "LAND_NON_DAMAGE_COMBINED"
+                  )
+                }
+              />
+              رسیدگی ترکیبی اصالت، تصادف و/یا تناژ یک خودرو
+              (با سقف قانونی)
+            </label>
+
+            {showsLandAncillaryServices && (
+              <div style={{ margin: "0 0 12px 24px" }}>
+                {([
+                  ["AUTHENTICITY", "اصالت خودرو"],
+                  ["ACCIDENT", "علت تصادف و مقصر"],
+                  ["TONNAGE_MODEL", "تناژ و مدل"]
+                ] as const).map(([item, label]) => (
+                  <label key={item} style={radio}>
+                    <input
+                      type="checkbox"
+                      checked={landNonDamageServices.includes(item)}
+                      onChange={(event) => {
+                        setLandNonDamageServices((current) =>
+                          event.target.checked
+                            ? [...current, item]
+                            : current.filter((selected) => selected !== item)
+                        );
+                        setSubmitted(false);
+                      }}
+                    />
+                    {label}
+                  </label>
+                ))}
+                <div style={{ color: "#64748b", fontSize: 13 }}>
+                  {needsLandServiceSelection
+                    ? "حداقل دو خدمت را انتخاب کنید؛ اصالت خودرو در ترکیب با خدمات دیگر جداگانه محاسبه نمی‌شود."
+                    : "خدمات تکمیلی همان خودرو را در صورت وجود انتخاب کنید؛ اصالت خودرو در ترکیب با خدمات دیگر جداگانه محاسبه نمی‌شود."}
+                </div>
+              </div>
+            )}
+
             {!isPrimaryValuation && (
               <button
                 type="button"
@@ -535,6 +619,15 @@ export default function VehiclePage({
                 }
               />
               دعاوی مربوط به حمل‌ونقل بر اساس مبلغ خواسته
+            </label>
+
+            <label style={radio}>
+              <input
+                type="radio"
+                checked={service === "AIR_RAIL_VALUATION_OR_DAMAGE"}
+                onChange={() => changeService("AIR_RAIL_VALUATION_OR_DAMAGE")}
+              />
+              ارزیابی یا تعیین خسارت وسایل نقلیه هوایی و ریلی (مطابق ماده ۱۱)
             </label>
 
             <label style={radio}>
@@ -595,7 +688,7 @@ export default function VehiclePage({
                 fontSize: 14
               }}
             >
-              در تصادم شناورهای با ظرفیت متفاوت، ظرفیت بالاتر مبنای تعیین دستمزد است. غواصی و عملیات زیرآبی به دلیل ارجاع به ماده ۹ در محاسبات خودکار این صفحه وارد نشده است.
+              در تصادم شناورهای با ظرفیت متفاوت، ظرفیت بالاتر مبنای تعیین دستمزد است. غواصی و عملیات زیرآبی به دلیل ارجاع به ماده ۹ و لزوم تعیین موردی مرجع ارجاع، محاسبهٔ خودکار ندارد.
             </div>
 
             {!isPrimaryValuation && (
@@ -636,16 +729,17 @@ export default function VehiclePage({
           <button
             type="button"
             onClick={() => setSubmitted(true)}
+            disabled={needsLandServiceSelection && landNonDamageServices.length < 2}
             style={{
               width: "100%",
               border: 0,
               borderRadius: 12,
               padding: 15,
-              background: "#1565c0",
+              background: needsLandServiceSelection && landNonDamageServices.length < 2 ? "#94a3b8" : "#1565c0",
               color: "#ffffff",
               fontWeight: 900,
               fontSize: 17,
-              cursor: "pointer",
+              cursor: needsLandServiceSelection && landNonDamageServices.length < 2 ? "not-allowed" : "pointer",
               fontFamily: "inherit"
             }}
           >

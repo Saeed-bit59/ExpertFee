@@ -550,6 +550,8 @@ const note1Mixed =
     totalEvaluationValueToman:
       7_000_000_000_000,
 
+    useArticle11Note1: true,
+
     fields: [
 
       {

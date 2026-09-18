@@ -45,17 +45,12 @@ assert(
 );
 
 for (const token of [
-  'const APP_NAME = "ExpertFee";',
-  'const APP_VERSION = "0.1.0";',
   "ExpertFee",
-  "سامانه هوشمند محاسبه و مدیریت حق‌الزحمه کارشناسان رسمی",
+  "سامانه حرفه‌ای محاسبه حق‌الزحمه کارشناسان رسمی دادگستری",
   "مرکز کارشناسان رسمی دادگستری استان بوشهر",
   "سعید رادمنش",
   "saeedradmanesh@gmail.com",
-  "09177321284",
-  "مشاهده متن کامل تعرفه",
-  "جستجو در متن تعرفه",
-  "بررسی به‌روزرسانی",
+  "۰۹۱۷۷۳۲۱۲۸۴",
   'data-testid="expertfee-about-page"',
 ]) {
   assert(about.includes(token), `AboutPage contract missing: ${token}`);
@@ -65,6 +60,10 @@ assert(
   !about.includes("ExpertFee-AI"),
   "Old ExpertFee-AI branding must not exist in AboutPage",
 );
+
+for (const token of ["tarife.md", "tariff-search", "full-tariff-text", "مشاهده متن کامل تعرفه"]) {
+  assert(!about.includes(token), `Obsolete tariff UI must be removed: ${token}`);
+}
 
 /*
  * About must not be introduced into the main App header.

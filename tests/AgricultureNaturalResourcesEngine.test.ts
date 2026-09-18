@@ -228,7 +228,7 @@ assertEqual(
 
 assertEqual(
   engine51.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Article 51 at 10001 sqm"
 );
 
@@ -479,7 +479,7 @@ const engine51Mission =
 
 assertEqual(
   engine51Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 51 expert fee remains capped"
 );
 
@@ -493,7 +493,7 @@ assertEqual(
 
 assertEqual(
   engine51Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     inProvinceRate * 2,
   "Article 51 mission outside cap"
 );
@@ -539,7 +539,7 @@ const engine52Mission =
 
 assertEqual(
   engine52Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 52 expert fee remains capped"
 );
 
@@ -553,7 +553,7 @@ assertEqual(
 
 assertEqual(
   engine52Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     outProvinceRate * 3,
   "Article 52 mission outside cap"
 );
@@ -634,8 +634,8 @@ assertEqual(
 
 assertEqual(
   AGRICULTURE_NATURAL_RESOURCES_ENGINE_METADATA.disciplines.length,
-  7,
-  "Seven disciplines"
+  6,
+  "Six disciplines"
 );
 
 

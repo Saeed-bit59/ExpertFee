@@ -13,37 +13,16 @@ export default function Article13Page({
 
   return (
 
-    <main
-      dir="rtl"
-      style={{
-        minHeight: "70vh"
-      }}
-    >
+    <main dir="rtl" className="ef-calculator-page-shell">
 
-      <div
-        style={{
-          maxWidth: 800,
-          margin: "20px auto 0",
-          padding: "0 24px"
-        }}
-      >
+      <div className="ef-page-backbar">
 
         <button
-          className="article13-back-button"
+          className="ef-page-back-button article13-back-button"
           type="button"
           onClick={onBack}
-          style={{
-            padding:
-              "8px 14px",
-            border:
-              "1px solid #ccc",
-            borderRadius: 8,
-            background:
-              "#fff",
-            cursor: "pointer"
-          }}
         >
-          بازگشت به صفحه اصلی
+          ← بازگشت به صفحه اصلی
         </button>
 
       </div>

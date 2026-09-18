@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useState
 } from "react";
@@ -36,6 +37,8 @@ import MissionSelector, {
 import OptionGroup from "./ui/OptionGroup";
 import AdvancedOptions from "./ui/AdvancedOptions";
 import type { ExpertCaseDraft } from "../records/ExpertCaseDraft";
+import { saveLastShareableCalculation } from "../share/LastShareableCalculation";
+import type { ShareResultInput } from "../share/ShareResult";
 
 type IncreaseMode =
   | "NONE"
@@ -50,10 +53,14 @@ function formatToman(
 
 interface Article11CalculatorPanelProps {
   onSaveCalculation?: (draft: ExpertCaseDraft) => void;
+  onShareCalculation?: (input: ShareResultInput) => void;
+  useArticle11Note1?: boolean;
 }
 
 export default function Article11CalculatorPanel({
-  onSaveCalculation
+  onSaveCalculation,
+  onShareCalculation,
+  useArticle11Note1 = false
 }: Article11CalculatorPanelProps) {
   const [
     evaluationValue,
@@ -116,7 +123,6 @@ export default function Article11CalculatorPanel({
 
   const result = useMemo(() => {
     if (
-      !submitted ||
       evaluationValueToman <= 0
     ) {
       return null;
@@ -125,6 +131,7 @@ export default function Article11CalculatorPanel({
     try {
       return calculateArticle11Engine({
         evaluationValueToman,
+        useArticle11Note1,
         expertCount,
         panelFieldMode,
         increaseRuleCode:
@@ -142,13 +149,13 @@ export default function Article11CalculatorPanel({
       return null;
     }
   }, [
-    submitted,
     evaluationValueToman,
     expertCount,
     panelFieldMode,
     increaseMode,
     increaseRuleCode,
     applyFiftyPercentIncrease
+    ,useArticle11Note1
   ]);
 
   const mission = useMemo(() => {
@@ -267,6 +274,22 @@ export default function Article11CalculatorPanel({
         : result.totalFeeToman
       : 0;
 
+  useEffect(() => {
+    if (!submitted || !result || finalCalculatedFeeToman <= 0) return;
+
+    saveLastShareableCalculation({
+      evaluationValueToman,
+      expertCount,
+      calculatedFeeToman: finalCalculatedFeeToman,
+      calculationTitle: useArticle11Note1
+        ? "ارزیابی بالاتر از ۵ همت تومان"
+        : "ارزیابی عمومی",
+      tariffReference: useArticle11Note1
+        ? "تبصره ۱ ماده ۱۱ تعرفه ۱۴۰۵"
+        : "ماده ۱۱ تعرفه ۱۴۰۵",
+    });
+  }, [submitted, result, finalCalculatedFeeToman, evaluationValueToman, expertCount, useArticle11Note1]);
+
   function handleSaveCalculation(): void {
     if (
       !result ||
@@ -336,6 +359,12 @@ export default function Article11CalculatorPanel({
               }
             ]
           : []),
+        ...(result.increaseRuleApplied
+          ? [{
+              label: `افزایش هر کارشناس، داخل مبلغ نهایی؛ ${result.increaseRuleTitle ?? "ماده ۱۱"} (${Math.round(result.increaseRate * 100)}٪)`,
+              value: formatToman(result.increaseAmountToman)
+            }]
+          : []),
         ...(mission &&
         mission.missionFeeToman > 0
           ? [
@@ -364,48 +393,52 @@ export default function Article11CalculatorPanel({
 
   return (
     <main
-      className="ef-page"
+      className="ef-page ef-article11-page"
       dir="rtl"
       data-testid="article11-reference-ui"
     >
       <div className="ef-form-shell">
         <PageHeader
-          eyebrow="ماده ۱۱"
-          title="ارزیابی عمومی"
-          subtitle="محاسبه حق‌الزحمه کارشناسی بر اساس ماده ۱۱ تعرفه"
+          eyebrow={
+            useArticle11Note1
+              ? "تبصره ۱ ماده ۱۱"
+              : "ماده ۱۱"
+          }
+          title={
+            useArticle11Note1
+              ? "ارزیابی بالاتر از ۵ همت تومان"
+              : "ارزیابی عمومی"
+          }
+          subtitle={
+            useArticle11Note1
+              ? "محاسبه مستقل تبصره ۱؛ فقط برای ارزش‌های بیش از ۵ همت تومان"
+              : "محاسبه حق‌الزحمه کارشناسی بر اساس ماده ۱۱ تعرفه"
+          }
         />
 
-        <div className="ef-stack">
+        <div className="ef-article11-input-bar" data-testid="article11-input-bar">
+          <div className="ef-article11-input-copy">
+            <span>مبنای محاسبه</span>
+            <strong>ارزش موضوع کارشناسی</strong>
+          </div>
+          <MoneyInput
+            id="article11-live-evaluation-value"
+            label="مبلغ ارزیابی"
+            value={evaluationValue}
+            onChange={(value) => {
+              setEvaluationValue(value);
+              invalidateCalculation();
+            }}
+            currencySelectable={false}
+            unit="تومان"
+            placeholder="مبلغ ارزیابی را وارد کنید"
+          />
+        </div>
+
+        <div className="ef-stack ef-article11-options">
+          {submitted && <div className="ef-article11-result-details">
           <SectionCard>
             <div className="ef-stack">
-              <MoneyInput
-                id="article11-evaluation-value"
-                label="مبلغ ارزیابی"
-                value={
-                  evaluationValue
-                }
-                onChange={(value) => {
-                  setEvaluationValue(
-                    value
-                  );
-                  invalidateCalculation();
-                }}
-                unit="تومان"
-                placeholder="3,400,000,000"
-              />
-
-              <CalculateButton
-                disabled={
-                  evaluationValueToman <=
-                  0
-                }
-                onClick={() =>
-                  setSubmitted(true)
-                }
-              >
-                محاسبه دستمزد
-              </CalculateButton>
-
               {submitted &&
                 result && (
                   <FeeResultCard
@@ -426,6 +459,24 @@ export default function Article11CalculatorPanel({
                     }
                   />
                 )}
+
+              {submitted && result && onShareCalculation && (
+                <button
+                  type="button"
+                  onClick={() => onShareCalculation({
+                    evaluationValueToman,
+                    expertCount,
+                    calculatedFeeToman: finalCalculatedFeeToman,
+                    calculationTitle: "ارزیابی عمومی",
+                    tariffReference: "ماده ۱۱ تعرفه ۱۴۰۵",
+                  })}
+                  className="ef-calculate-button"
+                  data-testid="article11-share-calculation"
+                  style={{ width: "100%", marginTop: 12, fontFamily: "inherit" }}
+                >
+                  اشتراک‌گذاری این نتیجه
+                </button>
+              )}
 
               {submitted &&
                 result &&
@@ -508,6 +559,7 @@ export default function Article11CalculatorPanel({
                 )}
             </div>
           </SectionCard>
+          </div>}
 
           <SectionCard>
             <ExpertCountSelector
@@ -704,6 +756,49 @@ export default function Article11CalculatorPanel({
             )}
           </AdvancedOptions>
         </div>
+      </div>
+      <div className="ef-article11-result-bar" data-testid="article11-result-bar">
+        <div className="ef-article11-result-bar__heading" aria-live="polite" aria-atomic="true">
+          <span>نتیجه محاسبه ماده ۱۱</span>
+          <strong data-testid="article11-live-fee">
+            {result ? formatToman(finalCalculatedFeeToman) : "مبلغ ارزیابی را وارد کنید"}
+          </strong>
+        </div>
+        {result && <div className="ef-article11-result-bar__badges" aria-label="موارد اعمال‌شده در محاسبه">
+          <span>{expertCount} کارشناس</span>
+          {result.sameFieldThirtyPercentReductionApplied && <span>کاهش هم‌رشته</span>}
+          {result.increaseRuleApplied && <span>ضریب تبصره {result.increaseRuleNoteNumber} · {Math.round(result.increaseRate * 100)}٪</span>}
+          {mission && mission.missionFeeToman > 0 && <span>مأموریت · {mission.missionDays} روز</span>}
+          {result.capped && <span>سقف تعرفه</span>}
+        </div>}
+        <details className="ef-article11-result-bar__drawer">
+          <summary>ریز محاسبه، ثبت و اشتراک نتیجه</summary>
+          <div className="ef-article11-result-bar__drawer-content">
+        {result && (
+          <div className="ef-article11-result-bar__parts">
+            {result.increaseRuleApplied && (
+              <span>مبنای ضریب، هر کارشناس: {formatToman(result.feeAfterAdjustmentToman)}</span>
+            )}
+            {result.increaseRuleApplied && (
+              <span>افزایش هر کارشناس؛ {result.increaseRuleTitle ?? "ضریب افزایشی"} ({Math.round(result.increaseRate * 100)}٪): {formatToman(result.increaseAmountToman)}</span>
+            )}
+            <span>{expertCount === 1 ? "دستمزد کارشناس" : `مجموع دستمزد ${expertCount} کارشناس`}{result.increaseRuleApplied ? " پس از ضریب" : ""}: {formatToman(result.totalFeeToman)}</span>
+            {result.sameFieldThirtyPercentReductionApplied && <span>کاهش هیأت هم‌رشته: {formatToman(result.sameFieldReductionPerExpertToman)} برای هر کارشناس</span>}
+            {result.capped && <span>سقف تعرفه اعمال شد</span>}
+            {increaseMode === "WITH_INCREASE" && !increaseRuleCode && <span>برای اعمال افزایش، ضریب را انتخاب کنید</span>}
+            {mission && mission.missionFeeToman > 0 && (
+              <span>مأموریت ({mission.missionDays} روز): {formatToman(mission.missionFeeToman)}</span>
+            )}
+          </div>
+        )}
+        <CalculateButton
+          disabled={evaluationValueToman <= 0 || !result}
+          onClick={() => setSubmitted(true)}
+        >
+          ثبت نتیجه و نمایش جزئیات
+        </CalculateButton>
+          </div>
+        </details>
       </div>
     </main>
   );

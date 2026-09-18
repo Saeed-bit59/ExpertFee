@@ -7,11 +7,11 @@
  */
 
 export const FINANCIAL_MINIMUM_FEE_TOMAN =
-  600_000;
+  2_000_000;
 
 
 export const FINANCIAL_MAXIMUM_FEE_TOMAN =
-  118_000_000;
+  135_000_000;
 
 
 /*

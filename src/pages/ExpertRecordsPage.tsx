@@ -380,6 +380,7 @@ export default function ExpertRecordsPage({
 
   return (
     <main
+      className="ef-utility-page ef-records-page"
       dir="rtl"
       style={{
         maxWidth: 980,
@@ -390,6 +391,7 @@ export default function ExpertRecordsPage({
       }}
     >
       <button
+        className="ef-back-button ef-utility-back-button"
         type="button"
         onClick={onBack}
         style={{

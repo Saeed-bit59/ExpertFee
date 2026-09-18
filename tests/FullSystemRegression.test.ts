@@ -239,7 +239,7 @@ const vehicleAuthenticity =
 
 assertEqual(
   vehicleAuthenticity.expertFeeToman,
-  500_000,
+  2_000_000,
   "Group 5 land authenticity"
 );
 
@@ -254,7 +254,7 @@ const vehicleAccident =
 
 assertEqual(
   vehicleAccident.expertFeeToman,
-  600_000,
+  2_000_000,
   "Group 5 land accident"
 );
 
@@ -269,7 +269,7 @@ const vehicleTonnage =
 
 assertEqual(
   vehicleTonnage.expertFeeToman,
-  600_000,
+  2_000_000,
   "Group 5 tonnage/model"
 );
 
@@ -284,7 +284,7 @@ const inlandCollision =
 
 assertEqual(
   inlandCollision.expertFeeToman,
-  1_000_000,
+  2_000_000,
   "Group 5 inland collision"
 );
 
@@ -299,7 +299,7 @@ const seaCollisionUnder500 =
 
 assertEqual(
   seaCollisionUnder500.expertFeeToman,
-  2_000_000,
+  3_500_000,
   "Group 5 sea collision under 500 GT"
 );
 
@@ -314,7 +314,7 @@ const seaCollision500Plus =
 
 assertEqual(
   seaCollision500Plus.expertFeeToman,
-  4_000_000,
+  7_000_000,
   "Group 5 sea collision 500 GT or more"
 );
 
@@ -362,8 +362,8 @@ const transportClaim =
 
 assertEqual(
   vehicleLandValuation.expertFeeToman,
-  article11Fee,
-  "Group 5 land valuation must equal Article 11"
+  Math.min(article11Fee, 7_000_000),
+  "Group 5 land valuation must respect the Article 31 per-vehicle maximum"
 );
 
 
@@ -468,7 +468,7 @@ if (
 
 assertEqual(
   roadArticle34Minimum.expertFeeToman,
-  800_000,
+  2_000_000,
   "Group 6 Article 34 minimum regression"
 );
 
@@ -505,7 +505,7 @@ if (
 
 assertEqual(
   roadArticle34Normal.expertFeeToman,
-  2_000_000,
+  3_000_000,
   "Group 6 Article 34 normal regression"
 );
 
@@ -900,9 +900,6 @@ const article11CrossGroupFees = [
 
   article11Fee,
 
-  vehicleLandValuation
-    .expertFeeToman,
-
   vehicleMarineValuation
     .expertFeeToman,
 
@@ -971,7 +968,7 @@ const agriculture51At1000 =
 
 assertEqual(
   agriculture51At1000.expertFeeToman,
-  800_000,
+  2_000_000,
   "Group 9 Article 51 at 1000 sqm"
 );
 
@@ -998,7 +995,7 @@ const agriculture51At1001 =
 
 assertEqual(
   agriculture51At1001.expertFeeToman,
-  880_000,
+  2_200_000,
   "Group 9 Article 51 at 1001 sqm"
 );
 
@@ -1025,7 +1022,7 @@ const agriculture51At10000 =
 
 assertEqual(
   agriculture51At10000.expertFeeToman,
-  1_520_000,
+  3_800_000,
   "Group 9 Article 51 at one hectare"
 );
 
@@ -1052,7 +1049,7 @@ const agriculture51At10001 =
 
 assertEqual(
   agriculture51At10001.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Group 9 Article 51 first block above one hectare"
 );
 
@@ -1771,16 +1768,16 @@ assertEqual(
 
 
 assertEqual(
-  industryEvaluation.expertFeeToman,
   vehicleLandValuation.expertFeeToman,
-  "Group 5 and Group 7 Article 11 consistency"
+  Math.min(article11Fee, 7_000_000),
+  "Group 5 land valuation must apply the Article 31 per-vehicle maximum"
 );
 
 
 assertEqual(
-  vehicleLandValuation.expertFeeToman,
+  vehicleMarineValuation.expertFeeToman,
   roadArticle33.expertFeeToman,
-  "Group 5 and Group 6 Article 11 consistency"
+  "Article 32 and Group 6 Article 11 consistency"
 );
 
 

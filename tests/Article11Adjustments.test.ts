@@ -27,7 +27,7 @@ const contractFull =
 
 assertEqual(
   contractFull.finalFee,
-  200_000_000,
+  135_000_000,
   "Contract full +100%"
 );
 
@@ -40,24 +40,11 @@ const contractPartial =
 
 assertEqual(
   contractPartial.finalFee,
-  150_000_000,
+  135_000_000,
   "Contract partial +50%"
 );
 
-// تبصره 4 - خسارت: +50%
-const damage =
-  applyArticle11Adjustments(
-    baseFee,
-    ["DAMAGE"]
-  );
-
-assertEqual(
-  damage.finalFee,
-  150_000_000,
-  "Damage +50%"
-);
-
-// تبصره 6 - چند کارشناس هم‌رشته: -30%
+// ماده ۵۶ - چند کارشناس هم‌رشته: -30%
 const multiExpert =
   applyArticle11Adjustments(
     baseFee,
@@ -70,7 +57,7 @@ assertEqual(
   "Same-field experts -30%"
 );
 
-// تبصره 7 - دارایی نامشهود: +50%
+// تبصره ۴ - دارایی نامشهود: +50%
 const intangible =
   applyArticle11Adjustments(
     baseFee,
@@ -79,7 +66,7 @@ const intangible =
 
 assertEqual(
   intangible.finalFee,
-  150_000_000,
+  135_000_000,
   "Intangible asset +50%"
 );
 

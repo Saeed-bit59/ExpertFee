@@ -14,6 +14,10 @@ import {
   ARTICLE_38
 } from "./RoadBuildingRules";
 
+import {
+  ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+} from "../config/Tariff1405";
+
 import type {
   Article36ServiceType
 } from "./RoadBuildingRules";
@@ -396,6 +400,26 @@ function getArticle36Rule(
             .structuralSafetyReport
       };
 
+    case "OTHER_DISCIPLINE_STRUCTURAL_SAFETY_REPORT":
+      return {
+        title:
+          "گزارش استحکام بنا برای سایر رشته‌ها",
+        rule: {
+          ratePerSquareMeterToman:
+            ARTICLE_36.structuralSafetyReport.ratePerSquareMeterToman *
+            ARTICLE_36.otherDisciplineStructuralSafetyReportPercent /
+            100,
+          minimumFeeToman:
+            ARTICLE_36.structuralSafetyReport.minimumFeeToman *
+            ARTICLE_36.otherDisciplineStructuralSafetyReportPercent /
+            100,
+          maximumFeeToman:
+            ARTICLE_36.structuralSafetyReport.maximumFeeToman *
+            ARTICLE_36.otherDisciplineStructuralSafetyReportPercent /
+            100
+        }
+      };
+
     default: {
       const exhaustiveCheck:
         never = serviceType;
@@ -476,7 +500,7 @@ export interface Article37Input
    * تعداد طبقات یا بلوک‌های مشابه مازاد
    * پس از مورد اول.
    *
-   * برای هر مورد مشابه، 10 درصد دستمزد
+   * برای هر مورد مشابه، 20 درصد دستمزد
    * اصلی افراز اضافه می‌شود.
    */
   similarAdditionalUnits?: number;
@@ -528,7 +552,7 @@ export function calculateArticle37(
   /*
    * تبصره ماده 37:
    * برای موارد مشابه بعد از مورد اول،
-   * 10 درصد دستمزد مربوط.
+   * 20 درصد دستمزد مربوط.
    *
    * این مبلغ به دستمزد اصلی اضافه می‌شود.
    *
@@ -563,7 +587,7 @@ export function calculateArticle37(
         combinedBeforeCap,
 
       maximumFeeToman:
-        118_000_000,
+        ARTICLE_11_GENERAL_MAXIMUM_TOMAN,
 
       missionType:
         input.missionType,
@@ -614,18 +638,18 @@ export function calculateArticle37(
  * قاعده مورد تأیید پروژه:
  *
  * تا 1000 مترمربع:
- * 600,000 تومان
+ * 2,000,000 تومان
  *
  * هر بلوک 1000 مترمربع مازاد یا کسری از آن:
- * +200,000 تومان
+ * +300,000 تومان
  *
  * مثال:
  *
- * 1000  => 600,000
- * 1001  => 800,000
- * 1500  => 800,000
- * 2000  => 800,000
- * 2001  => 1,000,000
+ * 1000  => 2,000,000
+ * 1001  => 2,300,000
+ * 1500  => 2,300,000
+ * 2000  => 2,300,000
+ * 2001  => 2,600,000
  */
 
 export interface Article38Input
@@ -673,6 +697,11 @@ export function calculateArticle38(
       ARTICLE_38
         .additionalBlockFeeToman;
   }
+
+  expertFee = Math.min(
+    expertFee,
+    ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+  );
 
 
   return finalizeFixedFee(

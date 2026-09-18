@@ -92,14 +92,14 @@ export default function Article13CalculatorPanel() {
 
   return (
     <main
-      className="ef-page"
+      className="ef-page ef-standard-calculator-page"
       dir="rtl"
       data-testid="article13-calculator"
     >
       <PageHeader
         eyebrow="ماده ۱۳"
         title="محاسبه دستمزد تعیین اجاره‌بها"
-        subtitle="تعرفه دستمزد کارشناسان رسمی"
+        subtitle="تعرفه ۱۴۰۵ کارشناسان رسمی"
       />
 
       <div className="ef-form-shell">

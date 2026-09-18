@@ -91,7 +91,9 @@ const aboveFive =
   calculateArticle11Engine({
 
     evaluationValueToman:
-      5_000_000_000_001
+      5_000_000_000_001,
+
+    useArticle11Note1: true
   });
 
 
@@ -112,7 +114,9 @@ const excelReference =
   calculateArticle11Engine({
 
     evaluationValueToman:
-      40_131_293_000_000
+      40_131_293_000_000,
+
+    useArticle11Note1: true
   });
 
 
@@ -135,6 +139,8 @@ const with50 =
 
     evaluationValueToman:
       40_131_293_000_000,
+
+    useArticle11Note1: true,
 
     applyFiftyPercentIncrease:
       true
@@ -180,6 +186,8 @@ const capped =
     evaluationValueToman:
       100_000_000_000_000,
 
+    useArticle11Note1: true,
+
     applyFiftyPercentIncrease:
       true
   });
@@ -205,6 +213,8 @@ const note1Panel =
 
     evaluationValueToman:
       40_131_293_000_000,
+
+    useArticle11Note1: true,
 
     expertCount:
       3,
@@ -381,7 +391,7 @@ near(
   panel880B
     .feeBeforeAdjustmentToman,
 
-  171_787_500,
+  202_225_000,
 
   1,
 
@@ -393,7 +403,7 @@ near(
   panel880B
     .feeAfterAdjustmentToman,
 
-  120_251_250,
+  141_557_500,
 
   1,
 
@@ -404,18 +414,18 @@ near(
 assert(
   panel880B
     .feePerExpertToman ===
-    118_000_000,
+    135_000_000,
 
-  "880B final fee per expert equals 118 million"
+  "880B final fee per expert equals 135 million"
 );
 
 
 assert(
   panel880B
     .totalFeeToman ===
-    354_000_000,
+    405_000_000,
 
-  "880B total panel fee equals 354 million"
+  "880B total panel fee equals 405 million"
 );
 
 

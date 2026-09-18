@@ -19,6 +19,10 @@ import type {
   MissionType
 } from "./MissionCalculator";
 
+import {
+  ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+} from "../config/Tariff1405";
+
 
 /*
  * ========================================
@@ -118,6 +122,10 @@ export interface Article45CalculationResult {
    */
   additionalFeeToman:
     number;
+
+  /* سقف عمومی ماده 11 پس از اعمال تبصره نیز کنترل می‌شود. */
+  cappedByArticle11Maximum:
+    boolean;
 
   /*
    * دستمزد کارشناسی نهایی
@@ -307,9 +315,19 @@ export function calculateArticle45(
    * خواهد شد.
    */
 
-  const calculatedExpertFeeToman =
+  const expertFeeBeforeArticle11MaximumToman =
     article11FeeToman +
     additionalFeeToman;
+
+  const cappedByArticle11Maximum =
+    expertFeeBeforeArticle11MaximumToman >
+    ARTICLE_11_GENERAL_MAXIMUM_TOMAN;
+
+  const calculatedExpertFeeToman =
+    Math.min(
+      expertFeeBeforeArticle11MaximumToman,
+      ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+    );
 
 
   const finalResult =
@@ -352,6 +370,8 @@ export function calculateArticle45(
       rule.additionalPercent,
 
     additionalFeeToman,
+
+    cappedByArticle11Maximum,
 
     expertFeeToman:
       finalResult

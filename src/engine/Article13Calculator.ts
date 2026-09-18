@@ -2,65 +2,25 @@
  * ==========================================
  * ماده 13
  * محاسبه دستمزد تعیین اجاره‌بها
- * تعرفه اصلاحی 1402
+ * تعرفه جاری 1405
  * ==========================================
  *
  * تمام مبالغ داخلی این ماژول به تومان هستند.
  */
 
+import { TARIFF_1405 } from "../config/Tariff1405";
 
-/*
- * ==========================================
- * ثابت‌های تعرفه
- * ==========================================
- */
+const ARTICLE13_TARIFF = TARIFF_1405.article13;
 
-export const ARTICLE13_LIMIT_1_TOMAN =
-  1_500_000;
-
-export const ARTICLE13_LIMIT_2_TOMAN =
-  5_000_000;
-
-export const ARTICLE13_LIMIT_3_TOMAN =
-  10_000_000;
-
-
-/*
- * دستمزد مقطوع مرحله اول
- *
- * 6,000,000 ریال
- * =
- * 600,000 تومان
- */
-
-export const ARTICLE13_BASE_FEE_TOMAN =
-  600_000;
-
-
-/*
- * درصدهای مراحل بعد
- */
-
-export const ARTICLE13_RATE_2 =
-  0.20;
-
-export const ARTICLE13_RATE_3 =
-  0.10;
-
-export const ARTICLE13_RATE_4 =
-  0.04;
-
-
-/*
- * سقف دستمزد
- *
- * 600,000,000 ریال
- * =
- * 60,000,000 تومان
- */
-
-export const ARTICLE13_MAXIMUM_FEE_TOMAN =
-  60_000_000;
+/* Compatibility exports for callers that use the previous API. */
+export const ARTICLE13_LIMIT_1_TOMAN = ARTICLE13_TARIFF.fixedLimitToman;
+export const ARTICLE13_LIMIT_2_TOMAN = ARTICLE13_TARIFF.secondLimitToman;
+export const ARTICLE13_LIMIT_3_TOMAN = ARTICLE13_TARIFF.thirdLimitToman;
+export const ARTICLE13_BASE_FEE_TOMAN = ARTICLE13_TARIFF.fixedFeeToman;
+export const ARTICLE13_RATE_2 = ARTICLE13_TARIFF.secondRate;
+export const ARTICLE13_RATE_3 = ARTICLE13_TARIFF.thirdRate;
+export const ARTICLE13_RATE_4 = ARTICLE13_TARIFF.fourthRate;
+export const ARTICLE13_MAXIMUM_FEE_TOMAN = ARTICLE13_TARIFF.maximumFeeToman;
 
 
 /*
@@ -149,8 +109,8 @@ export function calculateArticle13(
    * ========================================
    * مرحله اول
    *
-   * تا 1,500,000 تومان
-   * دستمزد مقطوع 600,000 تومان
+   * تا 10,000,000 تومان
+   * دستمزد مقطوع 2,000,000 تومان
    * ========================================
    */
 
@@ -169,10 +129,10 @@ export function calculateArticle13(
    * ========================================
    * مرحله دوم
    *
-   * مازاد 1,500,000
-   * تا 5,000,000 تومان
+   * مازاد 10,000,000
+   * تا 50,000,000 تومان
    *
-   * 20 درصد
+   * 25 درصد
    * ========================================
    */
 
@@ -197,10 +157,10 @@ export function calculateArticle13(
    * ========================================
    * مرحله سوم
    *
-   * مازاد 5,000,000
-   * تا 10,000,000 تومان
+   * مازاد 50,000,000
+   * تا 100,000,000 تومان
    *
-   * 10 درصد
+   * 15 درصد
    * ========================================
    */
 
@@ -235,9 +195,9 @@ export function calculateArticle13(
    * ========================================
    * مرحله چهارم
    *
-   * مازاد بر 10,000,000 تومان
+   * مازاد بر 100,000,000 تومان
    *
-   * 4 درصد
+   * 6 درصد
    * ========================================
    */
 
@@ -312,7 +272,7 @@ export function calculateArticle13(
       ARTICLE13_MAXIMUM_FEE_TOMAN,
 
     calculationLabel:
-      "محاسبه دستمزد تعیین اجاره‌بها مطابق ماده 13 تعرفه"
+      "محاسبه دستمزد تعیین اجاره‌بها مطابق ماده 13 تعرفه 1405"
 
   };
 }

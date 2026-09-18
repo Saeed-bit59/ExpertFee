@@ -58,6 +58,11 @@ export interface Article11MultiFieldInput {
    * گروه‌های کارشناسی
    */
   fields: MultiFieldGroupInput[];
+
+  /*
+   * تبصره یک فقط باید از مسیر مستقل خودش فعال شود.
+   */
+  useArticle11Note1?: boolean;
 }
 
 
@@ -202,7 +207,8 @@ function validateField(
  * محاسبه یک رشته
  */
 function calculateFieldGroup(
-  field: MultiFieldGroupInput
+  field: MultiFieldGroupInput,
+  useArticle11Note1: boolean
 ): MultiFieldGroupResult {
 
   const {
@@ -222,6 +228,7 @@ function calculateFieldGroup(
    */
 
   if (
+    useArticle11Note1 &&
     isArticle11Note1Applicable(
       evaluationShareToman
     )
@@ -313,7 +320,7 @@ function calculateFieldGroup(
 
 
   /*
-   * برای اجرای صحیح تبصره 6
+   * برای اجرای صحیح ماده ۵۶
    * باید دستمزد خام قبل از سقف
    * استفاده شود.
    */
@@ -401,7 +408,7 @@ function calculateFieldGroup(
       panel
         .thirtyPercentReductionApplied
 
-        ? "محاسبه دستمزد براساس سهم رشته با اعمال تبصره ۶ ماده ۱۱"
+        ? "محاسبه دستمزد براساس سهم رشته با اعمال ماده ۵۶"
 
         : "محاسبه دستمزد براساس سهم رشته طبق ماده ۱۱",
 
@@ -423,7 +430,8 @@ export function calculateArticle11MultiField(
 
   const {
     totalEvaluationValueToman,
-    fields
+    fields,
+    useArticle11Note1 = false
   } = input;
 
 
@@ -551,7 +559,8 @@ export function calculateArticle11MultiField(
     fields.map(
       field =>
         calculateFieldGroup(
-          field
+          field,
+          useArticle11Note1
         )
     );
 

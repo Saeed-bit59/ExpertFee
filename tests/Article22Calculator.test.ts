@@ -232,14 +232,14 @@ function testThrows(
   const result =
     calculateArticle22Metal({
       article11FeeToman:
-        5_000_000
+        135_000_000
     });
 
 
   testNumber(
     "Metal - Exact Maximum",
     result.finalFeeToman,
-    5_000_000
+    135_000_000
   );
 
 
@@ -268,14 +268,14 @@ function testThrows(
   testNumber(
     "Metal - Above Maximum",
     result.finalFeeToman,
-    5_000_000
+    8_000_000
   );
 
 
   testBoolean(
     "Metal - Maximum Applied",
     result.maximumApplied,
-    true
+    false
   );
 
 }
@@ -364,7 +364,7 @@ function testThrows(
     calculateArticle22Mining({
 
       article11FeeToman:
-        118_000_000,
+        135_000_000,
 
       operationType:
         "SURFACE"
@@ -375,7 +375,7 @@ function testThrows(
   testNumber(
     "Mining Surface - Exact Maximum",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 
@@ -411,7 +411,7 @@ function testThrows(
   testNumber(
     "Mining Surface - Maximum Protection",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 
@@ -558,14 +558,14 @@ function testThrows(
   testNumber(
     "Mining Underground - Maximum Applied",
     result.finalFeeToman,
-    118_000_000
+    121_500_000
   );
 
 
   testBoolean(
     "Mining Underground - Maximum Flag",
     result.maximumApplied,
-    true
+    false
   );
 
 }
@@ -590,7 +590,7 @@ function testThrows(
     calculateArticle22Mining({
 
       article11FeeToman:
-        118_000_000,
+        135_000_000,
 
       operationType:
         "UNDERGROUND"
@@ -601,21 +601,21 @@ function testThrows(
   testNumber(
     "Mining Underground - Maximum Article11 Increase",
     result.undergroundIncreaseFeeToman,
-    41_300_000
+    47_250_000
   );
 
 
   testNumber(
     "Mining Underground - Maximum Article11 Raw Total",
     result.feeBeforeMaximumToman,
-    159_300_000
+    182_250_000
   );
 
 
   testNumber(
     "Mining Underground - Final Protected Maximum",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 

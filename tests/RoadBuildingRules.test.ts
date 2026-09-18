@@ -73,19 +73,19 @@ assertEqual(
 
 assertEqual(
   ARTICLE_34.ratePerSquareMeterToman,
-  2_000,
+  3_000,
   "Article 34 rate"
 );
 
 assertEqual(
   ARTICLE_34.minimumFeeToman,
-  800_000,
+  2_000_000,
   "Article 34 minimum"
 );
 
 assertEqual(
   ARTICLE_34.maximumFeeToman,
-  8_000_000,
+  10_000_000,
   "Article 34 maximum"
 );
 
@@ -98,19 +98,19 @@ assertEqual(
 
 assertEqual(
   ARTICLE_35.ratePerSquareMeterToman,
-  2_000,
+  3_000,
   "Article 35 rate"
 );
 
 assertEqual(
   ARTICLE_35.minimumFeeToman,
-  800_000,
+  2_000_000,
   "Article 35 minimum"
 );
 
 assertEqual(
   ARTICLE_35.maximumFeeToman,
-  8_000_000,
+  10_000_000,
   "Article 35 maximum"
 );
 
@@ -123,37 +123,37 @@ assertEqual(
 
 assertEqual(
   ARTICLE_36.architecture.ratePerSquareMeterToman,
-  1_600,
+  2_500,
   "Article 36 architecture rate"
 );
 
 assertEqual(
   ARTICLE_36.architecture.maximumFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 36 architecture maximum"
 );
 
 assertEqual(
   ARTICLE_36.structure.ratePerSquareMeterToman,
-  2_000,
+  3_000,
   "Article 36 structure rate"
 );
 
 assertEqual(
   ARTICLE_36.structure.maximumFeeToman,
-  16_000_000,
+  20_000_000,
   "Article 36 structure maximum"
 );
 
 assertEqual(
   ARTICLE_36.structuralSafetyReport.ratePerSquareMeterToman,
-  1_600,
+  2_500,
   "Article 36 structural safety rate"
 );
 
 assertEqual(
   ARTICLE_36.structuralSafetyReport.maximumFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 36 structural safety maximum"
 );
 
@@ -172,7 +172,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_37.similarAdditionalUnitPercent,
-  10,
+  20,
   "Article 37 similar unit percentage"
 );
 
@@ -191,13 +191,13 @@ assertEqual(
 
 assertEqual(
   ARTICLE_38.baseFeeToman,
-  600_000,
+  2_000_000,
   "Article 38 base fee"
 );
 
 assertEqual(
   ARTICLE_38.additionalBlockFeeToman,
-  200_000,
+  300_000,
   "Article 38 additional block fee"
 );
 
@@ -216,32 +216,38 @@ assertEqual(
 
 assertEqual(
   ARTICLE_39.knownBoundary.baseFeeToman,
-  800_000,
+  2_000_000,
   "Article 39 known boundary base fee"
 );
 
 assertEqual(
   ARTICLE_39.knownBoundary.maximumFeeToman,
-  16_000_000,
+  20_000_000,
   "Article 39 known boundary maximum"
 );
 
 assertEqual(
   ARTICLE_39.unknownBoundary.baseFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 39 unknown boundary base fee"
 );
 
 assertEqual(
   ARTICLE_39.unknownBoundary.maximumFeeToman,
-  20_000_000,
+  25_000_000,
   "Article 39 unknown boundary maximum"
 );
 
 assertEqual(
-  ARTICLE_39.geographicPointAdditionalFeeToman,
-  100_000,
-  "Article 39 geographic point fee"
+  ARTICLE_39.multiFrequencyGpsFeeToman,
+  350_000,
+  "Article 39 multi-frequency GPS fee"
+);
+
+assertEqual(
+  ARTICLE_39.singleFrequencyGpsFeeToman,
+  200_000,
+  "Article 39 single-frequency GPS fee"
 );
 
 
@@ -265,7 +271,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_40.maximumFeeToman,
-  20_000_000,
+  25_000_000,
   "Article 40 maximum"
 );
 
@@ -278,7 +284,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_41.minimumFeeToman,
-  600_000,
+  2_000_000,
   "Article 41 minimum"
 );
 
@@ -296,32 +302,26 @@ assertEqual(
 
 assertEqual(
   ARTICLE_41.rateFromBaseToFirstThresholdTomanPerSquareMeter,
-  300,
+  400,
   "Article 41 first rate"
 );
 
 assertEqual(
   ARTICLE_41.rateFromFirstToSecondThresholdTomanPerSquareMeter,
-  160,
+  200,
   "Article 41 second rate"
 );
 
 assertEqual(
   ARTICLE_41.rateAboveSecondThresholdTomanPerSquareMeter,
-  80,
+  100,
   "Article 41 third rate"
 );
 
 assertEqual(
   ARTICLE_41.maximumFeeToman,
-  12_000_000,
+  15_000_000,
   "Article 41 maximum"
-);
-
-assertEqual(
-  ARTICLE_41.outsideBoundaryMaximumIncreasePercent,
-  20,
-  "Article 41 outside-boundary increase"
 );
 
 
@@ -333,7 +333,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_42.minimumFeeToman,
-  1_000_000,
+  2_000_000,
   "Article 42 minimum"
 );
 
@@ -364,7 +364,7 @@ assertEqual(
 
 assertEqual(
   ARTICLE_43.baseFeeToman,
-  800_000,
+  2_000_000,
   "Article 43 base fee"
 );
 
@@ -376,13 +376,13 @@ assertEqual(
 
 assertEqual(
   ARTICLE_43.maximumFeeToman,
-  4_000_000,
+  6_000_000,
   "Article 43 maximum"
 );
 
 assertEqual(
   ARTICLE_43.aerialMapAdditionalFeeToman,
-  1_000_000,
+  2_000_000,
   "Article 43 aerial map supplement"
 );
 
@@ -395,19 +395,19 @@ assertEqual(
 
 assertEqual(
   ARTICLE_44.subdivisionPlan.baseFeeToman,
-  3_000_000,
+  4_000_000,
   "Article 44 subdivision base"
 );
 
 assertEqual(
   ARTICLE_44.subdivisionPlan.additionalFeeFrom3To10TomanPerItem,
-  400_000,
+  600_000,
   "Article 44 subdivision 3-10 rate"
 );
 
 assertEqual(
   ARTICLE_44.subdivisionPlan.additionalFeeAbove10TomanPerItem,
-  120_000,
+  180_000,
   "Article 44 subdivision above 10 rate"
 );
 
@@ -420,19 +420,19 @@ assertEqual(
 
 assertEqual(
   ARTICLE_44.landUseCompliance.baseFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 44 land-use base"
 );
 
 assertEqual(
   ARTICLE_44.landUseCompliance.additionalFeeFrom3To10TomanPerItem,
-  300_000,
+  450_000,
   "Article 44 land-use 3-10 rate"
 );
 
 assertEqual(
   ARTICLE_44.landUseCompliance.additionalFeeAbove10TomanPerItem,
-  120_000,
+  180_000,
   "Article 44 land-use above 10 rate"
 );
 
@@ -445,19 +445,19 @@ assertEqual(
 
 assertEqual(
   ARTICLE_44.buildingUrbanCompliance.baseFeeToman,
-  2_000_000,
+  3_000_000,
   "Article 44 building base"
 );
 
 assertEqual(
   ARTICLE_44.buildingUrbanCompliance.additionalFeeFrom3To10TomanPerItem,
-  300_000,
+  450_000,
   "Article 44 building 3-10 rate"
 );
 
 assertEqual(
   ARTICLE_44.buildingUrbanCompliance.additionalFeeAbove10TomanPerItem,
-  120_000,
+  180_000,
   "Article 44 building above 10 rate"
 );
 

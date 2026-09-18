@@ -100,7 +100,7 @@ function expectEqual<T>(
   expectEqual(
     "Article25 ceiling",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
   expectEqual(
@@ -319,7 +319,7 @@ function expectEqual<T>(
   expectEqual(
     "Maximum protection",
     result.finalFeeToman,
-    118_000_000
+    135_000_000
   );
 
 }

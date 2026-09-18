@@ -1,8 +1,26 @@
 {
   "name": "ExpertFee AI",
   "short_name": "ExpertFee",
+  "description": "محاسبه حق‌الزحمه کارشناسان رسمی بر مبنای تعرفه ۱۴۰۵",
+  "lang": "fa",
+  "dir": "rtl",
   "display": "standalone",
   "start_url": "/",
-  "background_color": "#ffffff",
-  "theme_color": "#0f172a"
+  "scope": "/",
+  "background_color": "#f4f8fc",
+  "theme_color": "#0d47a1",
+  "icons": [
+    {
+      "src": "/expertfee-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/expertfee-logo.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
 }

@@ -55,7 +55,7 @@ const ARTICLE_LABELS: Record<
 > = {
   48: "ماده ۴۸ — ارزیابی عمومی",
   49: "ماده ۴۹ — حقوق و بهبود اراضی کشاورزی",
-  51: "ماده ۵۱ — تشخیص اراضی و منابع ملی",
+  51: "ماده ۵۱ — تشخیص اراضی ملی و مستثنیات",
   52: "ماده ۵۲ — افراز املاک کشاورزی (+۲۰٪)",
   53: "ماده ۵۳ — ارزیابی تجهیزات، مواد و محصولات"
 };
@@ -292,7 +292,7 @@ export default function AgricultureNaturalResourcesPage({
 
   return (
     <main
-      className="ef-page"
+      className="ef-page ef-specialist-page"
       dir="rtl"
       data-testid="agriculture-natural-resources-page"
     >
@@ -494,6 +494,19 @@ export default function AgricultureNaturalResourcesPage({
                                 `${result.additionalPercent.toLocaleString(
                                   "fa-IR"
                                 )}٪`
+                            }
+                          ]
+                        : []
+                    ),
+                    ...(
+                      "maximumApplied" in result &&
+                      result.maximumApplied
+                        ? [
+                            {
+                              label:
+                                "سقف عمومی تعرفه",
+                              value:
+                                "۱۳۵٬۰۰۰٬۰۰۰ تومان اعمال شد"
                             }
                           ]
                         : []

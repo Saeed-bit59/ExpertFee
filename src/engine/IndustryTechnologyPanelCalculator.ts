@@ -10,6 +10,10 @@ import {
   getArticle45Rule
 } from "./IndustryTechnologyRules";
 
+import {
+  ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+} from "../config/Tariff1405";
+
 import type {
   IndustryTechnologyServiceType
 } from "./IndustryTechnologyRules";
@@ -26,6 +30,7 @@ export interface IndustryTechnologyPanelResult {
   additionalPercent: number;
   additionalFeePerExpertToman: number;
   feePerExpertToman: number;
+  cappedByArticle11Maximum: boolean;
   expertCount: number;
   totalPanelFeeToman: number;
   panelFieldMode: PanelFieldMode;
@@ -92,9 +97,19 @@ export function calculateIndustryTechnologyPanel(
         100
     );
 
-  const feePerExpertToman =
+  const feePerExpertBeforeArticle11MaximumToman =
     article11FeePerExpertToman +
     additionalFeePerExpertToman;
+
+  const cappedByArticle11Maximum =
+    feePerExpertBeforeArticle11MaximumToman >
+    ARTICLE_11_GENERAL_MAXIMUM_TOMAN;
+
+  const feePerExpertToman =
+    Math.min(
+      feePerExpertBeforeArticle11MaximumToman,
+      ARTICLE_11_GENERAL_MAXIMUM_TOMAN
+    );
 
   const totalPanelFeeToman =
     feePerExpertToman *
@@ -106,6 +121,7 @@ export function calculateIndustryTechnologyPanel(
       rule.additionalPercent,
     additionalFeePerExpertToman,
     feePerExpertToman,
+    cappedByArticle11Maximum,
     expertCount,
     totalPanelFeeToman,
     panelFieldMode,

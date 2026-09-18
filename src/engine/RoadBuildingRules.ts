@@ -6,7 +6,7 @@
  * ========================================
  *
  * منبع:
- * تعرفه دستمزد کارشناسان رسمی - اصلاحی 20/08/1402
+ * تعرفه دستمزد کارشناسان رسمی - 1405
  *
  * واحد تمام مبالغ این فایل: تومان
  *
@@ -39,16 +39,16 @@ export const ARTICLE_33 = {
  * تطبیق نقشه معماری یا سازه
  * ========================================
  *
- * 20,000 ریال / مترمربع
- * حداقل 8,000,000 ریال
- * حداکثر 80,000,000 ریال
+ * 30,000 ریال / مترمربع
+ * حداقل 20,000,000 ریال
+ * حداکثر 100,000,000 ریال
  */
 
 export const ARTICLE_34 = {
   article: 34,
-  ratePerSquareMeterToman: 2_000,
-  minimumFeeToman: 800_000,
-  maximumFeeToman: 8_000_000
+  ratePerSquareMeterToman: 3_000,
+  minimumFeeToman: 2_000_000,
+  maximumFeeToman: 10_000_000
 };
 
 
@@ -61,9 +61,9 @@ export const ARTICLE_34 = {
 
 export const ARTICLE_35 = {
   article: 35,
-  ratePerSquareMeterToman: 2_000,
-  minimumFeeToman: 800_000,
-  maximumFeeToman: 8_000_000
+  ratePerSquareMeterToman: 3_000,
+  minimumFeeToman: 2_000_000,
+  maximumFeeToman: 10_000_000
 };
 
 
@@ -78,22 +78,24 @@ export const ARTICLE_36 = {
   article: 36,
 
   architecture: {
-    ratePerSquareMeterToman: 1_600,
-    minimumFeeToman: 800_000,
-    maximumFeeToman: 12_000_000
+    ratePerSquareMeterToman: 2_500,
+    minimumFeeToman: 2_000_000,
+    maximumFeeToman: 15_000_000
   },
 
   structure: {
-    ratePerSquareMeterToman: 2_000,
-    minimumFeeToman: 800_000,
-    maximumFeeToman: 16_000_000
+    ratePerSquareMeterToman: 3_000,
+    minimumFeeToman: 2_000_000,
+    maximumFeeToman: 20_000_000
   },
 
   structuralSafetyReport: {
-    ratePerSquareMeterToman: 1_600,
-    minimumFeeToman: 800_000,
-    maximumFeeToman: 12_000_000
-  }
+    ratePerSquareMeterToman: 2_500,
+    minimumFeeToman: 2_000_000,
+    maximumFeeToman: 15_000_000
+  },
+
+  otherDisciplineStructuralSafetyReportPercent: 50
 };
 
 
@@ -112,7 +114,7 @@ export const ARTICLE_36 = {
  *
  * تبصره:
  * برای طبقات/بلوک‌های مشابه بعد از مورد اول،
- * فقط 10 درصد دستمزد مربوط پرداخت می‌شود.
+ * فقط 20 درصد دستمزد مربوط پرداخت می‌شود.
  */
 
 export const ARTICLE_37 = {
@@ -122,7 +124,7 @@ export const ARTICLE_37 = {
     20,
 
   similarAdditionalUnitPercent:
-    10
+    20
 };
 
 
@@ -132,8 +134,8 @@ export const ARTICLE_37 = {
  * تشخیص زمین مسبوق به احیا
  * ========================================
  *
- * تا 1000 مترمربع: 6,000,000 ریال
- * هر 1000 مترمربع مازاد: 2,000,000 ریال
+ * تا 1000 مترمربع: 20,000,000 ریال
+ * هر 1000 مترمربع مازاد: 3,000,000 ریال
  *
  * متن تعرفه برای این ماده سقف مستقلی
  * تعیین نکرده است.
@@ -146,13 +148,13 @@ export const ARTICLE_38 = {
     1_000,
 
   baseFeeToman:
-    600_000,
+    2_000_000,
 
   additionalAreaBlockSquareMeters:
     1_000,
 
   additionalBlockFeeToman:
-    200_000
+    300_000
 };
 
 
@@ -176,34 +178,35 @@ export const ARTICLE_39 = {
 
   knownBoundary: {
     baseFeeToman:
-      800_000,
-
-    rateAfterBaseToSecondThresholdTomanPerSquareMeter:
-      80,
-
-    rateAboveSecondThresholdTomanPerSquareMeter:
-      40,
-
-    maximumFeeToman:
-      16_000_000
-  },
-
-  unknownBoundary: {
-    baseFeeToman:
       2_000_000,
 
     rateAfterBaseToSecondThresholdTomanPerSquareMeter:
-      80,
+      120,
 
     rateAboveSecondThresholdTomanPerSquareMeter:
-      40,
+      80,
 
     maximumFeeToman:
       20_000_000
   },
 
-  geographicPointAdditionalFeeToman:
-    100_000
+  unknownBoundary: {
+    baseFeeToman:
+      3_000_000,
+
+    rateAfterBaseToSecondThresholdTomanPerSquareMeter:
+      120,
+
+    rateAboveSecondThresholdTomanPerSquareMeter:
+      80,
+
+    maximumFeeToman:
+      25_000_000
+  },
+
+  multiFrequencyGpsFeeToman: 350_000,
+  singleFrequencyGpsFeeToman: 200_000,
+  maximumPayableGeographicPointCount: 50
 };
 
 
@@ -227,7 +230,7 @@ export const ARTICLE_40 = {
     "UNKNOWN_BOUNDARY" as const,
 
   maximumFeeToman:
-    20_000_000
+    25_000_000
 };
 
 
@@ -237,14 +240,11 @@ export const ARTICLE_40 = {
  * مطالعه پرونده ثبتی و تعیین محل پلاک
  * ========================================
  *
- * تا 1000 مترمربع: حداقل 6,000,000 ریال
- * 1000 تا 5000: هر مترمربع 3000 ریال
- * 5000 تا 50000: هر مترمربع 1600 ریال
- * بالاتر از 50000: هر مترمربع 800 ریال
- * حداکثر 120,000,000 ریال
- *
- * تبصره 1:
- * پلاک خارج از محدوده تا 20 درصد افزایش
+ * تا 1000 مترمربع: 20,000,000 ریال
+ * 1000 تا 5000: هر مترمربع 4000 ریال
+ * 5000 تا 50000: هر مترمربع 2000 ریال
+ * بالاتر از 50000: هر مترمربع 1000 ریال
+ * حداکثر 150,000,000 ریال
  */
 
 export const ARTICLE_41 = {
@@ -260,22 +260,19 @@ export const ARTICLE_41 = {
     50_000,
 
   minimumFeeToman:
-    600_000,
+    2_000_000,
 
   rateFromBaseToFirstThresholdTomanPerSquareMeter:
-    300,
+    400,
 
   rateFromFirstToSecondThresholdTomanPerSquareMeter:
-    160,
+    200,
 
   rateAboveSecondThresholdTomanPerSquareMeter:
-    80,
+    100,
 
   maximumFeeToman:
-    12_000_000,
-
-  outsideBoundaryMaximumIncreasePercent:
-    20
+    15_000_000
 };
 
 
@@ -299,7 +296,7 @@ export const ARTICLE_42 = {
   article: 42,
 
   minimumFeeToman:
-    1_000_000,
+    2_000_000,
 
   automaticCalculationSupported:
     false,
@@ -315,13 +312,13 @@ export const ARTICLE_42 = {
  * تشخیص حدود ثبتی و اختلاف املاک
  * ========================================
  *
- * تا یک هکتار: حداقل 8,000,000 ریال
+ * تا یک هکتار: حداقل 20,000,000 ریال
  * هر هکتار مازاد: +20 درصد
- * حداکثر: 40,000,000 ریال
+ * حداکثر: 60,000,000 ریال
  *
  * تبصره:
  * جانمایی روی نقشه هوایی:
- * +10,000,000 ریال
+ * +20,000,000 ریال
  */
 
 export const ARTICLE_43 = {
@@ -331,7 +328,7 @@ export const ARTICLE_43 = {
     10_000,
 
   baseFeeToman:
-    800_000,
+    2_000_000,
 
   additionalAreaBlockSquareMeters:
     10_000,
@@ -340,10 +337,10 @@ export const ARTICLE_43 = {
     20,
 
   maximumFeeToman:
-    4_000_000,
+    6_000_000,
 
   aerialMapAdditionalFeeToman:
-    1_000_000
+    2_000_000
 };
 
 
@@ -366,16 +363,16 @@ export const ARTICLE_44 = {
       2,
 
     baseFeeToman:
-      3_000_000,
+      4_000_000,
 
     middleMaximumCount:
       10,
 
     additionalFeeFrom3To10TomanPerItem:
-      400_000,
+      600_000,
 
     additionalFeeAbove10TomanPerItem:
-      120_000
+      180_000
   },
 
   /*
@@ -387,16 +384,16 @@ export const ARTICLE_44 = {
       2,
 
     baseFeeToman:
-      2_000_000,
+      3_000_000,
 
     middleMaximumCount:
       10,
 
     additionalFeeFrom3To10TomanPerItem:
-      300_000,
+      450_000,
 
     additionalFeeAbove10TomanPerItem:
-      120_000
+      180_000
   },
 
   /*
@@ -408,16 +405,16 @@ export const ARTICLE_44 = {
       2,
 
     baseFeeToman:
-      2_000_000,
+      3_000_000,
 
     middleMaximumCount:
       10,
 
     additionalFeeFrom3To10TomanPerItem:
-      300_000,
+      450_000,
 
     additionalFeeAbove10TomanPerItem:
-      120_000
+      180_000
   }
 };
 
@@ -431,12 +428,17 @@ export const ARTICLE_44 = {
 export type Article36ServiceType =
   | "ARCHITECTURE"
   | "STRUCTURE"
-  | "STRUCTURAL_SAFETY_REPORT";
+  | "STRUCTURAL_SAFETY_REPORT"
+  | "OTHER_DISCIPLINE_STRUCTURAL_SAFETY_REPORT";
 
 
 export type Article39BoundaryMode =
   | "KNOWN_BOUNDARY"
   | "UNKNOWN_BOUNDARY";
+
+export type GeographicPointMethod =
+  | "MULTI_FREQUENCY_GPS"
+  | "SINGLE_FREQUENCY_GPS";
 
 
 export type Article44ServiceType =

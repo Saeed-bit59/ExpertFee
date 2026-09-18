@@ -47,8 +47,8 @@ function near(
  */
 
 assert(
-  ARTICLE11_INCREASE_RULES.length === 5,
-  "Five Article 11 increase rules available"
+  ARTICLE11_INCREASE_RULES.length === 3,
+  "Three Article 11 increase rules are available in tariff 1405"
 );
 
 
@@ -61,8 +61,8 @@ assert(
 
 assert(
   ARTICLE11_MAXIMUM_FEE_TOMAN ===
-    118_000_000,
-  "Article 11 maximum fee is 118 million toman"
+    135_000_000,
+  "Article 11 maximum fee is 135 million toman"
 );
 
 
@@ -187,7 +187,7 @@ const note4 =
       60_000_000,
 
     ruleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -232,13 +232,13 @@ const note5 =
       70_000_000,
 
     ruleCode:
-      "NOTE5_SPECIAL_ITEMS"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
 assert(
-  note5.noteNumber === 5,
-  "Note 5 selected"
+  note5.noteNumber === 4,
+  "Only the tariff 1405 intangible-assets rule is selected"
 );
 
 
@@ -277,13 +277,13 @@ const note7 =
       118_000_000,
 
     ruleCode:
-      "NOTE7_INTANGIBLE_ASSETS"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
 assert(
-  note7.noteNumber === 7,
-  "Note 7 selected"
+  note7.noteNumber === 4,
+  "Intangible assets belongs to Note 4"
 );
 
 
@@ -315,8 +315,8 @@ assert(
 
 assert(
   note7.finalFeeToman ===
-    118_000_000,
-  "Note 7 final fee capped at 118 million"
+    135_000_000,
+  "Note 4 final fee capped at 135 million"
 );
 
 
@@ -353,7 +353,7 @@ assert(
 
 assert(
   note3Capped.finalFeeToman ===
-    118_000_000,
+    135_000_000,
   "100 percent increase final fee capped"
 );
 
@@ -369,7 +369,7 @@ const exactlyCap =
   applyArticle11IncreaseRule({
 
     baseFeeToman:
-      59_000_000,
+      67_500_000,
 
     ruleCode:
       "NOTE3_CONTRACT_FULL"
@@ -378,8 +378,8 @@ const exactlyCap =
 
 assert(
   exactlyCap.feeAfterIncreaseToman ===
-    118_000_000,
-  "Fee can reach exactly 118 million"
+    135_000_000,
+  "Fee can reach exactly 135 million"
 );
 
 
@@ -391,8 +391,8 @@ assert(
 
 assert(
   exactlyCap.finalFeeToman ===
-    118_000_000,
-  "Exact maximum remains 118 million"
+    135_000_000,
+  "Exact maximum remains 135 million"
 );
 
 
@@ -410,7 +410,7 @@ const zeroFee =
       0,
 
     ruleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -446,7 +446,7 @@ const decimalFee =
       10_000_001,
 
     ruleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 
@@ -485,7 +485,7 @@ try {
       -1,
 
     ruleCode:
-      "NOTE4_DAMAGE"
+      "NOTE4_INTANGIBLE_ASSETS"
   });
 
 } catch {
@@ -510,13 +510,13 @@ assert(
 
 const note4Rule =
   getArticle11IncreaseRule(
-    "NOTE4_DAMAGE"
+    "NOTE4_INTANGIBLE_ASSETS"
   );
 
 
 assert(
   note4Rule.title ===
-    "تعیین سبب، علت، ارزیابی و تعیین میزان خسارت",
+    "ارزش‌گذاری دارایی‌های نامشهود مانند انواع برندها (ویژند)",
   "Note 4 tariff title preserved"
 );
 
@@ -530,12 +530,12 @@ assert(
 
 const note7Rule =
   getArticle11IncreaseRule(
-    "NOTE7_INTANGIBLE_ASSETS"
+    "NOTE4_INTANGIBLE_ASSETS"
   );
 
 
 assert(
-  note7Rule.noteNumber === 7,
+  note7Rule.noteNumber === 4,
   "Note 7 rule number preserved"
 );
 
@@ -556,11 +556,11 @@ assert(
 assert(
   ARTICLE11_INCREASE_RULES.every(
     rule =>
-      [3, 4, 5, 7].includes(
+      [3, 4].includes(
         rule.noteNumber
       )
   ),
-  "All increase rules belong to Notes 3, 4, 5 or 7"
+  "All increase rules belong to Notes 3 or 4"
 );
 
 
@@ -581,7 +581,7 @@ for (
     applyArticle11IncreaseRule({
 
       baseFeeToman:
-        118_000_000,
+        135_000_000,
 
       ruleCode:
         rule.code

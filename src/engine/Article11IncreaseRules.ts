@@ -2,7 +2,7 @@
  * ==========================================
  * ضرایب افزایشی ماده 11
  *
- * تبصره‌های 3، 4، 5 و 7
+ * تبصره‌های ۳ و ۴ تعرفه ۱۴۰۵
  * ==========================================
  *
  * مسئولیت تشخیص شمول هر تبصره بر عهده کاربر است.
@@ -19,13 +19,13 @@
 /*
  * سقف ماده 11
  *
- * 1,180,000,000 ریال
+ * 1,350,000,000 ریال
  * =
- * 118,000,000 تومان
+ * 135,000,000 تومان
  */
 
 export const ARTICLE11_MAXIMUM_FEE_TOMAN =
-  118_000_000;
+  135_000_000;
 
 
 /*
@@ -46,17 +46,7 @@ export type Article11IncreaseRuleCode =
   /*
    * تبصره 4
    */
-  | "NOTE4_DAMAGE"
-
-  /*
-   * تبصره 5
-   */
-  | "NOTE5_SPECIAL_ITEMS"
-
-  /*
-   * تبصره 7
-   */
-  | "NOTE7_INTANGIBLE_ASSETS";
+  | "NOTE4_INTANGIBLE_ASSETS";
 
 
 /*
@@ -71,7 +61,7 @@ export interface Article11IncreaseRule {
     Article11IncreaseRuleCode;
 
   noteNumber:
-    3 | 4 | 5 | 7;
+    3 | 4;
 
   /*
    * عنوان برگرفته از متن تعرفه
@@ -232,51 +222,13 @@ export const ARTICLE11_INCREASE_RULES:
 
   {
     code:
-      "NOTE4_DAMAGE",
+      "NOTE4_INTANGIBLE_ASSETS",
 
     noteNumber:
       4,
 
     title:
-      "تعیین سبب، علت، ارزیابی و تعیین میزان خسارت",
-
-    increaseRate:
-      0.50
-  },
-
-
-  /*
-   * تبصره 5
-   */
-
-  {
-    code:
-      "NOTE5_SPECIAL_ITEMS",
-
-    noteNumber:
-      5,
-
-    title:
-      "رسیدگی و ارزیابی قطعات یدکی، کالا و لوازم مستعمل، فرآورده‌های غذایی، دارویی و بهداشتی، کلیه ضایعات، ابزارآلات، اجزای ریزالکترونیک و مخابرات",
-
-    increaseRate:
-      0.50
-  },
-
-
-  /*
-   * تبصره 7
-   */
-
-  {
-    code:
-      "NOTE7_INTANGIBLE_ASSETS",
-
-    noteNumber:
-      7,
-
-    title:
-      "ارزیابی ارزش دارایی‌های نامشهود مانند انواع برندها",
+      "ارزش‌گذاری دارایی‌های نامشهود مانند انواع برندها (ویژند)",
 
     increaseRate:
       0.50

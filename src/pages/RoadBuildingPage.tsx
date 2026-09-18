@@ -5,9 +5,16 @@ import type { RoadBuildingEngineArticle } from "../engine/RoadBuildingEngine";
 import type {
   Article36ServiceType,
   Article39BoundaryMode,
-  Article44ServiceType
+  Article44ServiceType,
+  GeographicPointMethod
 } from "../engine/RoadBuildingRules";
+import { ARTICLE_42 } from "../engine/RoadBuildingRules";
 import type { MissionType } from "../engine/MissionCalculator";
+import {
+  applyArticle11PanelRules,
+  type PanelFieldMode
+} from "../engine/Article11PanelRules";
+import { ARTICLE_11_GENERAL_MAXIMUM_TOMAN } from "../config/Tariff1405";
 
 import PageHeader from "../components/ui/PageHeader";
 import SectionCard from "../components/ui/SectionCard";
@@ -18,6 +25,7 @@ import CalculateButton from "../components/ui/CalculateButton";
 import FeeResultCard from "../components/ui/FeeResultCard";
 import ExpertCountSelector from "../components/ui/ExpertCountSelector";
 import MissionSelector from "../components/ui/MissionSelector";
+import OptionGroup from "../components/ui/OptionGroup";
 
 interface Props {
   onBack: () => void;
@@ -33,6 +41,7 @@ const titles = {
   39: "پیاده کردن محدوده پلاک ثبتی",
   40: "نقشه‌برداری اراضی و تهیه پروفیل",
   41: "مطالعه پرونده ثبتی و تعیین محل پلاک",
+  42: "نقشه‌برداری قنوات، انهار، کانال‌ها و رودخانه‌ها",
   43: "تشخیص حدود ثبتی و اختلاف املاک",
   44: "امور شهرسازی"
 } as const;
@@ -47,6 +56,7 @@ const selectableArticles = [
   39,
   40,
   41,
+  42,
   43,
   44
 ] as const satisfies readonly RoadBuildingEngineArticle[];
@@ -72,6 +82,8 @@ export default function RoadBuildingPage({
   const [extra, setExtra] = useState("0");
   const [choice, setChoice] =
     useState("ARCHITECTURE");
+  const [geographicPointMethod, setGeographicPointMethod] =
+    useState<GeographicPointMethod>("MULTI_FREQUENCY_GPS");
   const [flag, setFlag] = useState(false);
 
   const [missionType, setMission] =
@@ -81,6 +93,8 @@ export default function RoadBuildingPage({
     useState(false);
   const [expertCount, setExpertCount] =
     useState(1);
+  const [panelFieldMode, setPanelFieldMode] =
+    useState<PanelFieldMode>("SINGLE_EXPERT");
 
   const x = useMemo(
     () => parseMoneyValue(primary),
@@ -192,6 +206,7 @@ export default function RoadBuildingPage({
                 boundaryMode:
                   choice as Article39BoundaryMode,
                 geographicPointCount: y,
+                geographicPointMethod,
                 ...mission
               }
             }
@@ -205,6 +220,7 @@ export default function RoadBuildingPage({
               data: {
                 areaSquareMeters: x,
                 geographicPointCount: y,
+                geographicPointMethod,
                 ...mission
               }
             }
@@ -217,7 +233,6 @@ export default function RoadBuildingPage({
               article: 41,
               data: {
                 areaSquareMeters: x,
-                outsideBoundaryIncreasePercent: y,
                 ...mission
               }
             }
@@ -267,6 +282,7 @@ export default function RoadBuildingPage({
     x,
     y,
     choice,
+    geographicPointMethod,
     flag,
     missionType,
     days
@@ -278,18 +294,36 @@ export default function RoadBuildingPage({
    * Articles whose fee basis is valuation-based and therefore
    * use the same expert-panel presentation pattern as Article 11.
    */
-  const supportsExpertPanel =
-    article === 33 || article === 37;
+  const supportsExpertPanel = article !== 42;
 
   const baseFeeToman =
     result && !("automaticCalculationSupported" in result)
       ? result.expertFeeToman
       : 0;
 
-  const feePerExpertToman =
-    expertCount > 0
-      ? Math.round(baseFeeToman / expertCount)
-      : baseFeeToman;
+  const panelResult = useMemo(() => {
+    if (!result || "automaticCalculationSupported" in result) {
+      return null;
+    }
+
+    return applyArticle11PanelRules({
+      baseFeePerExpertToman: result.expertFeeToman,
+      maximumFeeToman: ARTICLE_11_GENERAL_MAXIMUM_TOMAN,
+      expertCount,
+      fieldMode:
+        expertCount <= 1 ? "SINGLE_EXPERT" : panelFieldMode,
+      isNote1: false
+    });
+  }, [result, expertCount, panelFieldMode]);
+
+  const displayedFeeToman =
+    panelResult?.totalPanelFeeToman ?? baseFeeToman;
+
+  const totalPayableToman =
+    displayedFeeToman +
+    (result && !("automaticCalculationSupported" in result)
+      ? result.missionFeeToman
+      : 0);
 
   const primaryLabel =
     article === 33 || article === 37
@@ -312,8 +346,10 @@ export default function RoadBuildingPage({
     setPrimary("");
     setExtra("0");
     setChoice("ARCHITECTURE");
+    setGeographicPointMethod("MULTI_FREQUENCY_GPS");
     setFlag(false);
     setExpertCount(1);
+    setPanelFieldMode("SINGLE_EXPERT");
     setSubmitted(false);
   };
 
@@ -333,7 +369,7 @@ export default function RoadBuildingPage({
 
   return (
     <main
-      className="ef-page"
+      className="ef-page ef-specialist-page ef-road-building-page"
       dir="rtl"
       data-testid="road-building-page"
     >
@@ -443,6 +479,9 @@ export default function RoadBuildingPage({
                       <option value="STRUCTURAL_SAFETY_REPORT">
                         گزارش استحکام بنا
                       </option>
+                      <option value="OTHER_DISCIPLINE_STRUCTURAL_SAFETY_REPORT">
+                        گزارش استحکام بنا برای سایر رشته‌ها (۵۰٪)
+                      </option>
                     </select>
                   </div>
                 )}
@@ -510,7 +549,36 @@ export default function RoadBuildingPage({
                   </div>
                 )}
 
-                {[37, 39, 40, 41].includes(
+                {[39, 40].includes(article) && (
+                  <div className="ef-stack">
+                    <label
+                      className="ef-field-label"
+                      htmlFor="geographic-point-method"
+                    >
+                      روش تعیین مختصات جغرافیایی
+                    </label>
+                    <select
+                      id="geographic-point-method"
+                      className="ef-select"
+                      value={geographicPointMethod}
+                      onChange={(event) => {
+                        setGeographicPointMethod(
+                          event.target.value as GeographicPointMethod
+                        );
+                        setSubmitted(false);
+                      }}
+                    >
+                      <option value="MULTI_FREQUENCY_GPS">
+                        GPS چندفرکانسه — ۳۵۰٬۰۰۰ تومان برای هر نقطه
+                      </option>
+                      <option value="SINGLE_FREQUENCY_GPS">
+                        GPS دستی تک‌فرکانسه — ۲۰۰٬۰۰۰ تومان برای هر نقطه
+                      </option>
+                    </select>
+                  </div>
+                )}
+
+                {[37, 39, 40].includes(
                   article
                 ) && (
                   <div className="ef-stack">
@@ -520,9 +588,7 @@ export default function RoadBuildingPage({
                     >
                       {article === 37
                         ? "واحد مشابه مازاد"
-                        : article === 41
-                          ? "درصد افزایش خارج محدوده"
-                          : "تعداد نقاط جغرافیایی"}
+                        : "تعداد نقاط جغرافیایی (حداکثر ۵۰)"}
                     </label>
 
                     <input
@@ -591,7 +657,7 @@ export default function RoadBuildingPage({
                     />
                   ) : (
                     <FeeResultCard
-                      feeToman={baseFeeToman}
+                      feeToman={displayedFeeToman}
                       title={
                         supportsExpertPanel &&
                         expertCount > 1
@@ -607,7 +673,8 @@ export default function RoadBuildingPage({
                                   "دستمزد هر کارشناس",
                                 value:
                                   `${formatFa(
-                                    feePerExpertToman
+                                    panelResult?.feePerExpertToman ??
+                                      baseFeeToman
                                   )} تومان`
                               },
                               {
@@ -615,7 +682,7 @@ export default function RoadBuildingPage({
                                   "مجموع دستمزد هیأت",
                                 value:
                                   `${formatFa(
-                                    baseFeeToman
+                                    displayedFeeToman
                                   )} تومان`
                               }
                             ]
@@ -624,7 +691,7 @@ export default function RoadBuildingPage({
                       footer={
                         result.missionFeeToman > 0
                           ? `مبلغ نهایی با مأموریت: ${formatFa(
-                              result.totalPayableToman
+                              totalPayableToman
                             )} تومان`
                           : undefined
                       }
@@ -634,51 +701,95 @@ export default function RoadBuildingPage({
             </SectionCard>
           )}
 
-          {supportsExpertPanel && (
+          {article === 42 && (
             <SectionCard>
-              <ExpertCountSelector
-                title="تعداد کارشناسان"
-                value={expertCount}
-                onChange={(value) => {
-                  setExpertCount(value);
-                  setSubmitted(false);
-                }}
+              <FeeResultCard
+                feeToman={ARTICLE_42.minimumFeeToman}
+                title="حداقل دستمزد کارشناسی"
+                rows={[
+                  {
+                    label: "وضعیت محاسبه",
+                    value: "نیازمند تعیین حداکثر طبق ماده ۹"
+                  }
+                ]}
+                footer="محاسبه خودکار ماده ۴۲ فعال نیست؛ مبلغ قطعی با توجه به حدود کار و ماده ۹ تعیین می‌شود."
               />
             </SectionCard>
           )}
 
           {article !== 42 && (
-            <SectionCard>
-              <MissionSelector
-                enabled={
-                  missionType !== "NONE"
-                }
-                onEnabledChange={
-                  handleMissionEnabled
-                }
-                location={
-                  missionType ===
-                  "OUT_PROVINCE"
-                    ? "OUT_PROVINCE"
-                    : "IN_PROVINCE"
-                }
-                onLocationChange={(
-                  location
-                ) => {
-                  setMission(location);
-                  setDays(
-                    Math.max(1, days)
-                  );
-                  setSubmitted(false);
-                }}
-                days={days}
-                onDaysChange={(value) => {
-                  setDays(value);
-                  setSubmitted(false);
-                }}
-                title="مأموریت کارشناسی"
-              />
-            </SectionCard>
+            <div className="ef-stack ef-article11-options ef-road-building-options">
+              {supportsExpertPanel && (
+                <SectionCard>
+                  <ExpertCountSelector
+                    title="تعداد کارشناسان"
+                    value={expertCount}
+                    onChange={(value) => {
+                      setExpertCount(value);
+                      setPanelFieldMode(
+                        value > 1 ? "SAME_FIELD" : "SINGLE_EXPERT"
+                      );
+                    }}
+                  />
+
+                  {expertCount > 1 && (
+                    <div style={{ marginTop: 16 }}>
+                      <OptionGroup<PanelFieldMode>
+                        title="ترکیب رشته اعضای هیأت"
+                        name="road-building-panel-field-mode"
+                        value={panelFieldMode}
+                        onChange={setPanelFieldMode}
+                        options={[
+                          {
+                            value: "SAME_FIELD",
+                            label: "کارشناسان هم‌رشته"
+                          },
+                          {
+                            value: "DIFFERENT_FIELDS",
+                            label: "کارشناسان با رشته‌های مختلف"
+                          }
+                        ]}
+                      />
+                      <div className="ef-helper">
+                        برای اعضای هم‌رشته، کسر ۳۰٪ ماده ۵۶ اعمال می‌شود.
+                      </div>
+                    </div>
+                  )}
+                </SectionCard>
+              )}
+
+              <SectionCard>
+                <MissionSelector
+                  enabled={
+                    missionType !== "NONE"
+                  }
+                  onEnabledChange={
+                    handleMissionEnabled
+                  }
+                  location={
+                    missionType ===
+                    "OUT_PROVINCE"
+                      ? "OUT_PROVINCE"
+                      : "IN_PROVINCE"
+                  }
+                  onLocationChange={(
+                    location
+                  ) => {
+                    setMission(location);
+                    setDays(
+                      Math.max(1, days)
+                    );
+                    setSubmitted(false);
+                  }}
+                  days={days}
+                  onDaysChange={(value) => {
+                    setDays(value);
+                    setSubmitted(false);
+                  }}
+                  title="مأموریت کارشناسی"
+                />
+              </SectionCard>
+            </div>
           )}
         </div>
       </div>

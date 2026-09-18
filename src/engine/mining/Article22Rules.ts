@@ -34,13 +34,13 @@ export const ARTICLE22_METAL_MINIMUM_FEE_TOMAN =
 /*
  * حداکثر دستمزد:
  *
- * 50,000,000 ریال
+ * ارزیابی فلزات تابع سقف عمومی ماده ۱۱ است.
  * =
- * 5,000,000 تومان
+ * 135,000,000 تومان
  */
 
 export const ARTICLE22_METAL_MAXIMUM_FEE_TOMAN =
-  5_000_000;
+  135_000_000;
 
 
 /*
@@ -64,11 +64,11 @@ export const ARTICLE22_UNDERGROUND_INCREASE_RATE =
 /*
  * سقف نهایی دستمزد
  *
- * 118,000,000 تومان
+ * 135,000,000 تومان
  */
 
 export const ARTICLE22_MINING_MAXIMUM_FEE_TOMAN =
-  118_000_000;
+  135_000_000;
 
 
 /*

@@ -109,7 +109,7 @@ if (
 
   assertEqual(
     a34.expertFeeToman,
-    2_000_000,
+    3_000_000,
     "Article 34 calculation through Engine"
   );
 }
@@ -174,7 +174,7 @@ if (
 
   assertEqual(
     a36.expertFeeToman,
-    2_000_000,
+    3_000_000,
     "Article 36 structure through Engine"
   );
 }
@@ -232,7 +232,7 @@ if (
 
   assertEqual(
     a38.expertFeeToman,
-    800_000,
+    2_300_000,
     "Article 38 through Engine"
   );
 }
@@ -272,7 +272,7 @@ if (
 
   assertEqual(
     a39.expertFeeToman,
-    800_000,
+    3_000_000,
     "Article 39 through Engine"
   );
 }
@@ -321,10 +321,7 @@ const a41 =
 
     data: {
       areaSquareMeters:
-        2_000,
-
-      outsideBoundaryIncreasePercent:
-        20
+        2_000
     }
   });
 
@@ -335,7 +332,7 @@ if (
 
   assertEqual(
     a41.expertFeeToman,
-    1_080_000,
+    2_400_000,
     "Article 41 through Engine"
   );
 }

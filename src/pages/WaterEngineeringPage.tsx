@@ -2,12 +2,14 @@ import { useMemo, useState } from "react";
 
 import {
   calculateArticle15,
+  calculateArticle18Note,
   calculateWaterFixedFee,
   calculateArticle20
 } from "../engine/water/WaterEngineeringCalculator";
 
 import type {
   Article20Mode,
+  Article18NoteMode,
   WaterFixedFeeArticle
 } from "../engine/water/WaterEngineeringCalculator";
 
@@ -29,6 +31,10 @@ type WaterArticle =
   | 19
   | 20
   | 21;
+
+type Article18Mode =
+  | "ARTICLE_11"
+  | Article18NoteMode;
 
 
 interface WaterEngineeringPageProps {
@@ -100,6 +106,9 @@ export default function WaterEngineeringPage({
   const [article20Mode, setArticle20Mode] =
     useState<Article20Mode>("CHANNEL_UP_TO_12M");
 
+  const [article18Mode, setArticle18Mode] =
+    useState<Article18Mode>("ARTICLE_11");
+
   const [lengthKm, setLengthKm] =
     useState<number>(1);
 
@@ -149,6 +158,15 @@ export default function WaterEngineeringPage({
       }).finalFeeToman;
     }
 
+    if (
+      selectedArticle === 18 &&
+      article18Mode !== "ARTICLE_11"
+    ) {
+      return calculateArticle18Note(
+        article18Mode
+      ).finalFeeToman;
+    }
+
 
     // ماده ۱۸ مطابق ماده ۱۱ محاسبه می‌شود.
     return 0;
@@ -157,13 +175,17 @@ export default function WaterEngineeringPage({
     selectedArticle,
     flowRateLps,
     article20Mode,
+    article18Mode,
     lengthKm
   ]);
 
 
   const missionResult = useMemo(() => {
 
-    if (selectedArticle === 18) {
+    if (
+      selectedArticle === 18 &&
+      article18Mode === "ARTICLE_11"
+    ) {
       return null;
     }
 
@@ -187,7 +209,8 @@ export default function WaterEngineeringPage({
     expertFeeToman,
     missionType,
     missionDays,
-    selectedArticle
+    selectedArticle,
+    article18Mode
   ]);
 
 
@@ -226,6 +249,7 @@ export default function WaterEngineeringPage({
 
   return (
     <main
+      className="ef-legacy-page ef-specialist-page"
       dir="rtl"
       style={{
         maxWidth: 900,
@@ -238,6 +262,7 @@ export default function WaterEngineeringPage({
     >
 
       <button
+        className="ef-back-button ef-legacy-back-button"
         type="button"
         onClick={onBack}
         style={{
@@ -254,7 +279,7 @@ export default function WaterEngineeringPage({
       </button>
 
 
-      <div style={{ marginBottom: 28 }}>
+      <div className="ef-interior-header" style={{ marginBottom: 28 }}>
 
         <h1 style={{ marginBottom: 6 }}>
           مهندسی آب
@@ -441,7 +466,32 @@ export default function WaterEngineeringPage({
             مطابق ماده ۱۱ این تعرفه محاسبه می‌شود.
           </p>
 
-          <button
+          <label style={{ display: "block", fontWeight: 700, marginBottom: 8 }}>
+            نوع خدمت
+          </label>
+
+          <select
+            value={article18Mode}
+            onChange={(event) => {
+              setArticle18Mode(event.target.value as Article18Mode);
+            }}
+            style={{
+              width: "100%",
+              maxWidth: 520,
+              padding: 10,
+              border: "1px solid #bbb",
+              borderRadius: 8,
+              fontFamily: "inherit",
+              fontSize: 15,
+              marginBottom: 16
+            }}
+          >
+            <option value="ARTICLE_11">ارزیابی قنوات، چاه‌ها و شبکه‌ها ـ مطابق ماده ۱۱</option>
+            <option value="WATER_RIGHT">تعیین میزان حقابه هر فرد ـ مقطوع ۲ میلیون تومان</option>
+            <option value="WATER_SOURCE_AGE">تعیین قدمت منابع آبی ـ مقطوع ۲ میلیون تومان</option>
+          </select>
+
+          {article18Mode === "ARTICLE_11" && <button
             type="button"
             onClick={onOpenArticle11}
             style={{
@@ -456,7 +506,7 @@ export default function WaterEngineeringPage({
             }}
           >
             محاسبه مطابق ماده ۱۱
-          </button>
+          </button>}
 
         </section>
 
@@ -522,14 +572,6 @@ export default function WaterEngineeringPage({
 
             <option value="RIVER_OR_CHANNEL_OVER_12M">
               تعیین حریم رودخانه و کانال‌های با عرض بیش از ۱۲ متر
-            </option>
-
-            <option value="WATER_RIGHT">
-              تعیین میزان حقابه هر فرد از منابع آبی
-            </option>
-
-            <option value="WATER_SOURCE_AGE">
-              تعیین قدمت منابع آبی
             </option>
 
           </select>
@@ -613,7 +655,7 @@ export default function WaterEngineeringPage({
 
       {/* مأموریت */}
 
-      {selectedArticle !== 18 && (
+      {(selectedArticle !== 18 || article18Mode !== "ARTICLE_11") && (
 
         <section style={sectionStyle}>
 
@@ -756,7 +798,7 @@ export default function WaterEngineeringPage({
 
       {/* خلاصه محاسبات */}
 
-      {selectedArticle !== 18 &&
+      {(selectedArticle !== 18 || article18Mode !== "ARTICLE_11") &&
         missionResult !== null && (
 
           <section

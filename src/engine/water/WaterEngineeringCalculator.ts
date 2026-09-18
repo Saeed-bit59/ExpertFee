@@ -22,16 +22,16 @@ export const ARTICLE15_SECOND_LIMIT_LPS =
   1000;
 
 export const ARTICLE15_BASE_FEE_TOMAN =
-  600_000;
+  2_000_000;
 
 export const ARTICLE15_SECOND_RATE_TOMAN =
-  400;
+  600;
 
 export const ARTICLE15_THIRD_RATE_TOMAN =
-  160;
+  300;
 
 export const ARTICLE15_MAXIMUM_FEE_TOMAN =
-  7_000_000;
+  9_000_000;
 
 
 export interface Article15Input {
@@ -120,7 +120,7 @@ export function calculateArticle15(
 
   /*
    * تا 50 لیتر در ثانیه:
-   * 600,000 تومان مقطوع
+   * 2,000,000 تومان مقطوع
    */
 
   const baseFeeToman =
@@ -255,7 +255,7 @@ export const WATER_FIXED_FEES = {
       "تعیین کیفیت شیمیایی و آلودگی آب",
 
     feeToman:
-      600_000
+      2_000_000
 
   },
 
@@ -265,7 +265,7 @@ export const WATER_FIXED_FEES = {
       "بررسی فنی و تعیین مشخصات سفره‌های سطحی و زیرزمینی آب",
 
     feeToman:
-      1_600_000
+      3_000_000
 
   },
 
@@ -275,7 +275,7 @@ export const WATER_FIXED_FEES = {
       "تعیین نوع و بررسی کیفیت حفاری چاه‌ها و قنوات و بهسازی چشمه‌ها",
 
     feeToman:
-      1_400_000
+      3_000_000
 
   },
 
@@ -285,7 +285,7 @@ export const WATER_FIXED_FEES = {
       "رسیدگی به وضع پس‌آب‌ها به لحاظ تشخیص بار آلودگی",
 
     feeToman:
-      1_000_000
+      2_000_000
 
   }
 
@@ -384,27 +384,27 @@ export type Article20Mode =
 
 
 export const ARTICLE20_UP_TO_12_RATE_TOMAN_PER_KM =
-  600_000;
+  2_000_000;
 
 export const ARTICLE20_UP_TO_12_MINIMUM_TOMAN =
-  600_000;
+  2_000_000;
 
 export const ARTICLE20_UP_TO_12_MAXIMUM_TOMAN =
-  6_000_000;
+  8_000_000;
 
 
 export const ARTICLE20_OVER_12_RATE_TOMAN_PER_KM =
-  800_000;
+  2_000_000;
 
 export const ARTICLE20_OVER_12_MAXIMUM_TOMAN =
-  10_000_000;
+  12_000_000;
 
 
 export const ARTICLE20_WATER_RIGHT_FEE_TOMAN =
-  1_500_000;
+  2_000_000;
 
 export const ARTICLE20_WATER_SOURCE_AGE_FEE_TOMAN =
-  1_000_000;
+  2_000_000;
 
 
 export interface Article20Input {
@@ -506,7 +506,7 @@ export function calculateArticle20(
         ARTICLE20_WATER_RIGHT_FEE_TOMAN,
 
       calculationLabel:
-        "تعیین میزان حقابه هر فرد - تبصره ماده ۲۰"
+        "تعیین میزان حقابه هر فرد - تبصره ماده ۱۸"
 
     };
 
@@ -556,7 +556,7 @@ export function calculateArticle20(
         ARTICLE20_WATER_SOURCE_AGE_FEE_TOMAN,
 
       calculationLabel:
-        "تعیین قدمت منابع آبی - تبصره ماده ۲۰"
+        "تعیین قدمت منابع آبی - تبصره ماده ۱۸"
 
     };
 
@@ -720,4 +720,33 @@ export function calculateArticle20(
     "Invalid Article 20 mode."
   );
 
+}
+
+export type Article18NoteMode =
+  | "WATER_RIGHT"
+  | "WATER_SOURCE_AGE";
+
+export const ARTICLE18_NOTE_FIXED_FEE_TOMAN =
+  2_000_000;
+
+export function calculateArticle18Note(
+  mode: Article18NoteMode
+): {
+  mode: Article18NoteMode;
+  title: string;
+  finalFeeToman: number;
+  calculationLabel: string;
+} {
+  const isWaterRight = mode === "WATER_RIGHT";
+
+  return {
+    mode,
+    title: isWaterRight
+      ? "تعیین میزان حقابه هر فرد از منابع آبی"
+      : "تعیین قدمت منابع آبی",
+    finalFeeToman: ARTICLE18_NOTE_FIXED_FEE_TOMAN,
+    calculationLabel: isWaterRight
+      ? "تعیین میزان حقابه هر فرد - تبصره ماده ۱۸"
+      : "تعیین قدمت منابع آبی - تبصره ماده ۱۸"
+  };
 }

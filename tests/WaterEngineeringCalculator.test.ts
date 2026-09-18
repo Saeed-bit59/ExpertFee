@@ -132,7 +132,7 @@ function testThrows(
   testNumber(
     "A15 - 50 L/s",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 }
@@ -153,7 +153,7 @@ function testThrows(
   testNumber(
     "A15 - 25 L/s",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 }
@@ -174,7 +174,7 @@ function testThrows(
   testNumber(
     "A15 - 51 L/s",
     result.finalFeeToman,
-    600_400
+    2_000_600
   );
 
 }
@@ -199,7 +199,7 @@ function testThrows(
   testNumber(
     "A15 - 100 L/s",
     result.finalFeeToman,
-    620_000
+    2_030_000
   );
 
 }
@@ -225,14 +225,14 @@ function testThrows(
   testNumber(
     "A15 - 1000 L/s",
     result.finalFeeToman,
-    980_000
+    2_570_000
   );
 
 
   testNumber(
     "A15 - 1000 second tier",
     result.secondTierFeeToman,
-    380_000
+    570_000
   );
 
 }
@@ -253,7 +253,7 @@ function testThrows(
   testNumber(
     "A15 - 1001 L/s",
     result.finalFeeToman,
-    980_160
+    2_570_300
   );
 
 }
@@ -275,7 +275,7 @@ function testThrows(
   testNumber(
     "A15 - Maximum Cap",
     result.finalFeeToman,
-    7_000_000
+    9_000_000
   );
 
 
@@ -333,7 +333,7 @@ testThrows(
   testNumber(
     "A16 - Fixed Fee",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 }
@@ -350,7 +350,7 @@ testThrows(
   testNumber(
     "A17 - Fixed Fee",
     result.finalFeeToman,
-    1_600_000
+    3_000_000
   );
 
 }
@@ -367,7 +367,7 @@ testThrows(
   testNumber(
     "A19 - Fixed Fee",
     result.finalFeeToman,
-    1_400_000
+    3_000_000
   );
 
 }
@@ -384,7 +384,7 @@ testThrows(
   testNumber(
     "A21 - Fixed Fee",
     result.finalFeeToman,
-    1_000_000
+    2_000_000
   );
 
 }
@@ -440,7 +440,7 @@ testThrows(
   testNumber(
     "A20 - Up To 12m Minimum",
     result.finalFeeToman,
-    600_000
+    2_000_000
   );
 
 
@@ -475,7 +475,7 @@ testThrows(
   testNumber(
     "A20 - Up To 12m 3.5km",
     result.finalFeeToman,
-    2_100_000
+    7_000_000
   );
 
 }
@@ -502,7 +502,7 @@ testThrows(
   testNumber(
     "A20 - Up To 12m Maximum",
     result.finalFeeToman,
-    6_000_000
+    8_000_000
   );
 
 
@@ -536,7 +536,7 @@ testThrows(
   testNumber(
     "A20 - Over 12m 5km",
     result.finalFeeToman,
-    4_000_000
+    10_000_000
   );
 
 }
@@ -563,7 +563,7 @@ testThrows(
   testNumber(
     "A20 - Over 12m Maximum",
     result.finalFeeToman,
-    10_000_000
+    12_000_000
   );
 
 
@@ -594,7 +594,7 @@ testThrows(
   testNumber(
     "A20 - Water Right",
     result.finalFeeToman,
-    1_500_000
+    2_000_000
   );
 
 }
@@ -618,7 +618,7 @@ testThrows(
   testNumber(
     "A20 - Water Source Age",
     result.finalFeeToman,
-    1_000_000
+    2_000_000
   );
 
 }

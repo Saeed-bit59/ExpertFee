@@ -100,7 +100,7 @@ assertEqual(
       1
   }).expertFeeToman,
 
-  3_000_000,
+  4_000_000,
 
   "Article 44 subdivision one item"
 );
@@ -119,7 +119,7 @@ assertEqual(
       2
   }).expertFeeToman,
 
-  3_000_000,
+  4_000_000,
 
   "Article 44 subdivision two items"
 );
@@ -145,7 +145,7 @@ assertEqual(
   subdivision3
     .expertFeeToman,
 
-  3_400_000,
+  4_600_000,
 
   "Article 44 subdivision three items"
 );
@@ -184,7 +184,7 @@ assertEqual(
   subdivision10
     .expertFeeToman,
 
-  6_200_000,
+  8_800_000,
 
   "Article 44 subdivision ten items"
 );
@@ -233,7 +233,7 @@ assertEqual(
   subdivision11
     .expertFeeToman,
 
-  6_320_000,
+  8_980_000,
 
   "Article 44 subdivision eleven items"
 );
@@ -268,7 +268,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  7_400_000,
+  10_600_000,
 
   "Article 44 subdivision twenty items"
 );
@@ -301,7 +301,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  2_000_000,
+  3_000_000,
 
   "Article 44 land use one item"
 );
@@ -318,7 +318,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  2_000_000,
+  3_000_000,
 
   "Article 44 land use two items"
 );
@@ -340,7 +340,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  2_300_000,
+  3_450_000,
 
   "Article 44 land use three items"
 );
@@ -365,7 +365,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  4_400_000,
+  6_600_000,
 
   "Article 44 land use ten items"
 );
@@ -387,7 +387,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  4_520_000,
+  6_780_000,
 
   "Article 44 land use eleven items"
 );
@@ -412,7 +412,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  5_600_000,
+  8_400_000,
 
   "Article 44 land use twenty items"
 );
@@ -438,7 +438,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  2_000_000,
+  3_000_000,
 
   "Article 44 building one item"
 );
@@ -455,7 +455,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  2_300_000,
+  3_450_000,
 
   "Article 44 building three items"
 );
@@ -472,7 +472,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  4_400_000,
+  6_600_000,
 
   "Article 44 building ten items"
 );
@@ -489,7 +489,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  4_520_000,
+  6_780_000,
 
   "Article 44 building eleven items"
 );
@@ -506,7 +506,7 @@ assertEqual(
 
   }).expertFeeToman,
 
-  5_600_000,
+  8_400_000,
 
   "Article 44 building twenty items"
 );
@@ -531,7 +531,7 @@ const detail =
 
 assertEqual(
   detail.baseFeeToman,
-  3_000_000,
+  4_000_000,
   "Article 44 detail base"
 );
 
@@ -545,7 +545,7 @@ assertEqual(
 
 assertEqual(
   detail.middleBandFeeToman,
-  3_200_000,
+  4_800_000,
   "Article 44 detail middle fee"
 );
 
@@ -559,14 +559,14 @@ assertEqual(
 
 assertEqual(
   detail.upperBandFeeToman,
-  240_000,
+  360_000,
   "Article 44 detail upper fee"
 );
 
 
 assertEqual(
   detail.expertFeeToman,
-  6_440_000,
+  9_160_000,
   "Article 44 detail final expert fee"
 );
 
@@ -602,7 +602,7 @@ const withMission =
 
 assertEqual(
   withMission.expertFeeToman,
-  2_300_000,
+  3_450_000,
   "Mission must not alter Article 44 expert fee"
 );
 
@@ -616,7 +616,7 @@ assertEqual(
 
 assertEqual(
   withMission.totalPayableToman,
-  2_300_000 +
+  3_450_000 +
     missionRate * 2,
   "Article 44 total payable"
 );

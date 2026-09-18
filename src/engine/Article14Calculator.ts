@@ -12,14 +12,13 @@
  *
  * مبالغ تعرفه:
  *
- * 1- حق الزحمه پایه برای یک پلاک:
- *    6,000,000 ریال
- *    = 600,000 تومان
+ * 1- حق الزحمه پایه برای هر مورد:
+ *    20,000,000 ریال
+ *    = 2,000,000 تومان
  *
  * 2- تصاویر و عکس های مربوط به سال های گذشته:
  *    به ازای هر سال تصویر و عکس مورد اظهارنظر:
- *    500,000 ریال
- *    = 50,000 تومان
+ *    10 درصد حق الزحمه ماده 14
  *
  * 3- پلاک های متعدد متصل به هم:
  *    به ازای هر پلاک اضافی:
@@ -38,46 +37,18 @@
  * ==========================================
  */
 
+import { TARIFF_1405 } from "../config/Tariff1405";
 
-/*
- * ==========================================
- * Constants
- * ==========================================
- */
+const ARTICLE14_TARIFF = TARIFF_1405.article14;
 
-
-/*
- * حق الزحمه پایه یک پلاک
- *
- * 6,000,000 ریال
- * = 600,000 تومان
- */
-
-export const ARTICLE14_BASE_FEE_TOMAN =
-  600_000;
-
-
-/*
- * مبلغ افزایشی به ازای هر سال
- * تصویر و عکس مربوط به سال های گذشته
- *
- * 500,000 ریال
- * = 50,000 تومان
- */
-
+export const ARTICLE14_BASE_FEE_TOMAN = ARTICLE14_TARIFF.baseFeeToman;
+export const ARTICLE14_PAST_YEAR_RATE = ARTICLE14_TARIFF.pastImageYearRate;
 export const ARTICLE14_PAST_YEAR_FEE_TOMAN =
-  50_000;
-
-
-/*
- * درصد افزایش به ازای هر پلاک اضافی
- * متصل به پلاک اصلی
- *
- * 40%
- */
-
+  ARTICLE14_BASE_FEE_TOMAN * ARTICLE14_PAST_YEAR_RATE;
 export const ARTICLE14_ADDITIONAL_PARCEL_RATE =
-  0.40;
+  ARTICLE14_TARIFF.additionalConnectedParcelRate;
+export const ARTICLE14_MAXIMUM_FEE_TOMAN =
+  TARIFF_1405.ARTICLE11_GENERAL_MAXIMUM_TOMAN;
 
 
 /*
@@ -343,7 +314,7 @@ export function calculateArticle14(
    * به ازای هر سال تصویر و عکس
    * مورد اظهارنظر:
    *
-   * 50,000 تومان
+   * 10 درصد حق‌الزحمه پایه
    */
 
   const pastImagesAdditionalFeeToman =
@@ -394,10 +365,16 @@ export function calculateArticle14(
    * ========================================
    */
 
-  const finalFeeToman =
+  const calculatedFeeToman =
     baseFeeToman +
     pastImagesAdditionalFeeToman +
     additionalParcelsFeeToman;
+
+  const finalFeeToman =
+    Math.min(
+      calculatedFeeToman,
+      ARTICLE14_MAXIMUM_FEE_TOMAN
+    );
 
 
   /*
@@ -434,7 +411,7 @@ export function calculateArticle14(
     finalFeeToman,
 
     calculationLabel:
-      "محاسبه حق‌الزحمه تفسیر عکس‌های هوایی و ماهواره‌ای موضوع ماده ۱۴"
+      "محاسبه حق‌الزحمه تفسیر عکس‌های هوایی و ماهواره‌ای موضوع ماده ۱۴ تعرفه ۱۴۰۵"
 
   };
 }

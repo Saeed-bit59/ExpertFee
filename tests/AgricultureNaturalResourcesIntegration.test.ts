@@ -382,7 +382,7 @@ const article51BoundaryCases = [
       1,
 
     expectedFee:
-      800_000
+      2_000_000
   },
 
   {
@@ -390,7 +390,7 @@ const article51BoundaryCases = [
       999,
 
     expectedFee:
-      800_000
+      2_000_000
   },
 
   {
@@ -398,7 +398,7 @@ const article51BoundaryCases = [
       1_000,
 
     expectedFee:
-      800_000
+      2_000_000
   },
 
   {
@@ -406,7 +406,7 @@ const article51BoundaryCases = [
       1_001,
 
     expectedFee:
-      880_000
+      2_200_000
   },
 
   {
@@ -414,7 +414,7 @@ const article51BoundaryCases = [
       2_000,
 
     expectedFee:
-      880_000
+      2_200_000
   },
 
   {
@@ -422,7 +422,7 @@ const article51BoundaryCases = [
       2_001,
 
     expectedFee:
-      960_000
+      2_400_000
   },
 
   {
@@ -430,7 +430,7 @@ const article51BoundaryCases = [
       5_000,
 
     expectedFee:
-      1_120_000
+      2_800_000
   },
 
   {
@@ -438,7 +438,7 @@ const article51BoundaryCases = [
       9_999,
 
     expectedFee:
-      1_520_000
+      3_800_000
   },
 
   {
@@ -446,7 +446,7 @@ const article51BoundaryCases = [
       10_000,
 
     expectedFee:
-      1_520_000
+      3_800_000
   },
 
   {
@@ -454,7 +454,7 @@ const article51BoundaryCases = [
       10_001,
 
     expectedFee:
-      1_560_000
+      3_900_000
   },
 
   {
@@ -462,7 +462,7 @@ const article51BoundaryCases = [
       11_000,
 
     expectedFee:
-      1_560_000
+      3_900_000
   },
 
   {
@@ -470,7 +470,7 @@ const article51BoundaryCases = [
       11_001,
 
     expectedFee:
-      1_600_000
+      4_000_000
   },
 
   {
@@ -478,7 +478,7 @@ const article51BoundaryCases = [
       20_000,
 
     expectedFee:
-      1_920_000
+      4_800_000
   },
 
   {
@@ -486,7 +486,7 @@ const article51BoundaryCases = [
       30_000,
 
     expectedFee:
-      2_320_000
+      5_800_000
   }
 
 ] as const;
@@ -534,21 +534,21 @@ for (
 
 assertEqual(
   ARTICLE_51_BASE_FEE_TOMAN,
-  800_000,
+  2_000_000,
   "Article 51 base fee"
 );
 
 
 assertEqual(
   ARTICLE_51_FIRST_BLOCK_FEE_TOMAN,
-  80_000,
+  200_000,
   "Article 51 first-tier block fee"
 );
 
 
 assertEqual(
   ARTICLE_51_ABOVE_HECTARE_BLOCK_FEE_TOMAN,
-  40_000,
+  100_000,
   "Article 51 above-hectare block fee"
 );
 
@@ -582,7 +582,7 @@ const fractionalFirstTier =
 
 assertEqual(
   fractionalFirstTier.expertFeeToman,
-  880_000,
+  2_200_000,
   "Article 51 fractional first-tier block rounds upward"
 );
 
@@ -609,7 +609,7 @@ const fractionalSecondTier =
 
 assertEqual(
   fractionalSecondTier.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Article 51 fractional above-hectare block rounds upward"
 );
 
@@ -643,7 +643,7 @@ const article51Large =
 
 assertEqual(
   ARTICLE_51_MAXIMUM_FEE_TOMAN,
-  118_000_000,
+  135_000_000,
   "Article 51 maximum constant"
 );
 
@@ -710,7 +710,7 @@ const article51Mission =
 
 assertEqual(
   article51Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 51 capped before mission"
 );
 
@@ -724,7 +724,7 @@ assertEqual(
 
 assertEqual(
   article51Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     inProvinceRate * 2,
   "Article 51 mission outside maximum"
 );
@@ -912,7 +912,7 @@ const article52Mission =
 
 assertEqual(
   article52Mission.expertFeeToman,
-  118_000_000,
+  135_000_000,
   "Article 52 expert fee capped before mission"
 );
 
@@ -926,7 +926,7 @@ assertEqual(
 
 assertEqual(
   article52Mission.totalPayableToman,
-  118_000_000 +
+  135_000_000 +
     outProvinceRate * 3,
   "Article 52 mission outside cap"
 );
@@ -941,8 +941,8 @@ assertEqual(
 
 assertEqual(
   AGRICULTURE_NATURAL_RESOURCES_DISCIPLINES.length,
-  7,
-  "Group 9 contains seven disciplines"
+  6,
+  "Group 9 contains six disciplines"
 );
 
 

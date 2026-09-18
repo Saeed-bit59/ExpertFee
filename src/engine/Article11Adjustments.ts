@@ -12,10 +12,10 @@ const MAXIMUM_FEE =
   TARIFF_1405.article11.generalMaximumRial /
   TARIFF_1405.rialPerToman;
 
-const ADJUSTMENTS: Record<
+const ADJUSTMENTS: Partial<Record<
   Article11AdjustmentType,
   Article11Adjustment
-> = {
+>> = {
   CONTRACT_FULL: {
     type: "CONTRACT_FULL",
     coefficient: 1,
@@ -32,26 +32,10 @@ const ADJUSTMENTS: Record<
       "رسیدگی صرفاً به بخشی از قرارداد",
   },
 
-  DAMAGE: {
-    type: "DAMAGE",
-    coefficient: 0.5,
-    sourceNote: 4,
-    description:
-      "تعیین سبب، علت، ارزیابی و تعیین میزان خسارت",
-  },
-
-  USED_PARTS: {
-    type: "USED_PARTS",
-    coefficient: 0.5,
-    sourceNote: 5,
-    description:
-      "ارزیابی مستقل اقلام مشمول تبصره 5",
-  },
-
   MULTI_EXPERT_SAME_FIELD: {
     type: "MULTI_EXPERT_SAME_FIELD",
     coefficient: -0.3,
-    sourceNote: 6,
+    sourceNote: 56,
     description:
       "چند کارشناس از یک رشته کارشناسی",
   },
@@ -59,7 +43,7 @@ const ADJUSTMENTS: Record<
   INTANGIBLE_ASSET: {
     type: "INTANGIBLE_ASSET",
     coefficient: 0.5,
-    sourceNote: 7,
+    sourceNote: 4,
     description:
       "ارزیابی دارایی نامشهود",
   },
@@ -77,9 +61,15 @@ export function applyArticle11Adjustments(
     [...new Set(types)];
 
   const appliedAdjustments =
-    uniqueTypes.map(
-      type => ADJUSTMENTS[type],
-    );
+    uniqueTypes.map(type => {
+      const adjustment = ADJUSTMENTS[type];
+      if (!adjustment) {
+        throw new Error(
+          `Adjustment ${type} is not available in tariff 1405.`
+        );
+      }
+      return adjustment;
+    });
 
   let adjustedFee =
     baseFee;

@@ -143,14 +143,14 @@ export default function Article14CalculatorPanel() {
 
   return (
     <main
-      className="ef-page"
+      className="ef-page ef-standard-calculator-page"
       dir="rtl"
       data-testid="article14-calculator"
     >
       <PageHeader
         eyebrow="ماده ۱۴"
         title="تفسیر عکس‌های هوایی و ماهواره‌ای"
-        subtitle="محاسبه حق‌الزحمه موضوع ماده ۱۴ تعرفه"
+        subtitle="محاسبه حق‌الزحمه موضوع ماده ۱۴ تعرفه ۱۴۰۵"
       />
 
       <div className="ef-form-shell">

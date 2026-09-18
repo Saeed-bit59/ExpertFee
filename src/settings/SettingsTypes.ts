@@ -36,9 +36,9 @@ export const DEFAULT_EXPERT_FEE_SETTINGS: ExpertFeeSettings = {
   defaultShowReceivedOnly: false,
   defaultShowPendingOnly: false,
   tariffSourceTitle: "تعرفه حق‌الزحمه کارشناسان رسمی دادگستری",
-  tariffVersion: "مصوبه پایه + اصلاحیه سال ۱۴۰۲",
+  tariffVersion: "تعرفه مصوب سال ۱۴۰۵",
   tariffDescription:
-    "مرجع محاسبات مطابق داده تعرفه موجود در نرم‌افزار است؛ این بخش صرفاً برای شناسایی نسخه مورد استفاده است.",
+    "تمام محاسبات نرم‌افزار براساس تعرفه ۱۴۰۵ انجام می‌شود.",
   updatedAt: "",
 };
 

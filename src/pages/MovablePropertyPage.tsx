@@ -23,6 +23,7 @@ import {
 import type {
   MissionType
 } from "../engine/MissionCalculator";
+import MoneyInput from "../components/ui/MoneyInput";
 
 
 interface MovablePropertyPageProps {
@@ -78,7 +79,7 @@ function parseFormattedNumber(
   const normalized =
     normalizeDigits(value)
       .replace(/,/g, "")
-      .replace(/[^\d]/g, "");
+      .replace(/[^\d.]/g, "");
 
 
   if (normalized === "") {
@@ -337,6 +338,7 @@ export default function MovablePropertyPage({
   return (
 
     <main
+      className="ef-legacy-page ef-specialist-page"
       dir="rtl"
       style={{
         maxWidth: 900,
@@ -349,6 +351,7 @@ export default function MovablePropertyPage({
     >
 
       <button
+        className="ef-back-button ef-legacy-back-button"
         type="button"
         onClick={onBack}
         style={{
@@ -367,6 +370,7 @@ export default function MovablePropertyPage({
 
 
       <div
+        className="ef-interior-header"
         style={{
           marginBottom: 28
         }}
@@ -500,46 +504,20 @@ export default function MovablePropertyPage({
         </h2>
 
 
-        <label>
-          ارزش مورد ارزیابی ـ تومان
-        </label>
-
-
-        <input
-          type="text"
-          inputMode="numeric"
-          autoComplete="off"
-          placeholder="مثال: 12,000,000,000"
-          value={
-            evaluationValueText
-          }
-          onChange={(event) => {
-
-            setEvaluationValueText(
-              formatInputNumber(
-                event.target.value
-              )
-            );
-
-          }}
+        <MoneyInput
+          id="movable-property-evaluation-value"
+          label="ارزش مورد ارزیابی"
+          value={evaluationValueText}
+          onChange={(value) => setEvaluationValueText(value)}
           onBlur={commitValue}
           onKeyDown={(event) => {
-
             if (
               event.key === "Enter"
             ) {
-
               commitValue();
-
               event.currentTarget
                 .blur();
-
             }
-
-          }}
-          style={{
-            ...inputStyle,
-            marginTop: 8
           }}
         />
 

@@ -122,7 +122,7 @@ const TEST_MONTHLY_RENT =
  */
 
 const EXPECTED_ARTICLE13_FEE =
-  5_400_000;
+  19_500_000;
 
 
 /*

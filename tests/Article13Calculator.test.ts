@@ -44,7 +44,7 @@ assertEqual(
       1_000_000
   }).finalFeeToman,
 
-  600_000,
+  2_000_000,
 
   "Rent 1,000,000"
 );
@@ -61,7 +61,7 @@ assertEqual(
       1_500_000
   }).finalFeeToman,
 
-  600_000,
+  2_000_000,
 
   "Rent 1,500,000"
 );
@@ -87,7 +87,7 @@ assertEqual(
       2_000_000
   }).finalFeeToman,
 
-  700_000,
+  2_000_000,
 
   "Rent 2,000,000"
 );
@@ -113,7 +113,7 @@ assertEqual(
       5_000_000
   }).finalFeeToman,
 
-  1_300_000,
+  2_000_000,
 
   "Rent 5,000,000"
 );
@@ -142,7 +142,7 @@ assertEqual(
       7_000_000
   }).finalFeeToman,
 
-  1_500_000,
+  2_000_000,
 
   "Rent 7,000,000"
 );
@@ -159,7 +159,7 @@ assertEqual(
       10_000_000
   }).finalFeeToman,
 
-  1_800_000,
+  2_000_000,
 
   "Rent 10,000,000"
 );
@@ -188,7 +188,7 @@ assertEqual(
       20_000_000
   }).finalFeeToman,
 
-  2_200_000,
+  4_500_000,
 
   "Rent 20,000,000"
 );
@@ -205,7 +205,7 @@ assertEqual(
       100_000_000
   }).finalFeeToman,
 
-  5_400_000,
+  19_500_000,
 
   "Rent 100,000,000"
 );
@@ -235,10 +235,10 @@ assertEqual(
 assertEqual(
   calculateArticle13({
     monthlyRentToman:
-      1_465_000_000
+      1_275_000_000
   }).finalFeeToman,
 
-  60_000_000,
+  90_000_000,
 
   "Exact cap point"
 );
@@ -259,7 +259,7 @@ const capped =
 assertEqual(
   capped.finalFeeToman,
 
-  60_000_000,
+  90_000_000,
 
   "Above cap"
 );

@@ -164,27 +164,26 @@ const damage =
 
 
 assert(
-  damage.length === 1,
-  "SCENARIO 4 | Damage -> one suggestion"
+  damage.length === 0,
+  "SCENARIO 4 | Damage has no automatic increase in tariff 1405"
 );
 
 
 assert(
-  damage[0]?.code ===
-    "NOTE4_DAMAGE",
-  "SCENARIO 4 | Correct rule"
+  damage[0] === undefined,
+  "SCENARIO 4 | No obsolete rule returned"
 );
 
 
 assert(
-  damage[0]?.noteNumber === 4,
-  "SCENARIO 4 | Note 4"
+  damage[0]?.noteNumber === undefined,
+  "SCENARIO 4 | No note number"
 );
 
 
 assert(
-  damage[0]?.increaseRate === 0.5,
-  "SCENARIO 4 | Increase 50%"
+  damage[0]?.increaseRate === undefined,
+  "SCENARIO 4 | No increase"
 );
 
 
@@ -208,27 +207,26 @@ const specialItems =
 
 
 assert(
-  specialItems.length === 1,
-  "SCENARIO 5 | Special items -> one suggestion"
+  specialItems.length === 0,
+  "SCENARIO 5 | Special items have no automatic increase in tariff 1405"
 );
 
 
 assert(
-  specialItems[0]?.code ===
-    "NOTE5_SPECIAL_ITEMS",
-  "SCENARIO 5 | Correct rule"
+  specialItems[0] === undefined,
+  "SCENARIO 5 | No obsolete rule returned"
 );
 
 
 assert(
-  specialItems[0]?.noteNumber === 5,
-  "SCENARIO 5 | Note 5"
+  specialItems[0]?.noteNumber === undefined,
+  "SCENARIO 5 | No note number"
 );
 
 
 assert(
-  specialItems[0]?.increaseRate === 0.5,
-  "SCENARIO 5 | Increase 50%"
+  specialItems[0]?.increaseRate === undefined,
+  "SCENARIO 5 | No increase"
 );
 
 
@@ -259,14 +257,14 @@ assert(
 
 assert(
   intangibleAssets[0]?.code ===
-    "NOTE7_INTANGIBLE_ASSETS",
+    "NOTE4_INTANGIBLE_ASSETS",
   "SCENARIO 6 | Correct rule"
 );
 
 
 assert(
-  intangibleAssets[0]?.noteNumber === 7,
-  "SCENARIO 6 | Note 7"
+  intangibleAssets[0]?.noteNumber === 4,
+  "SCENARIO 6 | Note 4"
 );
 
 
@@ -353,7 +351,7 @@ for (
 
 const directLookup =
   getArticle11SuggestionByCode(
-    "NOTE4_DAMAGE"
+    "NOTE4_INTANGIBLE_ASSETS"
   );
 
 
@@ -365,7 +363,7 @@ assert(
 
 assert(
   directLookup?.code ===
-    "NOTE4_DAMAGE",
+    "NOTE4_INTANGIBLE_ASSETS",
   "LOOKUP | Correct rule returned"
 );
 

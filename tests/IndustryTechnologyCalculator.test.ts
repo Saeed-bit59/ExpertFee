@@ -266,6 +266,44 @@ const expected50 =
   );
 
 
+/*
+ * ========================================
+ * سقف عمومی ماده 11 بعد از ضریب تبصره‌ها
+ * ========================================
+ */
+
+const veryLargeEvaluationValue =
+  1_000_000_000_000_000;
+
+for (const serviceType of [
+  "MACHINERY_EVALUATION_WITH_TECHNICAL_ASSESSMENT",
+  "SOFTWARE_EXPERTISE"
+] as const) {
+
+  const cappedResult =
+    calculateArticle45({
+      discipline:
+        serviceType === "SOFTWARE_EXPERTISE"
+          ? "COMPUTER_INFORMATION_TECHNOLOGY"
+          : "ELECTRICAL_MACHINERY_FACTORY_INSTALLATIONS",
+      serviceType,
+      evaluationValueToman:
+        veryLargeEvaluationValue
+    });
+
+  assertEqual(
+    cappedResult.expertFeeToman,
+    135_000_000,
+    `${serviceType} must respect the Article 11 general maximum`
+  );
+
+  assert(
+    cappedResult.cappedByArticle11Maximum,
+    `${serviceType} must report Article 11 maximum application`
+  );
+}
+
+
 assertEqual(
   software.article11FeeToman,
   baseFee,
