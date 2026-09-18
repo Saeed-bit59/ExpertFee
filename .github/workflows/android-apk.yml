@@ -22,20 +22,38 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.5.0"
-      - name: Build installable APK
-        run: gradle -p android assembleDebug --no-daemon
-      - name: Name APK for download
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/ExpertFee-Android-v1.0.0.apk
+      - name: Restore release signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.EXPERTFEE_KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p android/signing
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/signing/expertfee-release.jks
+      - name: Build signed store APK and AAB
+        env:
+          EXPERTFEE_KEYSTORE_PATH: signing/expertfee-release.jks
+          EXPERTFEE_STORE_PASSWORD: ${{ secrets.EXPERTFEE_STORE_PASSWORD }}
+          EXPERTFEE_KEY_ALIAS: ${{ secrets.EXPERTFEE_KEY_ALIAS }}
+          EXPERTFEE_KEY_PASSWORD: ${{ secrets.EXPERTFEE_KEY_PASSWORD }}
+        run: gradle -p android assembleRelease bundleRelease --no-daemon
+      - name: Name and verify store packages
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk ExpertFee-Android-v1.0.0-release.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab ExpertFee-Android-v1.0.0-release.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs ExpertFee-Android-v1.0.0-release.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: ExpertFee-Android-v1.0.0
-          path: android/app/build/outputs/apk/debug/ExpertFee-Android-v1.0.0.apk
+          name: ExpertFee-Android-v1.0.0-store
+          path: |
+            ExpertFee-Android-v1.0.0-release.apk
+            ExpertFee-Android-v1.0.0-release.aab
           if-no-files-found: error
-      - name: Publish Android download
+      - name: Publish signed store release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: android-v1.0.0
-          name: ExpertFee Android v1.0.0
-          body: نسخه اندروید ExpertFee متصل به وب‌اپ رسمی تعرفه ۱۴۰۵
-          files: android/app/build/outputs/apk/debug/ExpertFee-Android-v1.0.0.apk
+          tag_name: android-store-v1.0.0
+          name: ExpertFee Android Store Release v1.0.0
+          body: نسخه Release امضاشده برای انتشار در کافه‌بازار و مایکت
+          files: |
+            ExpertFee-Android-v1.0.0-release.apk
+            ExpertFee-Android-v1.0.0-release.aab
           make_latest: true
