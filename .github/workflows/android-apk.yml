@@ -30,7 +30,7 @@ jobs:
           echo "$KEYSTORE_BASE64" | base64 --decode > android/signing/expertfee-release.jks
       - name: Build signed store APK and AAB
         env:
-          EXPERTFEE_KEYSTORE_PATH: signing/expertfee-release.jks
+          EXPERTFEE_KEYSTORE_PATH: ../signing/expertfee-release.jks
           EXPERTFEE_STORE_PASSWORD: ${{ secrets.EXPERTFEE_STORE_PASSWORD }}
           EXPERTFEE_KEY_ALIAS: ${{ secrets.EXPERTFEE_KEY_ALIAS }}
           EXPERTFEE_KEY_PASSWORD: ${{ secrets.EXPERTFEE_KEY_PASSWORD }}
