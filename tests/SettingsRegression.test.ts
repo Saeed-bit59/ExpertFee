@@ -28,12 +28,12 @@ function memoryStorage(): SettingsStorage {
       data.set(key, structuredClone(value));
     },
 
-    load<T>(key: string): T | null {
+    load(key: string): unknown {
       const value = data.get(key);
 
       return value === undefined
         ? null
-        : (structuredClone(value) as T);
+        : structuredClone(value);
     },
   };
 }
@@ -60,8 +60,10 @@ assert(
 );
 
 assert(
-  initial.professionalCenter.includes("بوشهر"),
-  "professional center missing",
+  initial.professionalCenter === "" &&
+    initial.email === "" &&
+    initial.phone === "",
+  "public defaults must not contain personal data",
 );
 
 const updated = repository.update({
@@ -106,6 +108,28 @@ assert(
 assert(
   repository.getStorageKey() === SETTINGS_STORAGE_KEY,
   "settings storage key mismatch",
+);
+
+const invalidRepository = new SettingsRepository({
+  save(): void {},
+  load(): unknown {
+    return {
+      schemaVersion: 999,
+      currencyUnit: "INVALID",
+      numberLocale: 42,
+      decimalPlaces: 99,
+      defaultShowPendingOnly: "yes",
+    };
+  },
+});
+const normalizedInvalid = invalidRepository.get();
+assert(
+  normalizedInvalid.schemaVersion === 1 &&
+    normalizedInvalid.currencyUnit === "TOMAN" &&
+    normalizedInvalid.numberLocale === "FA" &&
+    normalizedInvalid.decimalPlaces === 0 &&
+    normalizedInvalid.defaultShowPendingOnly === false,
+  "invalid persisted settings must fall back safely",
 );
 
 assert(

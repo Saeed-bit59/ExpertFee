@@ -25,6 +25,21 @@ export function normalizePersianDigits(
     );
 }
 
+export function isSafeMoneyValue(value: string): boolean {
+  const normalized = normalizePersianDigits(value)
+    .replace(/[,\s٬،]/g, "")
+    .trim();
+
+  if (!/^\d+(\.\d+)?$/.test(normalized)) {
+    return false;
+  }
+
+  const numberValue = Number(normalized);
+  return Number.isFinite(numberValue)
+    && numberValue >= 0
+    && numberValue <= Math.floor(Number.MAX_SAFE_INTEGER / 10);
+}
+
 export function parseMoneyValue(
   value: string
 ): number {
@@ -33,10 +48,7 @@ export function parseMoneyValue(
       .replace(/[,\s٬،]/g, "")
       .trim();
 
-  if (
-    !normalized ||
-    !/^\d+(\.\d+)?$/.test(normalized)
-  ) {
+  if (!normalized || !isSafeMoneyValue(normalized)) {
     return 0;
   }
 

@@ -86,11 +86,17 @@ const PATH_PAGES = Object.fromEntries(
   Object.entries(PAGE_PATHS).map(([page, path]) => [path, page])
 ) as Record<string, AppPage>;
 
+export const APP_PAGE_PATHS = PAGE_PATHS;
+
+export function resolveAppPage(pathname: string): AppPage {
+  return PATH_PAGES[pathname] ?? "HOME";
+}
+
 
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const currentPage = PATH_PAGES[location.pathname] ?? "HOME";
+  const currentPage = resolveAppPage(location.pathname);
 
   function setCurrentPage(page: AppPage): void {
     navigate(PAGE_PATHS[page]);

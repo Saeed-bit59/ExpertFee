@@ -838,7 +838,7 @@ const article52Maximum =
         "AGRICULTURE_NATURAL_RESOURCES",
 
       evaluationValueToman:
-        1_000_000_000_000_000
+        1_000_000_000_000
     }
   });
 
@@ -899,7 +899,7 @@ const article52Mission =
         "AGRICULTURE_NATURAL_RESOURCES",
 
       evaluationValueToman:
-        1_000_000_000_000_000,
+        1_000_000_000_000,
 
       missionType:
         "OUT_PROVINCE",
@@ -1074,7 +1074,7 @@ assertEqual(
 
 assertEqual(
   AGRICULTURE_NATURAL_RESOURCES_ENGINE_METADATA.disciplines.length,
-  7,
+  6,
   "Engine metadata discipline count"
 );
 

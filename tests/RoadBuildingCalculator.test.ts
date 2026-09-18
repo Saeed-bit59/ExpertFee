@@ -375,7 +375,7 @@ assertEqual(
 const article37Capped =
   calculateArticle37({
     evaluationValueToman:
-      1_000_000_000_000_000,
+      1_000_000_000_000,
 
     similarAdditionalUnits:
       10

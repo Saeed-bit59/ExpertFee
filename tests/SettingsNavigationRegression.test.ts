@@ -20,12 +20,13 @@ const settingsPage = fs.readFileSync(
   "src/pages/SettingsPage.tsx",
   "utf8",
 );
+const homePage = fs.readFileSync("src/pages/HomePage.tsx", "utf8");
 
 /*
  * Import contract
  */
 assert(
-  app.includes('import SettingsPage from "./pages/SettingsPage";'),
+  app.includes('const SettingsPage = lazy(() => import("./pages/SettingsPage"));'),
   "SettingsPage import missing",
 );
 
@@ -33,7 +34,7 @@ assert(
  * AppPage contract
  */
 assert(
-  app.includes('| "SETTINGS";'),
+  app.includes('| "SETTINGS"'),
   "SETTINGS AppPage state missing",
 );
 
@@ -54,17 +55,17 @@ assert(
  * Footer navigation
  */
 assert(
-  app.includes("تنظیمات"),
+  homePage.includes("تنظیمات"),
   "Settings footer navigation label missing",
 );
 
 assert(
-  app.includes('data-testid="settings-navigation"'),
+  homePage.includes('data-testid="home-settings-action"'),
   "Settings navigation test id missing",
 );
 
 assert(
-  app.includes("onClick={openSettings}"),
+  app.includes("onOpenSettings={openSettings}"),
   "Settings footer click handler missing",
 );
 
@@ -72,7 +73,7 @@ assert(
  * Page rendering
  */
 assert(
-  app.includes('{currentPage === "SETTINGS" && ('),
+  app.includes('currentPage === "SETTINGS"'),
   "Settings page rendering branch missing",
 );
 
@@ -103,12 +104,12 @@ assert(
 );
 
 assert(
-  app.includes('onClick={openAbout}'),
+  app.includes("onOpenAbout={openAbout}"),
   "About navigation contract was removed",
 );
 
 assert(
-  app.includes("درباره نرم‌افزار"),
+  homePage.includes("درباره نرم‌افزار"),
   "About footer navigation label was removed",
 );
 

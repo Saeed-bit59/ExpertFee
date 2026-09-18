@@ -37,6 +37,7 @@ const settingsTypes = read(
 const recordsPage = read(
   "src/pages/ExpertRecordsPage.tsx",
 );
+const homePage = read("src/pages/HomePage.tsx");
 
 /*
  * ============================================================
@@ -79,7 +80,7 @@ assert(
 );
 
 assert(
-  app.includes("درباره نرم‌افزار"),
+  homePage.includes("درباره نرم‌افزار"),
   "About footer label was removed",
 );
 
@@ -102,7 +103,7 @@ assert(
 
 assert(
   app.includes(
-    'import SettingsPage from "./pages/SettingsPage";',
+    'const SettingsPage = lazy(() => import("./pages/SettingsPage"));',
   ),
   "SettingsPage import missing",
 );
@@ -118,17 +119,17 @@ assert(
 );
 
 assert(
-  app.includes("تنظیمات"),
+  homePage.includes("تنظیمات"),
   "Settings navigation label missing",
 );
 
 assert(
-  app.includes("onClick={openSettings}"),
+  app.includes("onOpenSettings={openSettings}"),
   "Settings navigation click handler missing",
 );
 
 assert(
-  app.includes('{currentPage === "SETTINGS" && ('),
+  app.includes('currentPage === "SETTINGS"'),
   "SETTINGS render branch missing",
 );
 
@@ -246,7 +247,7 @@ for (const token of [
   "tariffSourceTitle",
   "tariffVersion",
   "tariffDescription",
-  "مصوبه پایه + اصلاحیه سال ۱۴۰۲",
+  "قابلیت‌های پیاده‌سازی‌شده نرم‌افزار",
 ]) {
   assert(
     settingsTypes.includes(token),

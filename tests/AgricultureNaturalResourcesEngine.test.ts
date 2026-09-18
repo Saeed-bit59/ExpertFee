@@ -371,7 +371,7 @@ const engine52Cap =
         "AGRICULTURE_NATURAL_RESOURCES",
 
       evaluationValueToman:
-        1_000_000_000_000_000
+        1_000_000_000_000
     }
   });
 
@@ -526,7 +526,7 @@ const engine52Mission =
         "AGRICULTURE_NATURAL_RESOURCES",
 
       evaluationValueToman:
-        1_000_000_000_000_000,
+        1_000_000_000_000,
 
       missionType:
         "OUT_PROVINCE",

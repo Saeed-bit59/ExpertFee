@@ -36,7 +36,7 @@ const records = fs.readFileSync(recordsPath, "utf8");
 // ------------------------------------------------------------
 
 assert(
-  home.includes("onOpenHistory: () => void"),
+  home.includes("onOpenHistory?: () => void"),
   "Home history callback contract missing"
 );
 
@@ -46,7 +46,7 @@ assert(
 );
 
 assert(
-  home.includes("onClick={onOpenHistory}"),
+  home.includes("onClick={() => onOpenHistory?.()}"),
   "Home history navigation missing"
 );
 
@@ -61,7 +61,7 @@ assert(
 
 assert(
   app.includes(
-    'import ExpertRecordsPage from "./pages/ExpertRecordsPage"'
+    'const ExpertRecordsPage = lazy(() => import("./pages/ExpertRecordsPage"));'
   ),
   "ExpertRecordsPage import missing"
 );

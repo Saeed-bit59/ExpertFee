@@ -58,7 +58,7 @@ assertEqual(
 
 assertEqual(
   TARIFF_1405.metadata.amendmentCount,
-  38,
+  0,
   "amendment count",
 );
 

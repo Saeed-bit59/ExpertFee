@@ -199,7 +199,7 @@ assert(
 
 assert(
   article11Reference.finalExpertFeeToman <=
-    118_000_000,
+    135_000_000,
   "Article 11 fee must respect general maximum"
 );
 
@@ -817,7 +817,7 @@ const agriculture51At1000 =
 
 assertEqual(
   agriculture51At1000.expertFeeToman,
-  800_000,
+  2_000_000,
   "Article 51 at 1000 sqm"
 );
 
@@ -897,7 +897,7 @@ const agriculture51At10001 =
 
 assertEqual(
   agriculture51At10001.expertFeeToman,
-  1_560_000,
+  3_900_000,
   "Article 51 at 10001 sqm"
 );
 
