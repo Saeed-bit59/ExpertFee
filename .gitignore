@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .env
+.gradle/
+android/.gradle/
+android/**/build/
 
 # Local research reports, generated models and temporary quality-assurance output
 .qa_energy_workbook/
