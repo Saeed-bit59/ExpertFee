@@ -2,7 +2,7 @@ import type {
   ChangeEvent,
   InputHTMLAttributes
 } from "react";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 type CurrencyUnit = "TOMAN" | "RIAL";
 
@@ -162,6 +162,7 @@ export default function MoneyInput({
   label,
   value,
   onChange,
+  name,
   unit = "تومان",
   currencySelectable = true,
   helperText,
@@ -171,8 +172,9 @@ export default function MoneyInput({
   ...props
 }: MoneyInputProps) {
   const [selectedUnit, setSelectedUnit] = useState<CurrencyUnit>("TOMAN");
+  const generatedId = useId();
   const inputId =
-    id ?? "ef-money-input";
+    id ?? generatedId;
   const valueToman = parseMoneyValue(value);
   const displayedValue = value
     ? formatMoneyInput(
@@ -186,6 +188,7 @@ export default function MoneyInput({
   const oppositeWords = valueToman > 0
     ? oppositeCurrencyWords(valueToman, selectedUnit)
     : "";
+  const helperId = `${inputId}-helper`;
 
   function handleChange(
     event: ChangeEvent<HTMLInputElement>
@@ -214,14 +217,21 @@ export default function MoneyInput({
         <input
           {...props}
           id={inputId}
+          name={name ?? inputId}
           className="ef-money-input"
           type="text"
           inputMode="numeric"
           autoComplete="off"
+          spellCheck={false}
           value={displayedValue}
           onChange={handleChange}
           placeholder={placeholder}
           aria-invalid={Boolean(error)}
+          aria-describedby={
+            oppositeWords
+              ? helperId
+              : undefined
+          }
         />
 
         {currencySelectable ? (
@@ -242,7 +252,11 @@ export default function MoneyInput({
       </div>
 
       {oppositeWords && (
-        <div className="ef-helper" style={{ textAlign: "center" }}>
+        <div
+          id={helperId}
+          className="ef-helper"
+          style={{ textAlign: "center" }}
+        >
           به حروف ({selectedUnit === "TOMAN" ? "ریال" : "تومان"}): {oppositeWords}
         </div>
       )}

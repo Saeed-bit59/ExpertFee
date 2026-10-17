@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowLeft, Building2, Calculator, Car, Droplets, Factory, FileBarChart2,
   History, Image, Info, Landmark, Leaf, Mountain, PackageOpen, Settings2,
@@ -31,7 +32,7 @@ interface HomePageProps {
 type CurrencyUnit = "TOMAN" | "RIAL";
 type ServiceItem = {
   title: string; meta: string; description: string; icon: ReactNode;
-  onClick: () => void; featured?: boolean;
+  to: string; featured?: boolean;
 };
 
 function formatToman(value: number): string {
@@ -40,33 +41,29 @@ function formatToman(value: number): string {
 
 function ServiceCard({ item }: { item: ServiceItem }) {
   return (
-    <button type="button" className="ef-home-service-card ef-keyboard-focus"
-      data-featured={item.featured || undefined} onClick={item.onClick}>
+    <Link to={item.to} className="ef-home-service-card ef-keyboard-focus"
+      data-featured={item.featured || undefined}>
       <span className="ef-home-service-icon" aria-hidden="true">{item.icon}</span>
       <span className="ef-home-service-copy"><strong>{item.title}</strong><small>{item.description}</small></span>
       <span className="ef-home-service-meta">{item.meta}</span>
       <ArrowLeft size={18} aria-hidden="true" />
-    </button>
+    </Link>
   );
 }
 
-function ToolButton({ icon, title, hint, onClick }: {
-  icon: ReactNode; title: string; hint: string; onClick?: () => void;
+function ToolButton({ icon, title, hint, to }: {
+  icon: ReactNode; title: string; hint: string; to: string;
 }) {
   return (
-    <button type="button" className="ef-home-tool ef-keyboard-focus" onClick={onClick}>
+    <Link to={to} className="ef-home-tool ef-keyboard-focus">
       <span aria-hidden="true">{icon}</span>
       <span><strong>{title}</strong><small>{hint}</small></span>
-    </button>
+    </Link>
   );
 }
 
 export default function HomePage({
-  onOpenArticle11, onOpenArticle13, onOpenArticle14, onOpenWaterEngineering,
-  onOpenMetalsAndMining, onOpenMovableProperty, onOpenFinancialAffairs,
-  onOpenVehicles, onOpenRoadBuilding, onOpenIndustryTechnology,
-  onOpenAgricultureNaturalResources, onOpenHistory, onOpenShare,
-  onOpenSettings, onOpenAbout,
+  onOpenShare,
 }: HomePageProps) {
   const [quickValue, setQuickValue] = useState("");
   const [quickFee, setQuickFee] = useState<number | null>(null);
@@ -112,22 +109,22 @@ export default function HomePage({
     {
       title: "محاسبات پایه", hint: "مواد عمومی و پرکاربرد تعرفه",
       items: [
-        { title: "ارزیابی عمومی", meta: "ماده ۱۱", description: "ارزش‌گذاری عمومی اموال و دارایی‌ها", icon: <Calculator size={24} />, onClick: onOpenArticle11, featured: true },
-        { title: "اجاره‌بها و حق کسب", meta: "ماده ۱۳", description: "اجاره، سرقفلی و حقوق تجاری", icon: <Building2 size={24} />, onClick: onOpenArticle13 },
-        { title: "تصاویر و نقشه‌ها", meta: "ماده ۱۴", description: "تفسیر تصاویر هوایی و نقشه‌ها", icon: <Image size={24} />, onClick: onOpenArticle14 },
+        { title: "ارزیابی عمومی", meta: "ماده ۱۱", description: "ارزش‌گذاری عمومی اموال و دارایی‌ها", icon: <Calculator size={24} />, to: "/article-11", featured: true },
+        { title: "اجاره‌بها و حق کسب", meta: "ماده ۱۳", description: "اجاره، سرقفلی و حقوق تجاری", icon: <Building2 size={24} />, to: "/article-13" },
+        { title: "تصاویر و نقشه‌ها", meta: "ماده ۱۴", description: "تفسیر تصاویر هوایی و نقشه‌ها", icon: <Image size={24} />, to: "/article-14" },
       ],
     },
     {
       title: "رشته‌های تخصصی", hint: "محاسبه متناسب با ماهیت موضوع کارشناسی",
       items: [
-        { title: "راه و ساختمان", meta: "گروه ۶", description: "ساختمان، راه، شهرسازی و معماری", icon: <Building2 size={24} />, onClick: onOpenRoadBuilding },
-        { title: "صنعت و فن", meta: "گروه ۷", description: "ماشین‌آلات، تأسیسات و صنایع", icon: <Factory size={24} />, onClick: onOpenIndustryTechnology },
-        { title: "کشاورزی و منابع طبیعی", meta: "گروه ۹", description: "اراضی، محصولات و منابع طبیعی", icon: <Leaf size={24} />, onClick: onOpenAgricultureNaturalResources },
-        { title: "مهندسی آب", meta: "مواد ۱۵ تا ۲۱", description: "آب، شبکه‌ها و تأسیسات آبی", icon: <Droplets size={24} />, onClick: onOpenWaterEngineering },
-        { title: "فلزات و معادن", meta: "ماده ۲۲", description: "مواد معدنی، ذخایر و عملیات معدنی", icon: <Mountain size={24} />, onClick: onOpenMetalsAndMining },
-        { title: "اموال منقول", meta: "ماده ۲۳", description: "کالا، تجهیزات و اموال منقول", icon: <PackageOpen size={24} />, onClick: onOpenMovableProperty },
-        { title: "امور مالی", meta: "مواد ۲۵ تا ۲۹", description: "حسابداری، بانکی و امور مالی", icon: <Landmark size={24} />, onClick: onOpenFinancialAffairs },
-        { title: "وسائط نقلیه", meta: "مواد ۳۱ و ۳۲", description: "خودرو و سایر وسایل نقلیه", icon: <Car size={24} />, onClick: onOpenVehicles },
+        { title: "راه و ساختمان", meta: "گروه ۶", description: "ساختمان، راه، شهرسازی و معماری", icon: <Building2 size={24} />, to: "/road-building" },
+        { title: "صنعت و فن", meta: "گروه ۷", description: "ماشین‌آلات، تأسیسات و صنایع", icon: <Factory size={24} />, to: "/industry-technology" },
+        { title: "کشاورزی و منابع طبیعی", meta: "گروه ۹", description: "اراضی، محصولات و منابع طبیعی", icon: <Leaf size={24} />, to: "/agriculture-natural-resources" },
+        { title: "مهندسی آب", meta: "مواد ۱۵ تا ۲۱", description: "آب، شبکه‌ها و تأسیسات آبی", icon: <Droplets size={24} />, to: "/water-engineering" },
+        { title: "فلزات و معادن", meta: "ماده ۲۲", description: "مواد معدنی، ذخایر و عملیات معدنی", icon: <Mountain size={24} />, to: "/metals-and-mining" },
+        { title: "اموال منقول", meta: "ماده ۲۳", description: "کالا، تجهیزات و اموال منقول", icon: <PackageOpen size={24} />, to: "/movable-property" },
+        { title: "امور مالی", meta: "مواد ۲۵ تا ۲۹", description: "حسابداری، بانکی و امور مالی", icon: <Landmark size={24} />, to: "/financial-affairs" },
+        { title: "وسائط نقلیه", meta: "مواد ۳۱ و ۳۲", description: "خودرو و سایر وسایل نقلیه", icon: <Car size={24} />, to: "/vehicles" },
       ],
     },
   ];
@@ -148,13 +145,14 @@ export default function HomePage({
         <section className="ef-home-workspace" aria-labelledby="quick-calculation-title">
           <div className="ef-home-workspace-heading">
             <div><span>محاسبه سریع</span><h1 id="quick-calculation-title">دستمزد ارزیابی عمومی</h1></div>
-            <button type="button" className="ef-home-text-action ef-keyboard-focus" onClick={onOpenArticle11}>محاسبه کامل ماده ۱۱ <ArrowLeft size={16} /></button>
+            <Link to="/article-11" className="ef-home-text-action ef-keyboard-focus">محاسبه کامل ماده ۱۱ <ArrowLeft size={16} /></Link>
           </div>
           <div className="ef-home-quick-grid">
             <div className="ef-home-quick-input">
               <label htmlFor="quick-evaluation-value">مبلغ ارزیابی</label>
               <div className="ef-home-money-control">
                 <input id="quick-evaluation-value" className="ef-keyboard-focus" inputMode="numeric"
+                  name="quick-evaluation-value" autoComplete="off" spellCheck={false}
                   value={displayedQuickValue} onChange={(event) => updateQuickValue(event.target.value)}
                   onKeyDown={(event) => event.key === "Enter" && handleQuickCalculate()}
                   placeholder="مثال: ۳,۴۰۰,۰۰۰,۰۰۰" />
@@ -177,10 +175,10 @@ export default function HomePage({
         </section>
 
         <section className="ef-home-tools" aria-label="ابزارهای برنامه">
-          <ToolButton icon={<History size={21} />} title="سوابق محاسبات" hint="ذخیره و پیگیری پرونده‌ها" onClick={onOpenHistory} />
-          <ToolButton icon={<Share2 size={21} />} title="اشتراک‌گذاری" hint="ارسال نتیجه محاسبه" onClick={() => onOpenShare?.()} />
-          <ToolButton icon={<Settings2 size={21} />} title="تنظیمات" hint="مشخصات و ترجیحات" onClick={onOpenSettings} />
-          <ToolButton icon={<Info size={21} />} title="درباره نرم‌افزار" hint="اطلاعات و راهنما" onClick={onOpenAbout} />
+          <ToolButton icon={<History size={21} />} title="سوابق محاسبات" hint="ذخیره و پیگیری پرونده‌ها" to="/records" />
+          <ToolButton icon={<Share2 size={21} />} title="اشتراک‌گذاری" hint="ارسال نتیجه محاسبه" to="/share" />
+          <ToolButton icon={<Settings2 size={21} />} title="تنظیمات" hint="مشخصات و ترجیحات" to="/settings" />
+          <ToolButton icon={<Info size={21} />} title="درباره نرم‌افزار" hint="اطلاعات و راهنما" to="/about" />
         </section>
 
         {serviceGroups.map((group) => (

@@ -431,7 +431,7 @@ export default function Article11CalculatorPanel({
             }}
             currencySelectable={false}
             unit="تومان"
-            placeholder="مبلغ ارزیابی را وارد کنید"
+            placeholder="مثال: 2,500,000,000"
           />
         </div>
 

@@ -697,7 +697,7 @@ export default function ExpertRecordsPage({
               disabled={busy || grossFeeToman <= 0 || !grossFeeIsSafe}
               onClick={handleSave}
             >
-              {busy ? "در حال ثبت..." : "ذخیره سابقه کارشناسی"}
+              {busy ? "در حال ثبت…" : "ذخیره سابقه کارشناسی"}
             </CalculateButton>
           </div>
         </SectionCard>
@@ -715,7 +715,7 @@ export default function ExpertRecordsPage({
             </div>
             <div className="records-filter-panel">
               <div className="records-filter-grid records-filter-grid-report">
-                <label style={labelStyle}>جست‌وجو<div style={{position:"relative"}}><Search size={18} style={{position:"absolute",right:12,top:14,color:"#64748b"}}/><input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="پرونده، ابلاغیه، طرفین، موضوع..." style={{...inputStyle,paddingRight:38}}/></div></label>
+                <label style={labelStyle}>جست‌وجو<div style={{position:"relative"}}><Search size={18} style={{position:"absolute",right:12,top:14,color:"#64748b"}}/><input name="records-search" spellCheck={false} value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="پرونده، ابلاغیه، طرفین، موضوع…" style={{...inputStyle,paddingRight:38}}/></div></label>
                 <label style={labelStyle}>وضعیت وصول<select value={statusFilter} onChange={(e)=>setStatusFilter(e.target.value as ""|"PENDING"|"RECEIVED")} style={inputStyle}><option value="">همه وضعیت‌ها</option><option value="PENDING">در انتظار وصول</option><option value="RECEIVED">وصول‌شده</option></select></label>
                 <label style={labelStyle}>مبدأ ارجاع<select value={sourceFilter} onChange={(e)=>setSourceFilter(e.target.value as ""|ReferralSource)} style={inputStyle}><option value="">همه مراجع</option><option value="JUDICIARY">دادگستری</option><option value="CENTER">مرکز</option><option value="BAR_ASSOCIATION">کانون</option></select></label>
                 <label style={labelStyle}>مبنای تاریخ<select value={dateMode} onChange={(e)=>setDateMode(e.target.value as "CREATED"|"RECEIVED")} style={inputStyle}><option value="CREATED">تاریخ ثبت سابقه</option><option value="RECEIVED">تاریخ وصول</option></select></label>

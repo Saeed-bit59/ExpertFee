@@ -128,8 +128,10 @@
 .ef-home-text-action {
   border: 0; padding: 8px; display: inline-flex; align-items: center; gap: 5px;
   background: transparent; color: var(--ef-primary-dark); cursor: pointer;
+  text-decoration: none; border-radius: 8px;
   font-family: inherit; font-size: 13px; font-weight: 900;
 }
+.ef-home-text-action:hover { background: var(--ef-primary-light); }
 
 .ef-home-quick-grid {
   padding: 22px 24px 24px;
@@ -190,7 +192,13 @@
 .ef-home-quick-result button {
   margin: 4px auto 0; border: 0; display: inline-flex; align-items: center; gap: 5px;
   background: transparent; color: #1565c0; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 900;
+  text-decoration: none; border-radius: 8px; padding: 4px 8px;
 }
+.ef-home-quick-result button:hover { background: #eaf3ff; }
+
+/* Home cards and tools are real links (deep-linkable, middle-click safe). */
+.ef-home a.ef-home-service-card,
+.ef-home a.ef-home-tool { text-decoration: none; }
 
 .ef-home-tools {
   margin-top: 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
@@ -297,6 +305,20 @@ html {
   overflow-x: hidden;
 }
 
+/* Desktop hygiene only: suppress page rubber-banding where there is no
+   pull-to-refresh gesture. Coarse-pointer devices keep native behavior. */
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+
+/* Kill the double-tap zoom delay on all tap targets (PWA / mobile webview). */
+.ef-app-shell :is(a, button, select, summary),
+.ef-home :is(a, button, select, summary) {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -326,6 +348,21 @@ body {
 
 .ef-app-shell :is(h1, h2, h3, p, span, strong, label) {
   overflow-wrap: anywhere;
+}
+
+/* Headings should not break with single-word orphan lines. */
+.ef-app-shell :is(h1, h2),
+.ef-page :is(h1, h2) {
+  text-wrap: balance;
+}
+
+/*
+ * Fixed bars (sticky value input, bottom result bar) must never hide the
+ * focused control when the browser scrolls it into view.
+ */
+.ef-app-shell :is(input, select, textarea) {
+  scroll-margin-top: 96px;
+  scroll-margin-bottom: 200px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -602,6 +639,7 @@ body {
   width: min(calc(100% - 24px), 760px);
   max-height: 45vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 10px 16px max(12px, calc(8px + env(safe-area-inset-bottom, 0px)));
   border: 1px solid var(--ef-border);
   border-radius: 18px 18px 0 0;

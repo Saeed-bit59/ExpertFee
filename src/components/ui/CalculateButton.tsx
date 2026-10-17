@@ -32,7 +32,7 @@ export default function CalculateButton({
         .join(" ")}
     >
       {loading
-        ? "در حال محاسبه..."
+        ? "در حال محاسبه…"
         : children}
     </button>
   );
