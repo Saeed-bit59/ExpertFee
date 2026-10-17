@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Insets;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.webkit.WebResourceError;
@@ -26,6 +29,8 @@ public final class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FrameLayout root = new FrameLayout(this);
+        root.setBackgroundColor(Color.rgb(246, 249, 253));
+        applyBottomSafeArea(root);
         webView = new WebView(this);
         progressBar = new ProgressBar(this);
         FrameLayout.LayoutParams webParams = new FrameLayout.LayoutParams(
@@ -70,6 +75,38 @@ public final class MainActivity extends Activity {
         setContentView(root);
         if (savedInstanceState == null) webView.loadUrl(APP_ORIGIN);
         else webView.restoreState(savedInstanceState);
+    }
+
+    /**
+     * Keeps the web content clear of the system navigation bar (three-button keys or
+     * gesture bar) and of the display cutout on devices that display the app
+     * edge-to-edge, which is enforced for apps targeting SDK 35+ on Android 15+.
+     *
+     * The web layer also reserves space with env(safe-area-inset-bottom). Because the
+     * WebView is padded here, it no longer intersects the navigation bar, so that CSS
+     * value resolves to zero and no double spacing is produced.
+     */
+    @SuppressLint("NewApi")
+    private void applyBottomSafeArea(FrameLayout root) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return;
+        root.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                Insets bars = windowInsets.getInsets(
+                    WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout()
+                );
+                if (view.getPaddingBottom() != bars.bottom) {
+                    view.setPadding(
+                        view.getPaddingLeft(),
+                        view.getPaddingTop(),
+                        view.getPaddingRight(),
+                        bars.bottom
+                    );
+                }
+                return windowInsets;
+            }
+        });
+        root.requestApplyInsets();
     }
 
     private String offlinePage() {

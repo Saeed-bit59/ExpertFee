@@ -1,8 +1,8 @@
 # چک‌لیست انتشار ExpertFee
 
 - Package ID: `ir.expertfee.app`
-- Version name: `1.0.0`
-- Version code: `1`
+- Version name: `1.0.1`
+- Version code: `2`
 - Category: ابزارها / کسب‌وکار
 - Price: رایگان
 - Contains ads: خیر
