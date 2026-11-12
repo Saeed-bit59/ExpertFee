@@ -1,5 +1,4 @@
 name: Build Android APK
-
 on:
   workflow_dispatch:
   push:
@@ -7,7 +6,6 @@ on:
     paths:
       - "android/**"
       - ".github/workflows/android-apk.yml"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,6 +17,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+      - name: Build bundled web application
+        run: npm ci && npm run build
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.5.0"
@@ -35,25 +35,11 @@ jobs:
           EXPERTFEE_KEY_ALIAS: ${{ secrets.EXPERTFEE_KEY_ALIAS }}
           EXPERTFEE_KEY_PASSWORD: ${{ secrets.EXPERTFEE_KEY_PASSWORD }}
         run: gradle -p android assembleRelease bundleRelease --no-daemon
-      - name: Name and verify store packages
+      - name: Publish packages
         run: |
-          cp android/app/build/outputs/apk/release/app-release.apk ExpertFee-Android-v1.0.1-release.apk
-          cp android/app/build/outputs/bundle/release/app-release.aab ExpertFee-Android-v1.0.1-release.aab
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs ExpertFee-Android-v1.0.1-release.apk
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ExpertFee-Android-v1.0.1-store
-          path: |
-            ExpertFee-Android-v1.0.1-release.apk
-            ExpertFee-Android-v1.0.1-release.aab
-          if-no-files-found: error
-      - name: Publish signed store release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: android-store-v1.0.1
-          name: ExpertFee Android Store Release v1.0.1
-          body: نسخه Release امضاشده برای انتشار در کافه‌بازار و مایکت — رفع تداخل دکمه‌های پایین صفحه با کلیدهای گوشی
-          files: |
-            ExpertFee-Android-v1.0.1-release.apk
-            ExpertFee-Android-v1.0.1-release.aab
-          make_latest: true
+          cp android/app/build/outputs/apk/release/app-release.apk ExpertFee-Android-v1.0.1-offline.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab ExpertFee-Android-v1.0.1-offline.aab
+          gh release delete android-offline-v1.0.1 --yes || true
+          gh release create android-offline-v1.0.1 ExpertFee-Android-v1.0.1-offline.apk ExpertFee-Android-v1.0.1-offline.aab --title "ExpertFee Android Offline v1.0.1" --notes "Offline APK with bundled web application"
+        env:
+          GH_TOKEN: ${{ github.token }}
