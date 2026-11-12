@@ -1,5 +1,5 @@
-
 name: Build Android APK
+
 on:
   workflow_dispatch:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - "android/**"
       - ".github/workflows/android-apk.yml"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +30,7 @@ jobs:
         run: |
           mkdir -p android/signing
           echo "$KEYSTORE_BASE64" | base64 --decode > android/signing/expertfee-release.jks
-      - name: Build signed store APK and AAB
+      - name: Build signed offline APK and AAB
         env:
           EXPERTFEE_KEYSTORE_PATH: ../signing/expertfee-release.jks
           EXPERTFEE_STORE_PASSWORD: ${{ secrets.EXPERTFEE_STORE_PASSWORD }}
@@ -38,9 +39,10 @@ jobs:
         run: gradle -p android assembleRelease bundleRelease --no-daemon
       - name: Publish packages
         run: |
-          cp android/app/build/outputs/apk/release/app-release.apk ExpertFee-Android-v1.0.1-offline.apk
-          cp android/app/build/outputs/bundle/release/app-release.aab ExpertFee-Android-v1.0.1-offline.aab
-          gh release delete android-offline-v1.0.1 --yes || true
-          gh release create android-offline-v1.0.1 ExpertFee-Android-v1.0.1-offline.apk ExpertFee-Android-v1.0.1-offline.aab --title "ExpertFee Android Offline v1.0.1" --notes "Offline APK with bundled web application"
+          cp android/app/build/outputs/apk/release/app-release.apk ExpertFee-Android-v1.0.2-offline.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab ExpertFee-Android-v1.0.2-offline.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs ExpertFee-Android-v1.0.2-offline.apk
+          gh release delete android-offline-v1.0.2 --yes || true
+          gh release create android-offline-v1.0.2 ExpertFee-Android-v1.0.2-offline.apk ExpertFee-Android-v1.0.2-offline.aab --title "ExpertFee Android Offline v1.0.2" --notes "اصلاح بازگشت گوشی و بزرگ‌تر شدن آیکون برنامه"
         env:
           GH_TOKEN: ${{ github.token }}
