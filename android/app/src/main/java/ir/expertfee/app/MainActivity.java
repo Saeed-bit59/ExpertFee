@@ -22,8 +22,6 @@ import androidx.webkit.WebViewAssetLoader;
 
 public final class MainActivity extends Activity {
     private static final String APP_ORIGIN = "https://appassets.androidplatform.net";
-    // The web build is copied to the root of the APK's assets directory.
-    // Mapping the whole asset tree at "/" preserves Vite's /assets/... URLs.
     private static final String APP_URL = APP_ORIGIN + "/index.html";
     private WebView webView;
     private ProgressBar progressBar;
@@ -38,10 +36,7 @@ public final class MainActivity extends Activity {
         applyBottomSafeArea(root);
         webView = new WebView(this);
         progressBar = new ProgressBar(this);
-        FrameLayout.LayoutParams webParams = new FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        );
+        FrameLayout.LayoutParams webParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         FrameLayout.LayoutParams progressParams = new FrameLayout.LayoutParams(72, 72, Gravity.CENTER);
         root.addView(webView, webParams);
         root.addView(progressBar, progressParams);
@@ -60,17 +55,13 @@ public final class MainActivity extends Activity {
             .build();
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public android.webkit.WebResourceResponse shouldInterceptRequest(
-                WebView view, WebResourceRequest request
-            ) {
+            public android.webkit.WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 return assetLoader.shouldInterceptRequest(request.getUrl());
             }
-
             @Override
             public void onPageFinished(WebView view, String url) {
                 progressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 if (request.isForMainFrame()) {
@@ -78,7 +69,6 @@ public final class MainActivity extends Activity {
                     view.loadDataWithBaseURL(APP_ORIGIN, offlinePage(), "text/html", "UTF-8", APP_URL);
                 }
             }
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
@@ -98,16 +88,9 @@ public final class MainActivity extends Activity {
         root.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                Insets bars = windowInsets.getInsets(
-                    WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout()
-                );
+                Insets bars = windowInsets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
                 if (view.getPaddingBottom() != bars.bottom) {
-                    view.setPadding(
-                        view.getPaddingLeft(),
-                        view.getPaddingTop(),
-                        view.getPaddingRight(),
-                        bars.bottom
-                    );
+                    view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), bars.bottom);
                 }
                 return windowInsets;
             }
@@ -119,8 +102,7 @@ public final class MainActivity extends Activity {
         return "<!doctype html><html dir='rtl'><meta name='viewport' content='width=device-width,initial-scale=1'>"
             + "<body style='font-family:sans-serif;background:#f6f9fd;color:#17345f;text-align:center;padding:64px 24px'>"
             + "<h1>خطای بارگذاری</h1><p>فایل‌های برنامه ExpertFee بارگذاری نشدند.</p>"
-            + "<button style='padding:14px 28px;border:0;border-radius:12px;background:#315f9c;color:white;font-size:16px' "
-            + "onclick="location.href='" + APP_ORIGIN + "'">تلاش مجدد</button></body></html>";
+            + "<a href='" + APP_ORIGIN + "' style='display:inline-block;padding:14px 28px;border-radius:12px;background:#315f9c;color:white;text-decoration:none'>تلاش مجدد</a></body></html>";
     }
 
     @Override
@@ -128,13 +110,11 @@ public final class MainActivity extends Activity {
         webView.saveState(outState);
         super.onSaveInstanceState(outState);
     }
-
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) webView.goBack();
         else super.onBackPressed();
     }
-
     @Override
     protected void onDestroy() {
         webView.destroy();
