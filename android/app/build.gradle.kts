@@ -1,5 +1,17 @@
 plugins { id("com.android.application") }
 
+val webDistDirectory = rootProject.projectDir.parentFile.resolve("dist")
+val syncWebAssets = tasks.register<Sync>("syncWebAssets") {
+    from(webDistDirectory)
+    into(layout.projectDirectory.dir("src/main/assets"))
+    doFirst {
+        if (!webDistDirectory.isDirectory) {
+            throw GradleException("Web assets are missing. Run 'npm run build' before building the APK.")
+        }
+    }
+}
+tasks.named("preBuild") { dependsOn(syncWebAssets) }
+
 val storeFilePath = System.getenv("EXPERTFEE_KEYSTORE_PATH")
 val storePasswordValue = System.getenv("EXPERTFEE_STORE_PASSWORD")
 val keyAliasValue = System.getenv("EXPERTFEE_KEY_ALIAS")
@@ -15,7 +27,6 @@ android {
         versionCode = 2
         versionName = "1.0.1"
     }
-
     signingConfigs {
         create("release") {
             if (storeFilePath != null) storeFile = file(storeFilePath)
@@ -24,7 +35,6 @@ android {
             keyPassword = keyPasswordValue
         }
     }
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -33,4 +43,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+}
+
+dependencies {
+    implementation("androidx.webkit:webkit:1.13.0")
 }
